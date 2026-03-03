@@ -230,29 +230,6 @@ const Auth = () => {
                 )}
               </button>
 
-              {/* Divider */}
-              <div className="flex items-center gap-4 my-6">
-                <div className="h-px bg-[#333] flex-1" />
-                <span className="text-[11px] text-[#666] font-medium tracking-wide">ou entre com</span>
-                <div className="h-px bg-[#333] flex-1" />
-              </div>
-
-              {/* Social Buttons */}
-              <div className="flex items-center gap-3">
-                <button type="button" className="flex-1 h-[52px] rounded-full border border-[#333] hover:border-[#555] flex items-center justify-center hover:bg-white/5 transition-all focus:outline-none focus:ring-1 focus:ring-[#A3E635]/50">
-                  <svg className="w-4 h-4" viewBox="0 0 24 24">
-                    <path fill="#EA4335" d="M5.264 9.764A7.076 7.076 0 0 1 12 5c1.782 0 3.398.63 4.673 1.666l3.414-3.414C17.935 1.34 15.176 0 12 0 7.306 0 3.23 2.7 1.05 6.706l4.214 3.058Z" />
-                    <path fill="#34A853" d="M16.035 15.684A6.994 6.994 0 0 1 12 19c-2.73 0-5.093-1.558-6.248-3.834L1.442 18.31C3.545 22.502 7.502 24 12 24c3.24 0 5.968-1.07 7.957-2.906l-3.922-5.41Z" />
-                    <path fill="#4A90E2" d="M23.636 12.273c0-.853-.07-1.67-.197-2.455H12v5.033h6.666c-.302 1.76-1.328 3.242-2.83 4.24l3.923 5.396C22.05 22.36 23.636 17.653 23.636 12.273Z" />
-                    <path fill="#FBBC05" d="M5.752 15.166A6.994 6.994 0 0 1 5 12c0-1.107.265-2.155.735-3.084L1.521 5.858A11.966 11.966 0 0 0 0 12c0 2.05.518 3.985 1.442 5.69l4.31-2.524Z" />
-                  </svg>
-                </button>
-                <button type="button" className="flex-1 h-[52px] rounded-full border border-[#333] hover:border-[#555] flex items-center justify-center hover:bg-white/5 transition-all focus:outline-none focus:ring-1 focus:ring-[#A3E635]/50">
-                  <svg className="w-5 h-5" fill="white" viewBox="0 0 24 24">
-                    <path d="M12 2.744c.913-1.127 2.196-1.892 3.637-1.928.188 1.487-.472 2.87-1.353 3.966-.88.1068-2.227 1.9-3.483 1.832-.218-1.465.46-2.843 1.199-3.87zM16.666 18c-1.134 1.583-2.316 3.16-4.045 3.18-1.688.02-2.234-1.026-4.162-1.026-1.928 0-2.531 1.006-4.143 1.045-1.748.04-3.12-1.756-4.275-3.359-2.353-3.267-4.152-9.227-1.748-13.255C3.394 2.651 5.257 1.517 7.085 1.497c1.666-.02 3.228 1.085 4.257 1.085 1.03 0 2.924-1.328 4.965-1.128 2.378.232 4.414 1.189 5.604 3.018-4.708 2.768-3.951 9.423.864 11.391-.32 1.407-1.439 2.822-2.11 3.137z" />
-                  </svg>
-                </button>
-              </div>
 
               {/* Bottom Switch Link */}
               <div className="mt-8 text-center text-xs font-medium pb-2">
