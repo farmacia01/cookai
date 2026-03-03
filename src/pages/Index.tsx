@@ -1,27 +1,26 @@
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
-import MobileBottomNav from "@/components/layout/MobileBottomNav";
-import HeroSection from "@/components/home/HeroSection";
-import ModesSection from "@/components/home/ModesSection";
-import HowItWorksSection from "@/components/home/HowItWorksSection";
-import FeaturesSection from "@/components/home/FeaturesSection";
-import TestimonialsSection from "@/components/home/TestimonialsSection";
-import CTASection from "@/components/home/CTASection";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { Loader2 } from "lucide-react";
 
 const Index = () => {
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loading) {
+      if (user) {
+        navigate("/gerar-receitas");
+      } else {
+        navigate("/auth");
+      }
+    }
+  }, [user, loading, navigate]);
+
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      <main>
-        <HeroSection />
-        <ModesSection />
-        <HowItWorksSection />
-        <FeaturesSection />
-        <TestimonialsSection />
-        <CTASection />
-      </main>
-      <Footer />
-      <MobileBottomNav />
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center">
+      <Loader2 className="w-8 h-8 animate-spin text-primary mb-4" />
+      <p className="text-muted-foreground animate-pulse">Carregando...</p>
     </div>
   );
 };

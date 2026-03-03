@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ChefHat, Menu, X, LogOut, User, BookOpen, TrendingUp, Settings, CreditCard } from "lucide-react";
 import { useState } from "react";
@@ -18,9 +18,17 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, signOut } = useAuth();
   const { t } = useTranslation();
+  const location = useLocation();
 
   const handleSignOut = async () => {
     await signOut();
+  };
+
+  const getHomeLink = () => {
+    if (location.pathname === '/paginadevendas') {
+      return '/paginadevendas';
+    }
+    return '/';
   };
 
   return (
@@ -28,7 +36,7 @@ const Header = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <nav className="flex items-center justify-between h-14 sm:h-16 md:h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-1.5 sm:gap-2 group">
+          <Link to={getHomeLink()} className="flex items-center gap-1.5 sm:gap-2 group">
             <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-lg sm:rounded-xl gradient-hero flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow">
               <ChefHat className="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 text-primary-foreground" />
             </div>
@@ -40,7 +48,7 @@ const Header = () => {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-6 xl:gap-8">
             <Link
-              to="/"
+              to={getHomeLink()}
               className="text-muted-foreground hover:text-foreground transition-colors font-medium"
             >
               {t('nav.home')}
@@ -153,7 +161,7 @@ const Header = () => {
           <div className="lg:hidden py-4 border-t border-border animate-fade-in">
             <div className="flex flex-col gap-4">
               <Link
-                to="/"
+                to={getHomeLink()}
                 className="text-foreground font-medium py-2"
                 onClick={() => setIsMenuOpen(false)}
               >

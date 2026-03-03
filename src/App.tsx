@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
+import SalesPage from "./pages/SalesPage";
 import GenerateRecipes from "./pages/GenerateRecipes";
 import HowItWorks from "./pages/HowItWorks";
 import Auth from "./pages/Auth";
@@ -30,6 +31,7 @@ const App = () => (
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/paginadevendas" element={<SalesPage />} />
               <Route path="/gerar-receitas" element={<GenerateRecipes />} />
               <Route path="/como-funciona" element={<HowItWorks />} />
               <Route path="/auth" element={<Auth />} />

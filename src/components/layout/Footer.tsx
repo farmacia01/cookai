@@ -1,10 +1,18 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ChefHat, Instagram, Mail } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import LanguageSelector from "@/components/LanguageSelector";
 
 const Footer = () => {
   const { t } = useTranslation();
+  const location = useLocation();
+
+  const getHomeLink = () => {
+    if (location.pathname === '/paginadevendas') {
+      return '/paginadevendas';
+    }
+    return '/';
+  };
 
   return (
     <footer className="bg-foreground text-background py-10 md:py-16">
@@ -12,7 +20,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 md:gap-12 mb-8 md:mb-12">
           {/* Brand */}
           <div className="col-span-1 sm:col-span-2 lg:col-span-1">
-            <Link to="/" className="flex items-center gap-2 mb-3 md:mb-4">
+            <Link to={getHomeLink()} className="flex items-center gap-2 mb-3 md:mb-4">
               <div className="w-8 h-8 md:w-10 md:h-10 rounded-xl gradient-hero flex items-center justify-center">
                 <ChefHat className="w-4 h-4 md:w-5 md:h-5 text-primary-foreground" />
               </div>
@@ -24,8 +32,8 @@ const Footer = () => {
               {t('footer.description')}
             </p>
             <div className="flex gap-3 md:gap-4">
-              <a 
-                href="https://www.instagram.com/cookai.oficial/" 
+              <a
+                href="https://www.instagram.com/cookai.oficial/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-background/10 flex items-center justify-center hover:bg-background/20 transition-colors"
@@ -33,8 +41,8 @@ const Footer = () => {
               >
                 <Instagram className="w-5 h-5" />
               </a>
-              <a 
-                href="mailto:evolinkbr@gmail.com" 
+              <a
+                href="mailto:evolinkbr@gmail.com"
                 className="w-10 h-10 rounded-full bg-background/10 flex items-center justify-center hover:bg-background/20 transition-colors"
                 aria-label="Email Cook"
               >
