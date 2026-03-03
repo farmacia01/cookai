@@ -1,0 +1,450 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "generateRecipes": "Generar Recetas",
+    "myRecipes": "Mis Recetas",
+    "howItWorks": "Cómo Funciona",
+    "pricing": "Precios",
+    "faq": "FAQ",
+    "myAccount": "Mi Cuenta",
+    "myProfile": "Mi Perfil",
+    "dashboard": "Dashboard",
+    "myPlan": "Mi Plan",
+    "logout": "Salir",
+    "login": "Entrar",
+    "startFree": "Empezar Gratis",
+    "theme": "Tema"
+  },
+  "hero": {
+    "badge": "IA que entiende tus ingredientes y objetivos",
+    "title1": "Deja de Tirar",
+    "title2": "Comida",
+    "title3": "y Quedarte Sin Ideas",
+    "subtitle": "Toma una foto de tu refrigerador y recibe recetas perfectas en segundos. Ya sea para adelgazar, ganar músculo o reducir el desperdicio.",
+    "cta1": "Crear Mi Receta",
+    "cta2": "Ver Cómo Funciona",
+    "stats": {
+      "recipes": "Recetas creadas",
+      "time": "Tiempo promedio",
+      "price": "Para empezar"
+    },
+    "nextRecipe": "Tu próxima receta",
+    "dragPhoto": "Arrastra una foto o haz clic para comenzar"
+  },
+  "modes": {
+    "faxina": {
+      "title": "Limpieza del Refri",
+      "subtitle": "¡Usa todo!"
+    },
+    "monstro": {
+      "title": "Modo Bestia",
+      "subtitle": "Alta proteína"
+    },
+    "seca": {
+      "title": "Adelgazar",
+      "subtitle": "Baja calorías"
+    }
+  },
+  "footer": {
+    "description": "Transformando la forma en que cocinas con inteligencia artificial. Recetas personalizadas para una vida más saludable.",
+    "product": "Producto",
+    "support": "Soporte",
+    "helpCenter": "Centro de Ayuda",
+    "contact": "Contacto",
+    "terms": "Términos de Uso",
+    "copyright": "© 2024 Cook. Todos los derechos reservados."
+  },
+  "auth": {
+    "welcomeBack": "¡Bienvenido de vuelta!",
+    "createAccount": "Crea tu cuenta",
+    "loginSubtitle": "Inicia sesión para acceder a tus recetas personalizadas",
+    "signupSubtitle": "Comienza a transformar tu alimentación con IA",
+    "fullName": "Nombre completo",
+    "yourName": "Tu nombre",
+    "email": "Email",
+    "password": "Contraseña",
+    "login": "Entrar",
+    "signup": "Crear Cuenta",
+    "loggingIn": "Entrando...",
+    "creatingAccount": "Creando cuenta...",
+    "noAccount": "¿No tienes una cuenta?",
+    "hasAccount": "¿Ya tienes una cuenta?",
+    "createAccountLink": "Crear cuenta",
+    "loginLink": "Iniciar sesión",
+    "errors": {
+      "invalidEmail": "Email inválido",
+      "passwordMin": "La contraseña debe tener al menos 8 caracteres",
+      "passwordLetter": "La contraseña debe contener al menos una letra",
+      "passwordNumber": "La contraseña debe contener al menos un número",
+      "nameMin": "El nombre debe tener al menos 2 caracteres",
+      "loginError": "Error al iniciar sesión",
+      "wrongCredentials": "Email o contraseña incorrectos.",
+      "signupError": "Error al registrarse",
+      "emailExists": "Este email ya está registrado. Intenta iniciar sesión."
+    },
+    "success": {
+      "loginTitle": "¡Sesión iniciada!",
+      "loginMessage": "¡Bienvenido de vuelta!",
+      "signupTitle": "¡Cuenta creada!",
+      "signupMessage": "Tu cuenta fue creada exitosamente."
+    }
+  },
+  "cta": {
+    "badge": "100% gratis para probar ahora",
+    "title": "Tu Refrigerador Nunca Volverá a Ser el Mismo",
+    "subtitle": "Miles de personas ya dejaron de tirar comida y empezaron a comer mejor. Solo faltas tú.",
+    "button1": "Probar Gratis Ahora",
+    "button2": "Ver Primero"
+  },
+  "language": {
+    "pt": "Português",
+    "en": "English",
+    "es": "Español"
+  },
+  "faq": {
+    "title": "Preguntas Frecuentes",
+    "subtitle": "Encuentra respuestas a las preguntas más comunes sobre Cook",
+    "contact": "Contáctanos",
+    "otherChannels": "Otros Canales",
+    "supportEmail": "Email de Soporte",
+    "businessHours": "Horario de Atención",
+    "businessHoursValue": "Lunes a Viernes, 9am a 6pm",
+    "responseTime": "Tiempo de Respuesta",
+    "responseTimeValue": "Hasta 24 horas hábiles",
+    "yourName": "Tu nombre",
+    "yourEmail": "Tu email",
+    "yourMessage": "Tu mensaje",
+    "sending": "Enviando...",
+    "sendMessage": "Enviar Mensaje",
+    "messageSent": "¡Mensaje enviado!",
+    "messageSentDesc": "Nos pondremos en contacto pronto.",
+    "questions": {
+      "q1": "¿Cómo funciona la generación de recetas con IA?",
+      "a1": "Nuestra IA analiza la imagen de tu refrigerador o despensa, identifica los ingredientes disponibles y genera recetas personalizadas según el modo seleccionado (Limpieza, Bestia o Adelgazar).",
+      "q2": "¿Qué es el modo Limpieza del Refri?",
+      "a2": "El modo Limpieza prioriza el uso de ingredientes que ya tienes disponibles, ayudando a evitar el desperdicio y vaciar tu refrigerador de forma creativa.",
+      "q3": "¿Para quién es el Modo Bestia?",
+      "a3": "El Modo Bestia es ideal para quienes buscan ganar masa muscular, generando recetas altas en proteínas y calorías para apoyar tus objetivos de volumen.",
+      "q4": "¿Cómo me ayuda el modo Adelgazar?",
+      "a4": "El modo Adelgazar se enfoca en recetas bajas en calorías con alto valor nutricional, perfecto para quienes están en fase de definición o quieren perder peso saludablemente.",
+      "q5": "¿Puedo guardar mis recetas favoritas?",
+      "a5": "¡Sí! Todas las recetas generadas pueden guardarse en tu perfil. También puedes marcar recetas como favoritas y calificarlas para encontrarlas fácilmente después.",
+      "q6": "¿Las recetas incluyen información nutricional?",
+      "a6": "Sí, cada receta viene con información completa de calorías, proteínas, carbohidratos y grasas para ayudarte con tu seguimiento nutricional.",
+      "q7": "¿Puedo establecer metas nutricionales personalizadas?",
+      "a7": "¡Sí! En tu perfil puedes configurar tus metas diarias de calorías y macronutrientes. El dashboard muestra tu progreso hacia estas metas.",
+      "q8": "¿La plataforma funciona sin conexión?",
+      "a8": "Puedes instalar nuestra app como PWA y acceder a tus recetas guardadas sin conexión. La generación de nuevas recetas requiere conexión a internet."
+    }
+  },
+  "pricing": {
+    "badge": "Precios Simples",
+    "title": "Elige el Plan",
+    "titleHighlight": "Ideal Para Ti",
+    "subtitle": "Empieza gratis y mejora según tus necesidades. Cancela en cualquier momento, sin compromiso.",
+    "activeSubscription": "Tienes una suscripción activa:",
+    "mostPopular": "Más Popular",
+    "currentPlan": "Plan Actual",
+    "hasQuestions": "¿Tienes preguntas?",
+    "checkFaq": "Revisa nuestra",
+    "faqLink": "página de preguntas frecuentes",
+    "orContact": "o contáctanos.",
+    "securePayment": "Pago 100% seguro",
+    "cancelAnytime": "Cancela cuando quieras",
+    "ptSupport": "Soporte en portugués",
+    "plans": {
+      "free": {
+        "name": "Gratis",
+        "description": "Perfecto para probar",
+        "price": "$0",
+        "cta": "Empezar Gratis",
+        "features": [
+          "3 recetas por mes",
+          "Modo Limpieza del Refri",
+          "Info nutricional básica",
+          "Guardar hasta 10 recetas"
+        ],
+        "limitations": [
+          "Sin Modo Bestia",
+          "Sin modo Adelgazar",
+          "Sin soporte prioritario"
+        ]
+      },
+      "pro": {
+        "name": "Pro",
+        "description": "Para usuarios serios",
+        "price": "$3.99",
+        "period": "/mes",
+        "cta": "Suscribirse Ahora",
+        "features": [
+          "200 recetas por mes - más que suficiente",
+          "Todos los modos (Limpieza, Bestia, Adelgazar)",
+          "Info nutricional completa",
+          "Recetas guardadas ilimitadas",
+          "Metas nutricionales personalizadas",
+          "Dashboard de seguimiento",
+          "Generación de imágenes de recetas",
+          "Soporte prioritario"
+        ]
+      },
+      "annual": {
+        "name": "Pro Anual",
+        "description": "Mejor valor",
+        "price": "$2.99",
+        "period": "/mes",
+        "cta": "Suscribirse Anual",
+        "features": [
+          "Todo lo del plan Pro",
+          "2 meses gratis",
+          "Ahorra $12/año",
+          "Acceso anticipado a novedades",
+          "Insignia exclusiva de patrocinador"
+        ]
+      }
+    }
+  },
+  "profile": {
+    "title": "Mi Perfil",
+    "user": "Usuario",
+    "personalInfo": "Información Personal",
+    "fullName": "Nombre Completo",
+    "fullNamePlaceholder": "Tu nombre completo",
+    "email": "Email",
+    "dietaryRestrictions": "Restricciones Alimentarias",
+    "dietaryRestrictionsDesc": "Selecciona tus restricciones para recetas personalizadas",
+    "nutritionalGoals": "Metas Nutricionales Diarias",
+    "nutritionalGoalsDesc": "Configura tus metas para seguir tu progreso en el dashboard",
+    "calories": "Calorías",
+    "protein": "Proteínas",
+    "carbs": "Carbohidratos",
+    "fat": "Grasas",
+    "saveChanges": "Guardar Cambios",
+    "saving": "Guardando...",
+    "profileUpdated": "¡Perfil actualizado!",
+    "profileUpdatedDesc": "Tus metas nutricionales y restricciones se guardaron exitosamente.",
+    "saveError": "Error al guardar",
+    "saveErrorDesc": "No se pudieron guardar tus cambios.",
+    "dietary": {
+      "vegan": "Vegano",
+      "vegetarian": "Vegetariano",
+      "glutenFree": "Sin Gluten",
+      "lactoseFree": "Sin Lactosa",
+      "peanutAllergy": "Alergia al Maní",
+      "seafoodAllergy": "Alergia a Mariscos"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Sigue tu progreso nutricional y estadísticas",
+    "savedRecipes": "Recetas Guardadas",
+    "favorites": "Favoritas",
+    "avgRating": "Calificación Promedio",
+    "totalCalories": "Calorías Totales",
+    "nutritionalProgress": "Progreso Nutricional",
+    "nutritionalProgressDesc": "Total acumulado vs tus metas diarias",
+    "recipesByMode": "Recetas por Modo",
+    "recipesByModeDesc": "Distribución de tus recetas guardadas",
+    "noRecipesSaved": "Ninguna receta guardada aún",
+    "caloriesLast7Days": "Calorías Últimos 7 Días",
+    "caloriesLast7DaysDesc": "Total de calorías de recetas guardadas por día"
+  },
+  "myRecipes": {
+    "badge": "Mis Recetas",
+    "title": "Tus Recetas Guardadas",
+    "subtitle": "Accede a todas las recetas que guardaste y prepáralas cuando quieras.",
+    "searchPlaceholder": "Buscar recetas...",
+    "all": "Todas",
+    "favorites": "Favoritas",
+    "rated": "Calificadas",
+    "noRecipes": "Ninguna receta guardada aún",
+    "noRecipesDesc": "Genera recetas con IA a partir de fotos de tu refrigerador y guarda tus favoritas aquí.",
+    "generateRecipes": "Generar Recetas",
+    "noResults": "Ninguna receta encontrada",
+    "noResultsDesc": "Intenta buscar otro término o limpia los filtros.",
+    "clearFilters": "Limpiar filtros",
+    "addedToFavorites": "¡Agregada a favoritos!",
+    "removedFromFavorites": "Eliminada de favoritos",
+    "filterFavoritesHint": "Puedes filtrar tus favoritas en la pestaña 'Favoritas'",
+    "ratingSaved": "¡Calificación guardada!",
+    "ratingDesc": "Le diste {{count}} estrella a esta receta.",
+    "ratingDescPlural": "Le diste {{count}} estrellas a esta receta.",
+    "error": "Error",
+    "favoriteError": "No se pudo actualizar el favorito.",
+    "ratingError": "No se pudo guardar la calificación."
+  },
+  "generate": {
+    "badge": "Generador de Recetas",
+    "title": "Transforma tus Ingredientes en Recetas",
+    "subtitle": "Sube una foto de tu refrigerador y deja que la IA cree recetas personalizadas.",
+    "loginPrompt": "Inicia sesión para guardar tus recetas y acceder a tu historial",
+    "freePlan": "Plan Gratis",
+    "monthlyPlan": "Plan Mensual",
+    "limitReached": "Límite alcanzado",
+    "remaining": "{{remaining}} de {{total}} restantes",
+    "upgradePro": "Upgrade Pro",
+    "pantryBasics": "¿Considerar ingredientes básicos de despensa?",
+    "pantryBasicsHint": "Sal, Aceite, Pimienta, Ajo, Cebolla, etc.",
+    "analyzing": "Analizando ingredientes...",
+    "generateWithAI": "Generar Recetas con IA",
+    "uploadHint": "Sube una imagen para comenzar",
+    "unlimitedRecipes": "Suscríbete a Pro para recetas ilimitadas →",
+    "tips": "💡 Consejos para mejores resultados",
+    "tip1": "Fotografía el refrigerador abierto con buena iluminación",
+    "tip2": "Incluye todos los ingredientes visibles",
+    "tip3": "Evita fotos muy oscuras o borrosas",
+    "savedRecipes": "Recetas guardadas:",
+    "ingredientsFound": "🔍 Ingredientes identificados",
+    "recipesFound": "Recetas Encontradas",
+    "recipesFoundDesc": "{{count}} recetas basadas en tus ingredientes",
+    "savedLimitReached": "Límite de recetas guardadas alcanzado ({{limit}})",
+    "upgradeToSaveMore": "Upgrade para guardar más",
+    "limitReachedTitle": "Límite alcanzado",
+    "limitReachedDesc": "¡Alcanzaste el límite de recetas del plan gratis. Suscríbete a Pro para continuar!",
+    "modeNotAvailable": "Modo no disponible",
+    "modeNotAvailableDesc": "Este modo es exclusivo del plan Pro. ¡Actualiza para desbloquear!",
+    "savedLimitTitle": "Límite de recetas guardadas",
+    "savedLimitDesc": "¡Alcanzaste el límite de {{limit}} recetas guardadas. Suscríbete a Pro para guardar más!",
+    "loginToGenerate": "Inicia sesión para generar recetas",
+    "economyMode": "Modo Economía",
+    "economyModeHint": "Prioriza ingredientes de temporada y económicos",
+    "invalidImageError": "Imagen inválida",
+    "invalidImageDesc": "No detectamos alimentos en esta foto. Por favor, envía una foto de tu refrigerador o despensa."
+  },
+  "extraMeal": {
+    "button": "Registrar Comida Extra",
+    "title": "Registrar Comida Fuera/Extra",
+    "descriptionLabel": "¿Qué comiste?",
+    "placeholder": "Ej: Comí una hamburguesa con papas fritas",
+    "hint": "Describe la comida con el mayor detalle posible",
+    "estimating": "Estimando...",
+    "estimate": "Estimar Macros",
+    "consumed": "Calorías consumidas",
+    "remaining": "Restante para el día:",
+    "confirm": "Confirmar y Registrar",
+    "loggedTitle": "¡Comida registrada!",
+    "loggedDesc": "Tus macros del día han sido actualizados.",
+    "errorTitle": "Error al estimar",
+    "errorDesc": "No se pudieron estimar los macros. Intenta de nuevo."
+  },
+  "shoppingList": {
+    "button": "Lista de Compras",
+    "title": "Lista de Compras",
+    "description": "Basado en {{count}} recetas - {{items}} artículos en total",
+    "hortifruti": "Frutas y Verduras",
+    "acougue": "Carnicería",
+    "mercearia": "Abarrotes",
+    "empty": "No se encontraron ingredientes",
+    "copy": "Copiar Lista",
+    "copied": "¡Copiado!",
+    "copiedDesc": "Lista copiada al portapapeles"
+  },
+  "imageUpload": {
+    "compressing": "Comprimiendo imagen...",
+    "optimizing": "Optimizando para mejor rendimiento",
+    "selectedImage": "Imagen seleccionada",
+    "imageReady": "✓ Imagen lista para análisis",
+    "dropHere": "Suelta la imagen aquí",
+    "uploadTitle": "Sube una foto de tu refrigerador",
+    "dragOrClick": "Arrastra una imagen o haz clic para seleccionar",
+    "selectPhoto": "Seleccionar Foto",
+    "formats": "Formatos aceptados: JPG, PNG, WEBP • Máximo: 10MB"
+  },
+  "mealCategory": {
+    "title": "Elige la comida",
+    "breakfast": "Desayuno",
+    "lunch": "Almuerzo",
+    "dinner": "Cena",
+    "snack": "Merienda"
+  },
+  "modeSelector": {
+    "title": "Elige el modo de la receta",
+    "viewPro": "Ver Pro",
+    "faxina": {
+      "title": "Limpieza del Refri",
+      "description": "Usa todos los ingredientes disponibles"
+    },
+    "monstro": {
+      "title": "Modo Bestia",
+      "description": "Enfoque en proteína y ganancia muscular"
+    },
+    "seca": {
+      "title": "Adelgazar",
+      "description": "Baja calorías y carbohidratos"
+    }
+  },
+  "recipeCard": {
+    "servings": "porciones",
+    "calories": "Calorías",
+    "protein": "Proteína",
+    "carbs": "Carbos",
+    "ingredients": "Ingredientes:",
+    "more": "+{{count}} más",
+    "instructions": "Instrucciones:",
+    "lessDetails": "Menos detalles",
+    "viewRecipe": "Ver receta",
+    "save": "Guardar"
+  },
+  "healthDisclaimer": {
+    "warning": "Aviso:",
+    "text": "Las recetas e información nutricional son generadas por Inteligencia Artificial y pueden contener imprecisiones. Verifica los ingredientes antes de consumir y consulta a un nutricionista para dietas específicas."
+  },
+  "howItWorksSection": {
+    "badge": "Tan Fácil que Parece Trampa",
+    "title": "De la Foto al Plato en 15 Segundos",
+    "subtitle": "Mientras piensas qué hacer, la IA ya tiene 3 recetas listas para ti.",
+    "step1Title": "Abre el Refri y Fotografía",
+    "step1Desc": "Sin lista, sin complicación. Solo muestra lo que tienes.",
+    "step2Title": "La IA Hace la Magia",
+    "step2Desc": "En segundos identifica todo y piensa en las mejores combinaciones.",
+    "step3Title": "Elige Tu Objetivo",
+    "step3Desc": "¿Quieres adelgazar? ¿Crecer? ¿Usar todo antes de que se eche a perder? Tú decides.",
+    "step4Title": "Cocina y Come Bien",
+    "step4Desc": "Receta lista, macros calculados, resultado garantizado."
+  },
+  "testimonialsSection": {
+    "badge": "Quienes lo Usan, lo Aprueban",
+    "title": "Mira lo que Están Diciendo",
+    "subtitle": "Miles de personas ya transformaron su alimentación. Estas son algunas historias reales.",
+    "loadMore": "Ver Más Testimonios"
+  },
+  "modesSection": {
+    "badge": "3 Modos, 1 Objetivo: Tú en Control",
+    "title": "¿Cuál es Tu Enfoque Ahora?",
+    "subtitle": "No importa si quieres adelgazar, crecer o dejar de tirar comida. La IA adapta las recetas para ti.",
+    "faxina": {
+      "title": "Limpieza del Refri",
+      "subtitle": "Para quienes odian tirar comida",
+      "description": "Usa todo lo que está en el refrigerador antes de que se eche a perder. Ahorra dinero y acaba con el desperdicio de una vez."
+    },
+    "monstro": {
+      "title": "Modo Bestia",
+      "subtitle": "Para quienes quieren crecer",
+      "description": "Recetas cargadas de proteína para alcanzar tus metas de masa muscular sin perder tiempo pensando."
+    },
+    "seca": {
+      "title": "Adelgazar",
+      "subtitle": "Para quienes quieren definir",
+      "description": "Bajo en carbos, pocas calorías, mucho sabor. Recetas que aceleran tus resultados sin pasar hambre."
+    }
+  },
+  "howItWorksPage": {
+    "badge": "Tecnología",
+    "title": "Cómo Funciona la Magia",
+    "subtitle": "Conoce la tecnología detrás de Cook y descubre cómo transformamos fotos simples en recetas increíbles.",
+    "featuresBadge": "Diferenciales",
+    "featuresTitle": "¿Por Qué Elegir Cook?",
+    "featuresSubtitle": "Tecnología de punta combinada con experiencia nutricional.",
+    "feature1Title": "Reconocimiento Visual Avanzado",
+    "feature1Desc": "Nuestra IA puede identificar más de 500 ingredientes diferentes en tus fotos.",
+    "feature2Title": "Inteligencia Nutricional",
+    "feature2Desc": "Algoritmos que calculan automáticamente macros y sugieren combinaciones ideales.",
+    "feature3Title": "Recetas Probadas",
+    "feature3Desc": "Todas las recetas son validadas por nutricionistas y chefs profesionales.",
+    "feature4Title": "Metas Personalizadas",
+    "feature4Desc": "Recetas adaptadas a tus objetivos: pérdida de peso, ganancia muscular o mantenimiento.",
+    "feature5Title": "Privacidad Total",
+    "feature5Desc": "Tus fotos se procesan y eliminan inmediatamente. Nada se almacena.",
+    "feature6Title": "Resultados Instantáneos",
+    "feature6Desc": "Análisis y generación de recetas en menos de 10 segundos."
+  }
+}

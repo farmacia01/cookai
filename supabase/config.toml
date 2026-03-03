@@ -1,0 +1,16 @@
+project_id = "enfkbhqiryqwqlcsjwnl"
+
+[functions.generate-recipes]
+verify_jwt = true
+
+[functions.generate-recipe-image]
+verify_jwt = true
+
+[functions.estimate-meal-macros]
+verify_jwt = true
+
+[functions.create-cakto-order]
+verify_jwt = true
+
+[functions.cakto-webhook]
+verify_jwt = false

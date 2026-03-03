@@ -1,0 +1,389 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* ── Light fallback (always overridden by .dark) ── */
+    --background: 0 0% 98%;
+    --foreground: 0 0% 8%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 8%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 8%;
+    --primary: 82 100% 58%;
+    --primary-foreground: 0 0% 8%;
+    --secondary: 0 0% 93%;
+    --secondary-foreground: 0 0% 20%;
+    --muted: 0 0% 90%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 82 100% 58%;
+    --accent-foreground: 0 0% 8%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 87%;
+    --input: 0 0% 87%;
+    --ring: 82 100% 58%;
+    --radius: 1.2rem;
+    --warning: 38 92% 50%;
+    --mode-faxina: 82 100% 58%;
+    --mode-monstro: 25 95% 53%;
+    --mode-seca: 200 80% 50%;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    /* ── Premium Dark: deep black + neon lime ── */
+    --background: 0 0% 7%;
+    /* #111111 base */
+    --foreground: 0 0% 96%;
+    --card: 0 0% 11%;
+    /* #1C1C1C cards */
+    --card-foreground: 0 0% 96%;
+    --popover: 0 0% 11%;
+    --popover-foreground: 0 0% 96%;
+    --primary: 82 100% 58%;
+    /* #A3E635 neon lime */
+    --primary-foreground: 0 0% 7%;
+    --secondary: 0 0% 15%;
+    /* #262626 */
+    --secondary-foreground: 0 0% 80%;
+    --muted: 0 0% 13%;
+    --muted-foreground: 0 0% 48%;
+    --accent: 82 100% 58%;
+    --accent-foreground: 0 0% 7%;
+    --destructive: 0 62.8% 45%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 18%;
+    /* subtle dark borders */
+    --input: 0 0% 18%;
+    --ring: 82 100% 58%;
+    --mode-faxina: 82 100% 58%;
+    --mode-monstro: 25 95% 53%;
+    --mode-seca: 200 80% 50%;
+    --shadow-glow: 0 0 40px hsl(82 100% 58% / 0.35);
+    --shadow-glow-soft: 0 0 24px hsl(82 100% 58% / 0.2);
+    --sidebar-background: 0 0% 9%;
+    --sidebar-foreground: 0 0% 90%;
+    --sidebar-primary: 82 100% 58%;
+    --sidebar-primary-foreground: 0 0% 7%;
+    --sidebar-accent: 0 0% 13%;
+    --sidebar-accent-foreground: 0 0% 90%;
+    --sidebar-border: 0 0% 16%;
+    --sidebar-ring: 82 100% 58%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  html.transitioning,
+  html.transitioning *,
+  html.transitioning *::before,
+  html.transitioning *::after {
+    transition: background-color 0.4s ease, border-color 0.4s ease, color 0.3s ease !important;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    @apply font-bold tracking-tight;
+  }
+}
+
+@layer utilities {
+
+  /* ── Gradients ── */
+  .gradient-lime {
+    background: linear-gradient(135deg, #A3E635 0%, #84cc16 100%);
+  }
+
+  .gradient-hero {
+    background: linear-gradient(135deg, #A3E635 0%, #4ade80 100%);
+  }
+
+  .gradient-card-teal {
+    background: linear-gradient(135deg, hsl(160 40% 16%) 0%, hsl(140 30% 14%) 100%);
+  }
+
+  /* ── Text ── */
+  .text-gradient {
+    background: linear-gradient(135deg, #A3E635, #4ade80);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-lime {
+    color: #A3E635;
+  }
+
+  /* ── Glassmorphism ── */
+  .glass {
+    background: hsl(var(--card) / 0.65);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid hsl(var(--border) / 0.6);
+  }
+
+  .glass-strong {
+    background: hsl(var(--card) / 0.88);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: 1px solid hsl(var(--border) / 0.8);
+  }
+
+  .glass-nav {
+    background: hsl(0 0% 8% / 0.92);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-top: 1px solid hsl(0 0% 20% / 0.6);
+  }
+
+  /* ── Cards premium ── */
+  .card-dark {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: 24px;
+    transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card-dark:hover {
+    border-color: hsl(82 100% 58% / 0.35);
+    box-shadow: 0 4px 32px hsl(82 100% 58% / 0.1);
+    transform: translateY(-1px);
+  }
+
+  /* Macro pill card */
+  .macro-card {
+    background: hsl(0 0% 14%);
+    border-radius: 18px;
+    padding: 14px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border: 1px solid hsl(0 0% 20%);
+    transition: border-color 0.2s ease;
+  }
+
+  .macro-card:hover {
+    border-color: hsl(82 100% 58% / 0.4);
+  }
+
+  /* ── Glow / Neon ── */
+  .shadow-lime {
+    box-shadow: 0 0 30px hsl(82 100% 58% / 0.4), 0 0 80px hsl(82 100% 58% / 0.15);
+  }
+
+  .shadow-lime-sm {
+    box-shadow: 0 0 12px hsl(82 100% 58% / 0.35);
+  }
+
+  .neon-lime {
+    box-shadow: 0 0 0 1.5px #A3E635, 0 0 16px hsl(82 100% 58% / 0.5), 0 0 40px hsl(82 100% 58% / 0.2);
+  }
+
+  /* ── FAB (+) button ── */
+  .fab-btn {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #A3E635;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 0 4px hsl(0 0% 8%), 0 0 24px hsl(82 100% 58% / 0.5);
+    transition: all 0.2s ease;
+    margin-bottom: 16px;
+  }
+
+  .fab-btn:hover,
+  .fab-btn:active {
+    transform: scale(1.08);
+    box-shadow: 0 0 0 4px hsl(0 0% 8%), 0 0 40px hsl(82 100% 58% / 0.7);
+  }
+
+  /* ── Circular progress ring ── */
+  .ring-progress {
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+  }
+
+  /* ── Animations ── */
+  .animate-fade-up {
+    animation: fadeUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .animate-pulse-lime {
+    animation: pulseLime 2.5s ease-in-out infinite;
+  }
+
+  .animate-scan {
+    animation: scanLine 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  .animate-float {
+    animation: float 5s ease-in-out infinite;
+  }
+
+  .animate-neon-pulse {
+    animation: neonPulse 2s ease-in-out infinite;
+  }
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(0 0% 10%);
+    border-radius: 100px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(0 0% 22%);
+    border-radius: 100px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(82 100% 58% / 0.5);
+  }
+}
+
+/* ── Keyframes ── */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+@keyframes pulseLime {
+
+  0%,
+  100% {
+    box-shadow: 0 0 20px hsl(82 100% 58% / 0.3);
+  }
+
+  50% {
+    box-shadow: 0 0 48px hsl(82 100% 58% / 0.65), 0 0 80px hsl(82 100% 58% / 0.2);
+  }
+}
+
+@keyframes neonPulse {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 1.5px #A3E635, 0 0 12px hsl(82 100% 58% / 0.35);
+  }
+
+  50% {
+    box-shadow: 0 0 0 1.5px #A3E635, 0 0 28px hsl(82 100% 58% / 0.7), 0 0 50px hsl(82 100% 58% / 0.25);
+  }
+}
+
+@keyframes scanLine {
+  0% {
+    top: 0%;
+    opacity: 1;
+  }
+
+  90% {
+    top: 95%;
+    opacity: 1;
+  }
+
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}

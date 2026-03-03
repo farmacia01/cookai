@@ -1,0 +1,450 @@
+{
+  "nav": {
+    "home": "Home",
+    "generateRecipes": "Generate Recipes",
+    "myRecipes": "My Recipes",
+    "howItWorks": "How It Works",
+    "pricing": "Pricing",
+    "faq": "FAQ",
+    "myAccount": "My Account",
+    "myProfile": "My Profile",
+    "dashboard": "Dashboard",
+    "myPlan": "My Plan",
+    "logout": "Logout",
+    "login": "Login",
+    "startFree": "Start Free",
+    "theme": "Theme"
+  },
+  "hero": {
+    "badge": "AI that understands your ingredients and goals",
+    "title1": "Stop Throwing",
+    "title2": "Food Away",
+    "title3": "and Running Out of Ideas",
+    "subtitle": "Take a photo of your fridge and get perfect recipes in seconds. Whether to lose weight, build muscle, or zero waste.",
+    "cta1": "Create My Recipe",
+    "cta2": "See How It Works",
+    "stats": {
+      "recipes": "Recipes created",
+      "time": "Average time",
+      "price": "To start"
+    },
+    "nextRecipe": "Your next recipe",
+    "dragPhoto": "Drag a photo or click to start"
+  },
+  "modes": {
+    "faxina": {
+      "title": "Fridge Cleanup",
+      "subtitle": "Use everything!"
+    },
+    "monstro": {
+      "title": "Beast Mode",
+      "subtitle": "High protein"
+    },
+    "seca": {
+      "title": "Slim Down",
+      "subtitle": "Low calorie"
+    }
+  },
+  "footer": {
+    "description": "Transforming the way you cook with artificial intelligence. Personalized recipes for a healthier life.",
+    "product": "Product",
+    "support": "Support",
+    "helpCenter": "Help Center",
+    "contact": "Contact",
+    "terms": "Terms of Use",
+    "copyright": "© 2024 Cook. All rights reserved."
+  },
+  "auth": {
+    "welcomeBack": "Welcome back!",
+    "createAccount": "Create your account",
+    "loginSubtitle": "Sign in to access your personalized recipes",
+    "signupSubtitle": "Start transforming your diet with AI",
+    "fullName": "Full name",
+    "yourName": "Your name",
+    "email": "Email",
+    "password": "Password",
+    "login": "Sign In",
+    "signup": "Create Account",
+    "loggingIn": "Signing in...",
+    "creatingAccount": "Creating account...",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "createAccountLink": "Create account",
+    "loginLink": "Sign in",
+    "errors": {
+      "invalidEmail": "Invalid email",
+      "passwordMin": "Password must be at least 8 characters",
+      "passwordLetter": "Password must contain at least one letter",
+      "passwordNumber": "Password must contain at least one number",
+      "nameMin": "Name must be at least 2 characters",
+      "loginError": "Login error",
+      "wrongCredentials": "Incorrect email or password.",
+      "signupError": "Signup error",
+      "emailExists": "This email is already registered. Try logging in."
+    },
+    "success": {
+      "loginTitle": "Login successful!",
+      "loginMessage": "Welcome back!",
+      "signupTitle": "Account created!",
+      "signupMessage": "Your account was created successfully."
+    }
+  },
+  "cta": {
+    "badge": "100% free to try now",
+    "title": "Your Fridge Will Never Be the Same",
+    "subtitle": "Thousands of people have already stopped throwing away food and started eating better. You're next.",
+    "button1": "Try Now for Free",
+    "button2": "See First"
+  },
+  "language": {
+    "pt": "Português",
+    "en": "English",
+    "es": "Español"
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Find answers to the most common questions about Cook",
+    "contact": "Contact Us",
+    "otherChannels": "Other Channels",
+    "supportEmail": "Support Email",
+    "businessHours": "Business Hours",
+    "businessHoursValue": "Monday to Friday, 9am to 6pm",
+    "responseTime": "Response Time",
+    "responseTimeValue": "Up to 24 business hours",
+    "yourName": "Your name",
+    "yourEmail": "Your email",
+    "yourMessage": "Your message",
+    "sending": "Sending...",
+    "sendMessage": "Send Message",
+    "messageSent": "Message sent!",
+    "messageSentDesc": "We'll get back to you soon.",
+    "questions": {
+      "q1": "How does AI recipe generation work?",
+      "a1": "Our AI analyzes the image of your fridge or pantry, identifies available ingredients, and generates personalized recipes based on the selected mode (Cleanup, Beast, or Slim).",
+      "q2": "What is Fridge Cleanup mode?",
+      "a2": "Cleanup mode prioritizes the use of ingredients you already have available, helping to avoid waste and creatively empty your fridge.",
+      "q3": "Who is Beast Mode for?",
+      "a3": "Beast Mode is ideal for those looking to build muscle mass, generating recipes high in protein and calories to support your bulking goals.",
+      "q4": "How does Slim Down mode help me?",
+      "a4": "Slim Down mode focuses on low-calorie recipes with high nutritional value, perfect for those in a cutting phase or wanting to lose weight healthily.",
+      "q5": "Can I save my favorite recipes?",
+      "a5": "Yes! All generated recipes can be saved to your profile. You can also mark recipes as favorites and rate them to find them easily later.",
+      "q6": "Do recipes include nutritional information?",
+      "a6": "Yes, each recipe comes with complete information on calories, protein, carbohydrates, and fats to help with your nutritional tracking.",
+      "q7": "Can I set personalized nutritional goals?",
+      "a7": "Yes! In your profile, you can configure your daily calorie and macronutrient goals. The dashboard shows your progress towards these goals.",
+      "q8": "Does the platform work offline?",
+      "a8": "You can install our app as a PWA and access your saved recipes offline. Generating new recipes requires an internet connection."
+    }
+  },
+  "pricing": {
+    "badge": "Simple Pricing",
+    "title": "Choose the Plan",
+    "titleHighlight": "Right for You",
+    "subtitle": "Start free and upgrade as needed. Cancel anytime, no commitment.",
+    "activeSubscription": "You have an active subscription:",
+    "mostPopular": "Most Popular",
+    "currentPlan": "Current Plan",
+    "hasQuestions": "Have questions?",
+    "checkFaq": "Check our",
+    "faqLink": "FAQ page",
+    "orContact": "or contact us.",
+    "securePayment": "100% secure payment",
+    "cancelAnytime": "Cancel anytime",
+    "ptSupport": "Portuguese support",
+    "plans": {
+      "free": {
+        "name": "Free",
+        "description": "Perfect to try",
+        "price": "$0",
+        "cta": "Start Free",
+        "features": [
+          "3 recipes per month",
+          "Fridge Cleanup mode",
+          "Basic nutritional info",
+          "Save up to 10 recipes"
+        ],
+        "limitations": [
+          "No Beast Mode",
+          "No Slim Down mode",
+          "No priority support"
+        ]
+      },
+      "pro": {
+        "name": "Pro",
+        "description": "For serious users",
+        "price": "$3.99",
+        "period": "/month",
+        "cta": "Subscribe Now",
+        "features": [
+          "200 recipes per month - more than enough",
+          "All modes (Cleanup, Beast, Slim)",
+          "Complete nutritional info",
+          "Unlimited saved recipes",
+          "Personalized nutritional goals",
+          "Tracking dashboard",
+          "Recipe image generation",
+          "Priority support"
+        ]
+      },
+      "annual": {
+        "name": "Pro Annual",
+        "description": "Best value",
+        "price": "$2.99",
+        "period": "/month",
+        "cta": "Subscribe Annual",
+        "features": [
+          "Everything in Pro",
+          "2 months free",
+          "Save $12/year",
+          "Early access to new features",
+          "Exclusive supporter badge"
+        ]
+      }
+    }
+  },
+  "profile": {
+    "title": "My Profile",
+    "user": "User",
+    "personalInfo": "Personal Information",
+    "fullName": "Full Name",
+    "fullNamePlaceholder": "Your full name",
+    "email": "Email",
+    "dietaryRestrictions": "Dietary Restrictions",
+    "dietaryRestrictionsDesc": "Select your restrictions for personalized recipes",
+    "nutritionalGoals": "Daily Nutritional Goals",
+    "nutritionalGoalsDesc": "Set your goals to track your progress on the dashboard",
+    "calories": "Calories",
+    "protein": "Protein",
+    "carbs": "Carbohydrates",
+    "fat": "Fat",
+    "saveChanges": "Save Changes",
+    "saving": "Saving...",
+    "profileUpdated": "Profile updated!",
+    "profileUpdatedDesc": "Your nutritional goals and restrictions have been saved successfully.",
+    "saveError": "Error saving",
+    "saveErrorDesc": "Could not save your changes.",
+    "dietary": {
+      "vegan": "Vegan",
+      "vegetarian": "Vegetarian",
+      "glutenFree": "Gluten Free",
+      "lactoseFree": "Lactose Free",
+      "peanutAllergy": "Peanut Allergy",
+      "seafoodAllergy": "Seafood Allergy"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Track your nutritional progress and statistics",
+    "savedRecipes": "Saved Recipes",
+    "favorites": "Favorites",
+    "avgRating": "Average Rating",
+    "totalCalories": "Total Calories",
+    "nutritionalProgress": "Nutritional Progress",
+    "nutritionalProgressDesc": "Total accumulated vs your daily goals",
+    "recipesByMode": "Recipes by Mode",
+    "recipesByModeDesc": "Distribution of your saved recipes",
+    "noRecipesSaved": "No recipes saved yet",
+    "caloriesLast7Days": "Calories Last 7 Days",
+    "caloriesLast7DaysDesc": "Total calories from saved recipes per day"
+  },
+  "myRecipes": {
+    "badge": "My Recipes",
+    "title": "Your Saved Recipes",
+    "subtitle": "Access all the recipes you saved and prepare them whenever you want.",
+    "searchPlaceholder": "Search recipes...",
+    "all": "All",
+    "favorites": "Favorites",
+    "rated": "Rated",
+    "noRecipes": "No recipes saved yet",
+    "noRecipesDesc": "Generate AI recipes from photos of your fridge and save your favorites here.",
+    "generateRecipes": "Generate Recipes",
+    "noResults": "No recipes found",
+    "noResultsDesc": "Try searching for another term or clear the filters.",
+    "clearFilters": "Clear filters",
+    "addedToFavorites": "Added to favorites!",
+    "removedFromFavorites": "Removed from favorites",
+    "filterFavoritesHint": "You can filter your favorites in the 'Favorites' tab",
+    "ratingSaved": "Rating saved!",
+    "ratingDesc": "You gave {{count}} star to this recipe.",
+    "ratingDescPlural": "You gave {{count}} stars to this recipe.",
+    "error": "Error",
+    "favoriteError": "Could not update favorite.",
+    "ratingError": "Could not save rating."
+  },
+  "generate": {
+    "badge": "Recipe Generator",
+    "title": "Transform Your Ingredients into Recipes",
+    "subtitle": "Upload a photo of your fridge and let AI create personalized recipes.",
+    "loginPrompt": "Log in to save your recipes and access your history",
+    "freePlan": "Free Plan",
+    "monthlyPlan": "Monthly Plan",
+    "limitReached": "Limit reached",
+    "remaining": "{{remaining}} of {{total}} remaining",
+    "upgradePro": "Upgrade Pro",
+    "pantryBasics": "Consider basic pantry items?",
+    "pantryBasicsHint": "Salt, Oil, Pepper, Garlic, Onion, etc.",
+    "analyzing": "Analyzing ingredients...",
+    "generateWithAI": "Generate Recipes with AI",
+    "uploadHint": "Upload an image to start",
+    "unlimitedRecipes": "Subscribe to Pro for unlimited recipes →",
+    "tips": "💡 Tips for better results",
+    "tip1": "Photograph the open fridge with good lighting",
+    "tip2": "Include all visible ingredients",
+    "tip3": "Avoid very dark or blurry photos",
+    "savedRecipes": "Saved recipes:",
+    "ingredientsFound": "🔍 Identified ingredients",
+    "recipesFound": "Recipes Found",
+    "recipesFoundDesc": "{{count}} recipes based on your ingredients",
+    "savedLimitReached": "Saved recipes limit reached ({{limit}})",
+    "upgradeToSaveMore": "Upgrade to save more",
+    "limitReachedTitle": "Limit reached",
+    "limitReachedDesc": "You've reached the free plan recipe limit. Subscribe to Pro to continue!",
+    "modeNotAvailable": "Mode not available",
+    "modeNotAvailableDesc": "This mode is exclusive to the Pro plan. Upgrade to unlock!",
+    "savedLimitTitle": "Saved recipes limit",
+    "savedLimitDesc": "You've reached the limit of {{limit}} saved recipes. Subscribe to Pro to save more!",
+    "loginToGenerate": "Log in to generate recipes",
+    "economyMode": "Economy Mode",
+    "economyModeHint": "Prioritizes seasonal and affordable ingredients",
+    "invalidImageError": "Invalid image",
+    "invalidImageDesc": "We didn't detect any food in this photo. Please send a photo of your fridge or pantry."
+  },
+  "extraMeal": {
+    "button": "Log Extra Meal",
+    "title": "Log Extra/Outside Meal",
+    "descriptionLabel": "What did you eat?",
+    "placeholder": "E.g., I had a burger with fries",
+    "hint": "Describe the meal with as much detail as possible",
+    "estimating": "Estimating...",
+    "estimate": "Estimate Macros",
+    "consumed": "Calories consumed",
+    "remaining": "Remaining for the day:",
+    "confirm": "Confirm and Log",
+    "loggedTitle": "Meal logged!",
+    "loggedDesc": "Your daily macros have been updated.",
+    "errorTitle": "Estimation error",
+    "errorDesc": "Could not estimate macros. Please try again."
+  },
+  "shoppingList": {
+    "button": "Shopping List",
+    "title": "Shopping List",
+    "description": "Based on {{count}} recipes - {{items}} total items",
+    "hortifruti": "Produce",
+    "acougue": "Meat & Seafood",
+    "mercearia": "Grocery",
+    "empty": "No ingredients found",
+    "copy": "Copy List",
+    "copied": "Copied!",
+    "copiedDesc": "List copied to clipboard"
+  },
+  "imageUpload": {
+    "compressing": "Compressing image...",
+    "optimizing": "Optimizing for better performance",
+    "selectedImage": "Selected image",
+    "imageReady": "✓ Image ready for analysis",
+    "dropHere": "Drop the image here",
+    "uploadTitle": "Upload a photo of your fridge",
+    "dragOrClick": "Drag an image or click to select",
+    "selectPhoto": "Select Photo",
+    "formats": "Accepted formats: JPG, PNG, WEBP • Max: 10MB"
+  },
+  "mealCategory": {
+    "title": "Choose the meal",
+    "breakfast": "Breakfast",
+    "lunch": "Lunch",
+    "dinner": "Dinner",
+    "snack": "Snack"
+  },
+  "modeSelector": {
+    "title": "Choose the recipe mode",
+    "viewPro": "View Pro",
+    "faxina": {
+      "title": "Fridge Cleanup",
+      "description": "Use all available ingredients"
+    },
+    "monstro": {
+      "title": "Beast Mode",
+      "description": "Focus on protein and muscle gain"
+    },
+    "seca": {
+      "title": "Slim Down",
+      "description": "Low calorie and carbs"
+    }
+  },
+  "recipeCard": {
+    "servings": "servings",
+    "calories": "Calories",
+    "protein": "Protein",
+    "carbs": "Carbs",
+    "ingredients": "Ingredients:",
+    "more": "+{{count}} more",
+    "instructions": "Instructions:",
+    "lessDetails": "Less details",
+    "viewRecipe": "View recipe",
+    "save": "Save"
+  },
+  "healthDisclaimer": {
+    "warning": "Warning:",
+    "text": "Recipes and nutritional information are generated by Artificial Intelligence and may contain inaccuracies. Check ingredients before consuming and consult a nutritionist for specific diets."
+  },
+  "howItWorksSection": {
+    "badge": "So Easy It Feels Like Cheating",
+    "title": "From Photo to Plate in 15 Seconds",
+    "subtitle": "While you're thinking about what to make, the AI already has 3 recipes ready for you.",
+    "step1Title": "Open the Fridge and Snap",
+    "step1Desc": "No list, no hassle. Just show what you have.",
+    "step2Title": "AI Does the Magic",
+    "step2Desc": "In seconds it identifies everything and figures out the best combinations.",
+    "step3Title": "Choose Your Goal",
+    "step3Desc": "Want to slim down? Bulk up? Use everything before it spoils? You decide.",
+    "step4Title": "Cook and Eat Well",
+    "step4Desc": "Recipe ready, macros calculated, results guaranteed."
+  },
+  "testimonialsSection": {
+    "badge": "Users Love It",
+    "title": "See What People Are Saying",
+    "subtitle": "Thousands of people have already transformed their eating habits. These are some real stories.",
+    "loadMore": "Load More Testimonials"
+  },
+  "modesSection": {
+    "badge": "3 Modes, 1 Goal: You in Control",
+    "title": "What's Your Focus Right Now?",
+    "subtitle": "Whether you want to slim down, bulk up, or stop wasting food. The AI adapts recipes for you.",
+    "faxina": {
+      "title": "Fridge Cleanup",
+      "subtitle": "For those who hate wasting food",
+      "description": "Use everything in the fridge before it spoils. Save money and end waste once and for all."
+    },
+    "monstro": {
+      "title": "Beast Mode",
+      "subtitle": "For those who want to grow",
+      "description": "Protein-packed recipes to hit your muscle mass goals without wasting time thinking."
+    },
+    "seca": {
+      "title": "Slim Down",
+      "subtitle": "For those who want to get lean",
+      "description": "Low carb, few calories, lots of flavor. Recipes that accelerate your results without going hungry."
+    }
+  },
+  "howItWorksPage": {
+    "badge": "Technology",
+    "title": "How the Magic Works",
+    "subtitle": "Learn about the technology behind Cook and discover how we transform simple photos into amazing recipes.",
+    "featuresBadge": "Differentiators",
+    "featuresTitle": "Why Choose Cook?",
+    "featuresSubtitle": "Cutting-edge technology combined with nutritional expertise.",
+    "feature1Title": "Advanced Visual Recognition",
+    "feature1Desc": "Our AI can identify over 500 different ingredients in your photos.",
+    "feature2Title": "Nutritional Intelligence",
+    "feature2Desc": "Algorithms that automatically calculate macros and suggest ideal combinations.",
+    "feature3Title": "Tested Recipes",
+    "feature3Desc": "All recipes are validated by nutritionists and professional chefs.",
+    "feature4Title": "Personalized Goals",
+    "feature4Desc": "Recipes adapted to your objectives: weight loss, muscle gain, or maintenance.",
+    "feature5Title": "Total Privacy",
+    "feature5Desc": "Your photos are processed and deleted immediately. Nothing is stored.",
+    "feature6Title": "Instant Results",
+    "feature6Desc": "Analysis and recipe generation in less than 10 seconds."
+  }
+}

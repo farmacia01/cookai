@@ -1,0 +1,589 @@
+{
+  "nav": {
+    "home": "Início",
+    "generateRecipes": "Gerar Receitas",
+    "myRecipes": "Minhas Receitas",
+    "howItWorks": "Como Funciona",
+    "pricing": "Preços",
+    "faq": "FAQ",
+    "myAccount": "Minha Conta",
+    "myProfile": "Meu Perfil",
+    "dashboard": "Dashboard",
+    "myPlan": "Meu Plano",
+    "logout": "Sair",
+    "login": "Entrar",
+    "startFree": "Começar Grátis",
+    "theme": "Tema"
+  },
+  "hero": {
+    "badge": "A IA que já transformou mais de 10.000 vidas",
+    "title1": "Transforme sua geladeira",
+    "title2": "em um plano alimentar",
+    "title3": "inteligente",
+    "subtitle": "A única IA que transforma sua geladeira em receitas que realmente funcionam. Emagreça até 5kg por mês, ganhe massa muscular ou economize R$ 500+ por mês. Tudo em 15 segundos. Sem dieta maluca. Sem desperdício.",
+    "cta1": "Quero Ver Resultados Agora",
+    "cta2": "Ver Como Funciona",
+    "stats": {
+      "recipes": "Receitas criadas",
+      "time": "Em segundos",
+      "price": "Comece grátis"
+    },
+    "nextRecipe": "Sua próxima receita",
+    "dragPhoto": "Arraste uma foto ou clique para começar"
+  },
+  "modes": {
+    "faxina": {
+      "title": "Faxina na Geladeira",
+      "subtitle": "Use tudo!"
+    },
+    "monstro": {
+      "title": "Modo Monstro",
+      "subtitle": "Alta proteína"
+    },
+    "seca": {
+      "title": "Seca Barriga",
+      "subtitle": "Baixa caloria"
+    }
+  },
+  "footer": {
+    "description": "Transformando a maneira como você cozinha com inteligência artificial. Receitas personalizadas para uma vida mais saudável.",
+    "product": "Produto",
+    "support": "Suporte",
+    "helpCenter": "Central de Ajuda",
+    "contact": "Contato",
+    "terms": "Termos de Uso",
+    "copyright": "© 2024 Cook. Todos os direitos reservados."
+  },
+  "auth": {
+    "welcomeBack": "Bem-vindo de volta!",
+    "createAccount": "Crie sua conta",
+    "loginSubtitle": "Entre para acessar suas receitas personalizadas",
+    "signupSubtitle": "Comece a transformar sua alimentação com IA",
+    "fullName": "Nome completo",
+    "yourName": "Seu nome",
+    "phone": "Telefone",
+    "yourPhone": "Seu telefone",
+    "phonePlaceholder": "(00) 00000-0000",
+    "emailOrPhone": "Email ou Telefone",
+    "emailOrPhonePlaceholder": "seu@email.com ou (00) 00000-0000",
+    "email": "Email",
+    "password": "Senha",
+    "login": "Entrar",
+    "signup": "Criar Conta",
+    "loggingIn": "Entrando...",
+    "creatingAccount": "Criando conta...",
+    "noAccount": "Não tem uma conta?",
+    "hasAccount": "Já tem uma conta?",
+    "createAccountLink": "Criar conta",
+    "loginLink": "Fazer login",
+    "rememberMe": "Lembrar-me",
+    "errors": {
+      "invalidEmail": "Email inválido",
+      "invalidPhone": "Telefone inválido",
+      "passwordMin": "Senha deve ter no mínimo 8 caracteres",
+      "passwordLetter": "Senha deve conter pelo menos uma letra",
+      "passwordNumber": "Senha deve conter pelo menos um número",
+      "nameMin": "Nome deve ter no mínimo 2 caracteres",
+      "loginError": "Erro no login",
+      "wrongCredentials": "Email ou senha incorretos.",
+      "noProfile": "Conta não encontrada. Por favor, crie uma conta primeiro.",
+      "signupError": "Erro no cadastro",
+      "emailExists": "Este email já está cadastrado. Tente fazer login."
+    },
+    "success": {
+      "loginTitle": "Login realizado!",
+      "loginMessage": "Bem-vindo de volta!",
+      "signupTitle": "Conta criada!",
+      "signupMessage": "Sua conta foi criada com sucesso."
+    }
+  },
+  "cta": {
+    "badge": "100% grátis - sem cartão, sem pegadinha",
+    "title": "Junte-se a Mais de 10.000 Pessoas Que Já Mudaram de Vida",
+    "subtitle": "Elas pararam de jogar dinheiro no lixo. Estão emagrecendo de verdade. Ganhando massa muscular. Economizando R$ 300, R$ 500, até R$ 800 por mês. Tudo isso enquanto comem melhor do que nunca. Sua transformação começa agora - e é grátis pra testar.",
+    "button1": "Quero Minha Transformação Grátis",
+    "button2": "Ver Como Funciona"
+  },
+  "language": {
+    "pt": "Português",
+    "en": "English",
+    "es": "Español"
+  },
+  "faq": {
+    "title": "Perguntas Frequentes",
+    "subtitle": "Encontre respostas para as dúvidas mais comuns sobre o Cook",
+    "contact": "Entre em Contato",
+    "otherChannels": "Outros Canais",
+    "supportEmail": "Email de Suporte",
+    "businessHours": "Horário de Atendimento",
+    "businessHoursValue": "Segunda a Sexta, 9h às 18h",
+    "responseTime": "Tempo de Resposta",
+    "responseTimeValue": "Até 24 horas úteis",
+    "yourName": "Seu nome",
+    "yourEmail": "Seu email",
+    "yourMessage": "Sua mensagem",
+    "sending": "Enviando...",
+    "sendMessage": "Enviar Mensagem",
+    "messageSent": "Mensagem enviada!",
+    "messageSentDesc": "Entraremos em contato em breve.",
+    "questions": {
+      "q1": "Como funciona a geração de receitas por IA?",
+      "a1": "Nossa IA analisa a imagem da sua geladeira ou despensa, identifica os ingredientes disponíveis e gera receitas personalizadas baseadas no modo selecionado (Faxina, Monstro ou Seca).",
+      "q2": "O que é o modo Faxina na Geladeira?",
+      "a2": "O modo Faxina prioriza o uso de ingredientes que você já tem disponível, ajudando a evitar desperdício e a esvaziar a geladeira de forma criativa.",
+      "q3": "Para quem é o modo Monstro?",
+      "a3": "O modo Monstro é ideal para quem busca ganho de massa muscular, gerando receitas com alto teor de proteínas e calorias para suportar seus objetivos de hipertrofia.",
+      "q4": "Como o modo Seca Barriga me ajuda?",
+      "a4": "O modo Seca Barriga foca em receitas com baixas calorias e alto valor nutricional, perfeito para quem está em fase de definição ou quer perder peso de forma saudável.",
+      "q5": "Posso salvar minhas receitas favoritas?",
+      "a5": "Sim! Todas as receitas geradas podem ser salvas no seu perfil. Você também pode marcar receitas como favoritas e dar avaliações para encontrá-las facilmente depois.",
+      "q6": "As receitas incluem informações nutricionais?",
+      "a6": "Sim, cada receita vem com informações completas de calorias, proteínas, carboidratos e gorduras para ajudar no seu acompanhamento nutricional.",
+      "q7": "Posso definir metas nutricionais personalizadas?",
+      "a7": "Sim! No seu perfil você pode configurar suas metas diárias de calorias e macronutrientes. O dashboard mostra seu progresso em relação a essas metas.",
+      "q8": "A plataforma funciona offline?",
+      "a8": "Você pode instalar nosso app como PWA e acessar suas receitas salvas offline. A geração de novas receitas requer conexão com a internet."
+    }
+  },
+  "pricing": {
+    "badge": "Investimento que se paga sozinho",
+    "title": "Planos Que Transformam",
+    "titleHighlight": "Sua Vida e Seu Bolso",
+    "subtitle": "Economize R$ 300, R$ 500, até R$ 800 por mês em comida. Emagreça de verdade. Ganhe massa muscular. Tudo isso por menos de R$ 1 por dia. Comece grátis e veja os resultados.",
+    "activeSubscription": "Você já está aproveitando:",
+    "mostPopular": "Mais Escolhido",
+    "currentPlan": "Seu Plano Atual",
+    "hasQuestions": "Ainda com dúvidas?",
+    "checkFaq": "Dá uma olhada nas",
+    "faqLink": "perguntas frequentes",
+    "orContact": "ou manda uma mensagem pra gente.",
+    "securePayment": "Pagamento 100% seguro",
+    "cancelAnytime": "Cancele quando quiser",
+    "ptSupport": "Suporte em português do Brasil",
+    "processing": "Processando...",
+    "featuresTitle": "O Que Você Ganha Com o Cook",
+    "featuresSubtitle": "Funcionalidades que transformam sua vida e economizam seu dinheiro",
+    "plans": {
+      "free": {
+        "name": "Grátis",
+        "description": "Teste sem pagar nada - veja os resultados primeiro",
+        "price": "R$ 0",
+        "cta": "Começar Agora - É Grátis",
+        "features": [
+          "3 receitas por mês - suficiente pra ver que funciona",
+          "Modo Economia - pare de jogar dinheiro fora",
+          "Informações nutricionais completas",
+          "Salvar até 10 receitas favoritas",
+          "Veja resultados reais antes de investir"
+        ],
+        "limitations": [
+          "Modos Emagrecimento e Ganho de Massa são Pro",
+          "Sem suporte prioritário"
+        ]
+      },
+      "monthly": {
+        "name": "Mensal",
+        "description": "Resultados em 30 dias ou seu dinheiro de volta",
+        "price": "R$ 39,90",
+        "period": "/mês",
+        "pricePerDay": "R$ 1,33",
+        "cta": "Quero Resultados Agora",
+        "features": [
+          "200 receitas por mês - mais do que suficiente",
+          "Todos os 3 modos: Economia, Emagrecimento e Ganho de Massa",
+          "Metas nutricionais que você realmente atinge",
+          "Dashboard que mostra seu progresso real",
+          "Economize R$ 300+ por mês em comida",
+          "Lista de compras que economiza seu tempo e dinheiro",
+          "Salvar receitas ilimitadas",
+          "Suporte prioritário quando precisar"
+        ]
+      },
+      "quarterly": {
+        "name": "Trimestral",
+        "description": "3 meses = resultados que você vê na balança e no espelho",
+        "price": "R$ 29,90",
+        "period": "/mês",
+        "totalPrice": "R$ 89,70",
+        "installments": "3x de",
+        "savings": "Economize R$ 30,00",
+        "pricePerDay": "R$ 0,99",
+        "cta": "Quero Transformação Agora",
+        "popular": true,
+        "features": [
+          "Tudo do plano Mensal - sem limites, sem restrições",
+          "3 meses de transformação garantida",
+          "Economize R$ 30,00 + R$ 900+ em comida = R$ 930+ no seu bolso",
+          "Tempo suficiente pra ver resultados reais na balança",
+          "Melhor investimento - menos de R$ 1 por dia",
+          "Suporte prioritário quando precisar"
+        ]
+      },
+      "annual": {
+        "name": "Anual",
+        "description": "Pague 6 meses, leve 12. Economize R$ 240 + R$ 3.600+ em comida",
+        "price": "R$ 19,90",
+        "period": "/mês",
+        "totalPrice": "R$ 238,80",
+        "installments": "12x de",
+        "savings": "50% de desconto + economia real",
+        "pricePerDay": "R$ 0,66",
+        "originalPrice": "R$ 478,80",
+        "cta": "Quero Máxima Economia",
+        "features": [
+          "Tudo do plano Trimestral - sem limites, sem restrições",
+          "50% de desconto real - pague menos, ganhe mais",
+          "Pague 6 meses e leve 12 - 2 meses grátis",
+          "Economize R$ 240 no plano + R$ 3.600+ em comida = R$ 3.840+ no seu bolso",
+          "Acesso antecipado a todas as novidades",
+          "Badge exclusivo de membro anual",
+          "Prioridade máxima no suporte",
+          "Transformação garantida por 1 ano inteiro"
+        ]
+      }
+    },
+    "comparison": {
+      "title": "Compare: R$ 250 por consulta vs R$ 0,66 por dia",
+      "nutritionist": "Plano Alimentar Tradicional: R$ 250,00 por consulta",
+      "nutriai": "Cook: {{price}} por dia (no plano {{plan}})",
+      "subtitle": "Acesso ilimitado a receitas personalizadas 24/7 por menos de R$ 1 por dia. Economize R$ 250+ por mês e veja resultados reais."
+    },
+    "guarantee": {
+      "text": "7 Dias de Garantia ou seu dinheiro de volta",
+      "description": "Teste sem risco. Se não gostar, devolvemos 100% do seu dinheiro."
+    },
+    "features": {
+      "title": "Funcionalidades que você vai amar",
+      "subtitle": "Tudo que você precisa pra transformar sua cozinha",
+      "feature1": {
+        "title": "Análise Inteligente de Imagens",
+        "description": "Tire uma foto da sua geladeira e nossa IA identifica todos os ingredientes automaticamente. Sem precisar digitar nada!"
+      },
+      "feature2": {
+        "title": "3 Modos de Receitas",
+        "description": "Faxina (use tudo), Monstro (alta proteína) ou Seca (baixa caloria). Escolha o que combina com seu objetivo."
+      },
+      "feature3": {
+        "title": "Metas Nutricionais Personalizadas",
+        "description": "Configure suas metas de calorias, proteínas, carboidratos e gorduras. Acompanhe tudo no dashboard."
+      },
+      "feature4": {
+        "title": "Lista de Compras Automática",
+        "description": "Gere listas de compras baseadas nas receitas que você escolheu. Organize suas compras sem esforço."
+      },
+      "feature5": {
+        "title": "Rastreamento de Refeições",
+        "description": "Registre refeições extras e veja quanto ainda pode consumir no dia. Controle total sobre sua alimentação."
+      }
+    }
+  },
+  "profile": {
+    "title": "Meu Perfil",
+    "user": "Usuário",
+    "personalInfo": "Informações Pessoais",
+    "fullName": "Nome Completo",
+    "fullNamePlaceholder": "Seu nome completo",
+    "email": "Email",
+    "dietaryRestrictions": "Restrições Alimentares",
+    "dietaryRestrictionsDesc": "Selecione suas restrições para receitas personalizadas",
+    "nutritionalGoals": "Metas Nutricionais Diárias",
+    "nutritionalGoalsDesc": "Configure suas metas para acompanhar seu progresso no dashboard",
+    "calories": "Calorias",
+    "protein": "Proteínas",
+    "carbs": "Carboidratos",
+    "fat": "Gorduras",
+    "saveChanges": "Salvar Alterações",
+    "saving": "Salvando...",
+    "profileUpdated": "Perfil atualizado!",
+    "profileUpdatedDesc": "Suas metas nutricionais e restrições foram salvas com sucesso.",
+    "saveError": "Erro ao salvar",
+    "saveErrorDesc": "Não foi possível salvar suas alterações.",
+    "dietary": {
+      "vegan": "Vegano",
+      "vegetarian": "Vegetariano",
+      "glutenFree": "Sem Glúten",
+      "lactoseFree": "Sem Lactose",
+      "peanutAllergy": "Alergia a Amendoim",
+      "seafoodAllergy": "Alergia a Frutos do Mar"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Acompanhe seu progresso nutricional e estatísticas",
+    "savedRecipes": "Receitas Salvas",
+    "favorites": "Favoritas",
+    "avgRating": "Avaliação Média",
+    "totalCalories": "Total Calorias",
+    "nutritionalProgress": "Progresso Nutricional",
+    "nutritionalProgressDesc": "Total acumulado vs suas metas diárias",
+    "recipesByMode": "Receitas por Modo",
+    "recipesByModeDesc": "Distribuição das suas receitas salvas",
+    "noRecipesSaved": "Nenhuma receita salva ainda",
+    "caloriesLast7Days": "Calorias nos Últimos 7 Dias",
+    "caloriesLast7DaysDesc": "Total de calorias das receitas salvas por dia"
+  },
+  "myRecipes": {
+    "badge": "Minhas Receitas",
+    "title": "Suas Receitas Salvas",
+    "subtitle": "Acesse todas as receitas que você salvou e prepare quando quiser.",
+    "searchPlaceholder": "Buscar receitas...",
+    "all": "Todas",
+    "favorites": "Favoritas",
+    "rated": "Avaliadas",
+    "noRecipes": "Nenhuma receita salva ainda",
+    "noRecipesDesc": "Gere receitas com IA a partir de fotos da sua geladeira e salve suas favoritas aqui.",
+    "generateRecipes": "Gerar Receitas",
+    "noResults": "Nenhuma receita encontrada",
+    "noResultsDesc": "Tente buscar por outro termo ou limpar os filtros.",
+    "clearFilters": "Limpar filtros",
+    "addedToFavorites": "Adicionada aos favoritos!",
+    "removedFromFavorites": "Removida dos favoritos",
+    "filterFavoritesHint": "Você pode filtrar suas favoritas na aba 'Favoritas'",
+    "ratingSaved": "Avaliação salva!",
+    "ratingDesc": "Você deu {{count}} estrela para esta receita.",
+    "ratingDescPlural": "Você deu {{count}} estrelas para esta receita.",
+    "error": "Erro",
+    "favoriteError": "Não foi possível atualizar o favorito.",
+    "ratingError": "Não foi possível salvar a avaliação."
+  },
+  "generate": {
+    "badge": "Gerador de Receitas",
+    "title": "Transforme seus Ingredientes em Receitas",
+    "subtitle": "Envie uma foto da sua geladeira e deixe a IA criar receitas personalizadas.",
+    "loginPrompt": "Faça login para salvar suas receitas e acessar seu histórico",
+    "freePlan": "Plano Grátis",
+    "monthlyPlan": "Plano Mensal",
+    "limitReached": "Limite atingido",
+    "remaining": "{{remaining}} de {{total}} restantes",
+    "upgradePro": "Upgrade Pro",
+    "pantryBasics": "Considerar itens básicos de despensa?",
+    "pantryBasicsHint": "Sal, Óleo, Pimenta, Alho, Cebola, etc.",
+    "analyzing": "Analisando ingredientes...",
+    "generateWithAI": "Gerar Receitas com IA",
+    "uploadHint": "Envie uma imagem para começar",
+    "unlimitedRecipes": "Assine o Pro para receitas ilimitadas →",
+    "tips": "💡 Dicas para melhores resultados",
+    "tip1": "Fotografe a geladeira aberta com boa iluminação",
+    "tip2": "Inclua todos os ingredientes visíveis",
+    "tip3": "Evite fotos muito escuras ou desfocadas",
+    "savedRecipes": "Receitas salvas:",
+    "ingredientsFound": "🔍 Ingredientes identificados",
+    "recipesFound": "Receitas Encontradas",
+    "recipesFoundDesc": "{{count}} receitas baseadas nos seus ingredientes",
+    "savedLimitReached": "Limite de receitas salvas atingido ({{limit}})",
+    "upgradeToSaveMore": "Upgrade para salvar mais",
+    "limitReachedTitle": "Limite atingido",
+    "limitReachedDesc": "Você atingiu o limite de receitas do plano grátis. Assine o Pro para continuar!",
+    "modeNotAvailable": "Modo não disponível",
+    "modeNotAvailableDesc": "Este modo é exclusivo do plano Pro. Faça upgrade para desbloquear!",
+    "savedLimitTitle": "Limite de receitas salvas",
+    "savedLimitDesc": "Você atingiu o limite de {{limit}} receitas salvas. Assine o Pro para salvar mais!",
+    "loginToGenerate": "Faça login para gerar receitas",
+    "economyMode": "Modo Economia",
+    "economyModeHint": "Prioriza ingredientes da estação e mais baratos",
+    "invalidImageError": "Imagem inválida",
+    "invalidImageDesc": "Não detectamos alimentos nesta foto. Por favor, envie uma foto da sua geladeira ou despensa."
+  },
+  "extraMeal": {
+    "button": "Registrar Refeição Extra",
+    "title": "Registrar Refeição Fora/Extra",
+    "descriptionLabel": "O que você comeu?",
+    "placeholder": "Ex: Comi um X-Burger com batata frita",
+    "hint": "Descreva a refeição com o máximo de detalhes possível",
+    "estimating": "Estimando...",
+    "estimate": "Estimar Macros",
+    "consumed": "Calorias consumidas",
+    "remaining": "Restante para o dia:",
+    "confirm": "Confirmar e Registrar",
+    "loggedTitle": "Refeição registrada!",
+    "loggedDesc": "Seus macros do dia foram atualizados.",
+    "errorTitle": "Erro ao estimar",
+    "errorDesc": "Não foi possível estimar os macros. Tente novamente."
+  },
+  "shoppingList": {
+    "button": "Lista de Compras",
+    "title": "Lista de Compras",
+    "description": "Baseado em {{count}} receitas - {{items}} itens no total",
+    "hortifruti": "Hortifruti",
+    "acougue": "Açougue",
+    "mercearia": "Mercearia",
+    "empty": "Nenhum ingrediente encontrado",
+    "copy": "Copiar Lista",
+    "copied": "Copiado!",
+    "copiedDesc": "Lista copiada para a área de transferência"
+  },
+  "imageUpload": {
+    "compressing": "Comprimindo imagem...",
+    "optimizing": "Otimizando para melhor performance",
+    "selectedImage": "Imagem selecionada",
+    "imageReady": "✓ Imagem pronta para análise",
+    "dropHere": "Solte a imagem aqui",
+    "uploadTitle": "Envie uma foto da sua geladeira",
+    "dragOrClick": "Arraste uma imagem ou clique para selecionar",
+    "selectPhoto": "Selecionar Foto",
+    "formats": "Formatos aceitos: JPG, PNG, WEBP • Máximo: 10MB"
+  },
+  "mealCategory": {
+    "title": "Escolha a refeição",
+    "breakfast": "Café da Manhã",
+    "lunch": "Almoço",
+    "dinner": "Jantar",
+    "snack": "Lanche"
+  },
+  "modeSelector": {
+    "title": "Escolha o modo da receita",
+    "viewPro": "Ver Pro",
+    "faxina": {
+      "title": "Faxina na Geladeira",
+      "description": "Use todos os ingredientes disponíveis"
+    },
+    "monstro": {
+      "title": "Modo Monstro",
+      "description": "Foco em proteína e ganho muscular"
+    },
+    "seca": {
+      "title": "Seca Barriga",
+      "description": "Baixa caloria e carboidrato"
+    }
+  },
+  "recipeCard": {
+    "servings": "porções",
+    "calories": "Calorias",
+    "protein": "Proteína",
+    "carbs": "Carbos",
+    "ingredients": "Ingredientes:",
+    "more": "+{{count}} mais",
+    "instructions": "Modo de preparo:",
+    "lessDetails": "Menos detalhes",
+    "viewRecipe": "Ver receita",
+    "save": "Salvar"
+  },
+  "healthDisclaimer": {
+    "warning": "Aviso:",
+    "text": "As receitas e informações nutricionais são geradas por Inteligência Artificial e podem conter imprecisões. Verifique os ingredientes antes de consumir e consulte um nutricionista para dietas específicas."
+  },
+  "howItWorksSection": {
+    "badge": "Tão Simples Que Parece Mágica - Mas É Real",
+    "title": "3 Passos. 15 Segundos. Resultados Que Você Vê na Balança.",
+    "subtitle": "Enquanto você ainda está pensando 'o que vou fazer hoje?', nossa IA já entregou 3 receitas que vão te fazer emagrecer, ganhar massa ou economizar centenas de reais. É assim que você transforma sua vida.",
+    "step1Title": "1. Fotografe Sua Geladeira (5 segundos)",
+    "step1Desc": "Não precisa listar nada. Não precisa saber o nome dos ingredientes. Só abrir, fotografar e pronto. A IA vê e entende tudo automaticamente.",
+    "step2Title": "2. IA Cria Suas Receitas (10 segundos)",
+    "step2Desc": "Nossa inteligência artificial identifica cada ingrediente e cria combinações perfeitas pra seus objetivos. Você nem precisa pensar - a IA faz tudo.",
+    "step3Title": "3. Escolha e Ganhe Resultados",
+    "step3Desc": "Quer emagrecer? Ganhar massa? Economizar? A IA adapta tudo pro seu objetivo. Você escolhe e ganha resultados reais, não promessas vazias.",
+    "step4Title": "4. Cozinhe e Transforme Sua Vida",
+    "step4Desc": "Receita pronta, macros calculados, economia garantida. Siga, cozinhe e veja a diferença na balança, no espelho e na sua conta bancária."
+  },
+  "testimonialsSection": {
+    "badge": "Histórias Reais de Transformação",
+    "title": "Veja Quem Já Mudou de Vida",
+    "subtitle": "Mais de 10.000 pessoas já pararam de desperdiçar dinheiro e começaram a ver resultados reais. Elas emagreceram. Ganharam massa. Economizaram centenas de reais. Essas são histórias verdadeiras de quem usa e ganha todo dia.",
+    "loadMore": "Ver Mais Histórias de Sucesso"
+  },
+  "modesSection": {
+    "badge": "3 Modos. Resultados Comprovados. Você Escolhe Seu Objetivo.",
+    "title": "Qual Transformação Você Quer Agora?",
+    "subtitle": "Não importa seu objetivo: emagrecer de verdade, ganhar massa muscular ou economizar centenas de reais. A IA entrega receitas que realmente funcionam e te fazem ver resultados na balança, no espelho e na conta bancária.",
+    "faxina": {
+      "title": "Economia Que Você Vê na Conta",
+      "subtitle": "Pare de jogar R$ 300, R$ 500, até R$ 800 por mês no lixo",
+      "description": "Use tudo antes de estragar e economize centenas de reais por mês. Receitas criativas que transformam sobras em refeições incríveis. É dinheiro que volta pro seu bolso todo mês."
+    },
+    "monstro": {
+      "title": "Ganho de Massa Real",
+      "subtitle": "Cresça mais rápido com receitas que realmente funcionam",
+      "description": "Receitas com alta proteína e calorias estratégicas. Bata suas metas de massa muscular sem comer a mesma coisa todo dia. Variedade + resultados = transformação garantida."
+    },
+    "seca": {
+      "title": "Emagrecimento Que Funciona",
+      "subtitle": "Perda de peso real sem passar fome ou fazer dieta maluca",
+      "description": "Low carb, baixa caloria, máximo sabor. Receitas que aceleram seu metabolismo e queimam gordura sem você sentir fome. Emagreça de verdade, sem sofrimento."
+    }
+  },
+  "featuresSection": {
+    "badge": "Ferramentas Que Te Fazem Ver Resultados Reais",
+    "title": "Tudo Que Você Precisa Pra Transformar Sua Vida",
+    "subtitle": "Não é só receitas. É um sistema completo que transforma sua alimentação, seu corpo, sua conta bancária e sua vida. Resultados que você vê, sente e mede.",
+    "feature1": {
+      "title": "IA Que Vê e Entende Tudo - Sem Você Fazer Nada",
+      "description": "Fotografe sua geladeira e nossa IA identifica automaticamente todos os ingredientes. Zero digitação, zero complicação, zero trabalho. Você só fotografa e ganha receitas que funcionam."
+    },
+    "feature2": {
+      "title": "Metas Que Você Realmente Atinge - Com Resultados Visíveis",
+      "description": "Configure suas metas nutricionais e veja seu progresso em tempo real. Dashboard completo que mostra exatamente onde você está, quanto falta e o que você já conquistou. Resultados que você vê na balança e no espelho."
+    },
+    "feature3": {
+      "title": "Economia Automática Que Você Vê na Conta",
+      "description": "Lista de compras inteligente baseada nas receitas que você escolheu. Compre só o necessário, economize R$ 300, R$ 500, até R$ 800 por mês e nunca mais esqueça ingredientes. É dinheiro que volta pro seu bolso."
+    },
+    "feature4": {
+      "title": "Controle Total Sem Esforço - Sem Surpresas",
+      "description": "Veja instantaneamente quanto ainda pode consumir no dia. Controle total sobre sua alimentação, sem surpresas desagradáveis. Você sabe exatamente onde está e para onde vai."
+    },
+    "feature6": {
+      "title": "Resultados Visíveis Que Você Vê Todo Dia",
+      "description": "Dashboard completo que mostra seu progresso nutricional, estatísticas semanais e quanto você está perto das suas metas. Tudo visual, tudo claro, tudo mostrando que você está no caminho certo."
+    }
+  },
+  "howItWorksPage": {
+    "badge": "Tecnologia",
+    "title": "Como Funciona a Mágica",
+    "subtitle": "Conheça a tecnologia por trás do Cook e descubra como transformamos fotos simples em receitas incríveis.",
+    "featuresBadge": "Diferenciais",
+    "featuresTitle": "Por Que Escolher o Cook?",
+    "featuresSubtitle": "Tecnologia de ponta combinada com expertise nutricional.",
+    "feature1Title": "Reconhecimento Visual Avançado",
+    "feature1Desc": "Nossa IA consegue identificar mais de 500 ingredientes diferentes em suas fotos.",
+    "feature2Title": "Inteligência Nutricional",
+    "feature2Desc": "Algoritmos que calculam automaticamente macros e sugerem combinações ideais.",
+    "feature3Title": "Receitas Testadas",
+    "feature3Desc": "Todas as receitas são validadas por nutricionistas e chefs profissionais.",
+    "feature4Title": "Metas Personalizadas",
+    "feature4Desc": "Receitas adaptadas aos seus objetivos: perda de peso, ganho muscular ou manutenção.",
+    "feature5Title": "Privacidade Total",
+    "feature5Desc": "Suas fotos são processadas e excluídas imediatamente. Nada é armazenado.",
+    "feature6Title": "Resultados Instantâneos",
+    "feature6Desc": "Análise e geração de receitas em menos de 10 segundos."
+  },
+  "cakto": {
+    "verifying": {
+      "title": "Verificando pagamento...",
+      "description": "Aguarde enquanto confirmamos seu pagamento."
+    },
+    "success": {
+      "title": "Pagamento confirmado!",
+      "description": "Sua assinatura foi ativada com sucesso. Redirecionando..."
+    },
+    "error": {
+      "title": "Erro ao verificar pagamento",
+      "description": "Não foi possível verificar seu pagamento. Entre em contato com o suporte se o problema persistir."
+    },
+    "goToDashboard": "Ir para Dashboard",
+    "backToPricing": "Voltar aos Planos"
+  },
+  "subscription": {
+    "title": "Status da Assinatura",
+    "description": "Informações sobre seu plano ativo",
+    "active": "Ativo",
+    "inactive": "Inativo",
+    "noPlan": "Nenhum plano ativo",
+    "freePlan": "Você está usando o plano gratuito",
+    "refresh": "Verificar Pagamento",
+    "refreshing": "Verificando...",
+    "refreshed": "Assinatura atualizada",
+    "refreshedDesc": "Os dados da sua assinatura foram atualizados.",
+    "refreshError": "Erro ao atualizar",
+    "refreshErrorDesc": "Não foi possível atualizar a assinatura. Tente novamente.",
+    "credits": "Créditos Disponíveis",
+    "validUntil": "Válido até",
+    "indefinite": "Indefinido",
+    "orderId": "ID do Pedido",
+    "viewPlans": "Ver Planos",
+    "planNames": {
+      "Mensal": "Plano Mensal",
+      "Trimestral": "Plano Trimestral",
+      "Anual": "Plano Anual"
+    }
+  }
+}
