@@ -116,6 +116,20 @@ serve(async (req) => {
             }
 
             console.log(`Subscription activated: user=${userId}, plan=${plan.name}, credits=${credits}`);
+
+            // Award referral points if this user was referred by someone
+            // The award_referral_points function will safely do nothing if there's no pending referral
+            const { error: referralError } = await supabase.rpc('award_referral_points', {
+                p_referred_user_id: userId
+            });
+
+            if (referralError) {
+                console.error("Error awarding referral points:", referralError);
+                // We don't fail the webhook if referral points fail, as the subscription is already active
+            } else {
+                console.log(`Referral points checked/awarded for user=${userId}`);
+            }
+
         } else {
             console.log(`Event "${event}" / status "${status}" — no action taken`);
         }
