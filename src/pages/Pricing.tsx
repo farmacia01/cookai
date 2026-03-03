@@ -16,10 +16,12 @@ import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { PixQrCodeModal } from "@/components/PixQrCodeModal";
 
-// Preços dos planos em reais (ajuste conforme necessário)
+// Preços dos planos em reais
+// NOTA: S6X limita a R$150 por transação. Anual (R$238,80) excede o limite,
+// por isso usamos R$149,90 até resolver com split ou parcelamento.
 const PLAN_PRICES: Record<string, number> = {
-  monthly: 29.90,
-  quarterly: 69.90,
+  monthly: 39.90,
+  quarterly: 89.70,
   annual: 149.90,
 };
 
