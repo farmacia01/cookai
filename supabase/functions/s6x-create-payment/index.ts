@@ -13,18 +13,49 @@ serve(async (req) => {
     }
 
     try {
+        console.log("=== S6X CREATE PAYMENT START ===");
+
         const S6X_CLIENT_ID = Deno.env.get("S6X_CLIENT_ID");
         const S6X_CLIENT_SECRET = Deno.env.get("S6X_CLIENT_SECRET");
 
+        console.log("Credentials loaded:", !!S6X_CLIENT_ID, !!S6X_CLIENT_SECRET);
+
         if (!S6X_CLIENT_ID || !S6X_CLIENT_SECRET) {
-            throw new Error("Credenciais S6X não configuradas no servidor.");
+            console.error("Missing S6X credentials");
+            return new Response(
+                JSON.stringify({ error: "Credenciais S6X não configuradas no servidor." }),
+                { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+            );
         }
 
-        const { user_id, plan_id, customer_name, customer_document, customer_email, amount } = await req.json();
+        const rawBody = await req.text();
+        console.log("Raw body received:", rawBody);
+
+        let body;
+        try {
+            body = JSON.parse(rawBody);
+        } catch (e) {
+            console.error("JSON parse error:", e);
+            return new Response(
+                JSON.stringify({ error: "Body inválido - JSON esperado" }),
+                { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+            );
+        }
+
+        const { user_id, plan_id, customer_name, customer_document, customer_email, amount } = body;
+
+        console.log("Parsed fields:", { user_id, plan_id, customer_name, customer_document: customer_document ? "***" : null, customer_email, amount });
 
         if (!user_id || !plan_id || !customer_name || !customer_document || !amount) {
+            const missing = [];
+            if (!user_id) missing.push("user_id");
+            if (!plan_id) missing.push("plan_id");
+            if (!customer_name) missing.push("customer_name");
+            if (!customer_document) missing.push("customer_document");
+            if (!amount) missing.push("amount");
+            console.error("Missing required fields:", missing);
             return new Response(
-                JSON.stringify({ error: "Campos obrigatórios: user_id, plan_id, customer_name, customer_document, amount" }),
+                JSON.stringify({ error: `Campos obrigatórios faltando: ${missing.join(", ")}` }),
                 { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
             );
         }
@@ -40,7 +71,7 @@ serve(async (req) => {
             amount: Number(amount),
             customer: {
                 name: customer_name,
-                document: customer_document.replace(/\D/g, ""),
+                document: String(customer_document).replace(/\D/g, ""),
                 email: customer_email || undefined,
             },
             description: `Assinatura ${planNames[plan_id] || plan_id}`,
@@ -56,7 +87,7 @@ serve(async (req) => {
             },
         };
 
-        console.log("Creating S6X payment:", JSON.stringify(payload));
+        console.log("Sending to S6X:", JSON.stringify(payload));
 
         const response = await fetch(`${S6X_BASE_URL}/payments`, {
             method: "POST",
@@ -68,15 +99,30 @@ serve(async (req) => {
             body: JSON.stringify(payload),
         });
 
-        const data = await response.json();
+        const responseText = await response.text();
+        console.log("S6X response status:", response.status);
+        console.log("S6X response body:", responseText);
+
+        let data;
+        try {
+            data = JSON.parse(responseText);
+        } catch {
+            console.error("Failed to parse S6X response as JSON");
+            return new Response(
+                JSON.stringify({ error: "Resposta inválida do gateway", raw: responseText }),
+                { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+            );
+        }
 
         if (!response.ok || !data.success) {
             console.error("S6X API error:", JSON.stringify(data));
             return new Response(
                 JSON.stringify({ error: data.message || "Erro ao gerar cobrança PIX", details: data }),
-                { status: response.status, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+                { status: response.status || 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
             );
         }
+
+        console.log("Payment created successfully:", data.data?.transaction_id);
 
         // Return only what the frontend needs
         return new Response(
@@ -96,9 +142,9 @@ serve(async (req) => {
             { headers: { ...corsHeaders, "Content-Type": "application/json" } }
         );
     } catch (error) {
-        console.error("Edge function error:", error);
+        console.error("Unhandled error:", error?.message || error);
         return new Response(
-            JSON.stringify({ error: error.message || "Erro interno" }),
+            JSON.stringify({ error: error?.message || "Erro interno" }),
             { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
         );
     }
