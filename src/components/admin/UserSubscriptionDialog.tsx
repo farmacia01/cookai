@@ -44,8 +44,6 @@ interface Subscription {
   current_period_start: string | null;
   current_period_end: string | null;
   auto_renew: boolean | null;
-  cakto_order_id?: string | null;
-  cakto_offer_id?: string | null;
 }
 
 interface UserSubscriptionDialogProps {
@@ -122,7 +120,7 @@ export function UserSubscriptionDialog({
         ? new Date(subscription.current_period_start).toISOString().split("T")[0]
         : new Date().toISOString().split("T")[0];
       setPeriodStart(startDate);
-      
+
       // Se não tem data de término ou se precisa recalcular baseado no plano atual
       const planMonths = PLAN_OPTIONS.find(p => p.id === subscription.product_id)?.billingCycleMonths || 1;
       if (subscription.current_period_end) {
@@ -157,10 +155,10 @@ export function UserSubscriptionDialog({
       const endDate = periodEnd
         ? new Date(periodEnd)
         : (() => {
-            const date = new Date(startDate);
-            date.setMonth(date.getMonth() + billingCycleMonths);
-            return date;
-          })();
+          const date = new Date(startDate);
+          date.setMonth(date.getMonth() + billingCycleMonths);
+          return date;
+        })();
 
       const productName = selectedPlan.name;
       const credits = calculateCredits(billingCycleMonths);
@@ -169,8 +167,8 @@ export function UserSubscriptionDialog({
         // Update existing subscription
         const { error } = await supabase.rpc("upsert_subscription", {
           p_user_id: userId,
-          p_cakto_order_id: subscription.cakto_order_id || `admin-${Date.now()}`,
-          p_cakto_offer_id: subscription.cakto_offer_id || null,
+          p_cakto_order_id: `admin-${Date.now()}`,
+          p_cakto_offer_id: null,
           p_product_id: productId,
           p_product_name: productName,
           p_status: status,
@@ -238,7 +236,7 @@ export function UserSubscriptionDialog({
       // Deactivate subscription instead of deleting
       const { error } = await supabase.rpc("upsert_subscription", {
         p_user_id: userId,
-        p_cakto_order_id: subscription.cakto_order_id || `admin-${Date.now()}`,
+        p_cakto_order_id: `admin-${Date.now()}`,
         p_status: "inactive",
         p_credits: 0,
         p_auto_renew: false,
@@ -316,8 +314,8 @@ export function UserSubscriptionDialog({
               {/* Plan Selection */}
               <div className="space-y-2">
                 <Label htmlFor="plan">Plano</Label>
-                <Select 
-                  value={productId} 
+                <Select
+                  value={productId}
                   onValueChange={(value) => {
                     setProductId(value);
                     // Recalcula data de término quando mudar o plano (só para novas assinaturas)

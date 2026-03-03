@@ -14,7 +14,6 @@ import FAQ from "./pages/FAQ";
 import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
 import Pricing from "./pages/Pricing";
-import CaktoSuccess from "./pages/CaktoSuccess";
 import Admin from "./pages/Admin";
 import Affiliates from "./pages/Affiliates";
 import NotFound from "./pages/NotFound";
@@ -39,7 +38,6 @@ const App = () => (
               <Route path="/perfil" element={<Profile />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/precos" element={<Pricing />} />
-              <Route path="/cakto-success" element={<CaktoSuccess />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="/afiliado" element={<Affiliates />} />
               <Route path="*" element={<NotFound />} />

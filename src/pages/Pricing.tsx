@@ -6,19 +6,27 @@ import MobileBottomNav from "@/components/layout/MobileBottomNav";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import { Check, Sparkles, Zap, Crown, Loader2 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useSubscription } from "@/hooks/useSubscription";
 import { useTranslation } from "react-i18next";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { PixQrCodeModal } from "@/components/PixQrCodeModal";
 
-// Mapeamento de planos para links de checkout diretos da Cakto
-// Links obtidos do Painel Cakto (aba "Links")
-const PLAN_TO_CHECKOUT_URL: Record<string, string> = {
-  monthly: import.meta.env.VITE_CAKTO_CHECKOUT_MONTHLY || '',
-  quarterly: import.meta.env.VITE_CAKTO_CHECKOUT_QUARTERLY || '',
-  annual: import.meta.env.VITE_CAKTO_CHECKOUT_ANNUAL || '',
+// Preços dos planos em reais (ajuste conforme necessário)
+const PLAN_PRICES: Record<string, number> = {
+  monthly: 29.90,
+  quarterly: 69.90,
+  annual: 149.90,
+};
+
+const PLAN_LABELS: Record<string, string> = {
+  monthly: "CookAI Pro - Mensal",
+  quarterly: "CookAI Pro - Trimestral",
+  annual: "CookAI Pro - Anual",
 };
 
 const Pricing = () => {
@@ -28,6 +36,22 @@ const Pricing = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loadingPlanId, setLoadingPlanId] = useState<string | null>(null);
+
+  // S6X PIX state
+  const [pixModalOpen, setPixModalOpen] = useState(false);
+  const [pixData, setPixData] = useState<{
+    qr_code_base64: string;
+    copy_paste: string;
+    transaction_id: string;
+    amount: number;
+    expires_at: string;
+  } | null>(null);
+  const [pixPlanName, setPixPlanName] = useState("");
+
+  // CPF dialog state
+  const [showCpfDialog, setShowCpfDialog] = useState(false);
+  const [cpfInput, setCpfInput] = useState("");
+  const [pendingPlanId, setPendingPlanId] = useState<string | null>(null);
 
   const plans = [
     {
@@ -101,43 +125,65 @@ const Pricing = () => {
     }
 
     if (planId === 'free') {
-      navigate('/auth');
+      navigate('/gerar-receitas');
       return;
     }
 
-    setLoadingPlanId(planId);
+    // Ask for CPF before proceeding
+    setPendingPlanId(planId);
+    setShowCpfDialog(true);
+  };
+
+  const handleCpfSubmit = async () => {
+    if (!pendingPlanId || !user) return;
+
+    const cleanCpf = cpfInput.replace(/\D/g, "");
+    if (cleanCpf.length < 11) {
+      toast({ title: "CPF inválido", description: "Informe um CPF válido com 11 dígitos.", variant: "destructive" });
+      return;
+    }
+
+    setShowCpfDialog(false);
+    setLoadingPlanId(pendingPlanId);
 
     try {
-      // Get checkout URL for the plan
-      const checkoutUrl = PLAN_TO_CHECKOUT_URL[planId];
+      const amount = PLAN_PRICES[pendingPlanId];
+      if (!amount) throw new Error("Plano não encontrado");
 
-      if (!checkoutUrl || checkoutUrl.trim() === '') {
-        throw new Error(`Link de checkout não configurado para o plano ${planId}. Configure VITE_CAKTO_CHECKOUT_${planId.toUpperCase()} nas variáveis de ambiente.`);
-      }
-
-      // Build checkout URL with metadata as query parameters
-      // The webhook will use these to identify the user and plan
-      const url = new URL(checkoutUrl);
-      url.searchParams.set('user_id', user.id);
-      url.searchParams.set('plan_id', planId);
-      url.searchParams.set('email', user.email || '');
-
-      // Redirect to Cakto checkout
-      window.location.href = url.toString();
-    } catch (error) {
-      console.error('Error redirecting to Cakto checkout:', error);
-      let errorMessage = 'Tente novamente mais tarde.';
-
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      }
-
-      toast({
-        title: 'Erro ao acessar checkout',
-        description: errorMessage,
-        variant: 'destructive',
+      const { data, error } = await supabase.functions.invoke("s6x-create-payment", {
+        body: {
+          user_id: user.id,
+          plan_id: pendingPlanId,
+          customer_name: user.user_metadata?.full_name || user.email?.split("@")[0] || "Cliente",
+          customer_document: cleanCpf,
+          customer_email: user.email,
+          amount,
+        },
       });
+
+      if (error) throw error;
+      if (!data?.success) throw new Error(data?.error || "Erro ao gerar cobrança");
+
+      setPixData({
+        qr_code_base64: data.pix.qr_code_base64,
+        copy_paste: data.pix.copy_paste,
+        transaction_id: data.transaction_id,
+        amount: data.amount,
+        expires_at: data.expires_at,
+      });
+      setPixPlanName(PLAN_LABELS[pendingPlanId] || "CookAI Pro");
+      setPixModalOpen(true);
+    } catch (error) {
+      console.error("Erro ao criar pagamento S6X:", error);
+      toast({
+        title: "Erro ao gerar PIX",
+        description: error instanceof Error ? error.message : "Tente novamente mais tarde.",
+        variant: "destructive",
+      });
+    } finally {
       setLoadingPlanId(null);
+      setPendingPlanId(null);
+      setCpfInput("");
     }
   };
 
@@ -372,6 +418,40 @@ const Pricing = () => {
         <Footer />
         <MobileBottomNav />
       </div>
+
+      {/* PIX QR Code Modal */}
+      <PixQrCodeModal
+        isOpen={pixModalOpen}
+        onClose={() => setPixModalOpen(false)}
+        pixData={pixData}
+        planName={pixPlanName}
+      />
+
+      {/* CPF Dialog */}
+      {showCpfDialog && (
+        <div className="fixed inset-0 z-[90] flex items-end md:items-center justify-center">
+          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => { setShowCpfDialog(false); setPendingPlanId(null); }} />
+          <div className="relative w-full max-w-[400px] bg-[#131514] md:rounded-[28px] rounded-t-[28px] border-t border-x border-[#2a2a2a] md:border p-6 pb-10 md:pb-6 animate-fade-up z-10">
+            <div className="w-12 h-1 bg-[#333] rounded-full mx-auto mb-6 md:hidden" />
+            <h3 className="text-lg font-bold text-white text-center mb-2">Informe seu CPF</h3>
+            <p className="text-sm text-[#888] text-center mb-5">Necessário para gerar o pagamento PIX</p>
+            <Input
+              placeholder="000.000.000-00"
+              value={cpfInput}
+              onChange={(e) => {
+                const v = e.target.value.replace(/\D/g, "").slice(0, 11);
+                const formatted = v.replace(/(\d{3})(\d{3})(\d{3})(\d{0,2})/, (_, a, b, c, d) => d ? `${a}.${b}.${c}-${d}` : c ? `${a}.${b}.${c}` : b ? `${a}.${b}` : a);
+                setCpfInput(formatted);
+              }}
+              className="w-full h-[52px] bg-transparent border-[#333] rounded-full px-6 text-center text-lg font-mono text-white placeholder:text-[#555] focus-visible:ring-[#A3E635] focus-visible:border-[#A3E635] mb-4"
+            />
+            <div className="flex gap-3">
+              <Button variant="outline" className="flex-1 h-12 rounded-full border-[#333]" onClick={() => { setShowCpfDialog(false); setPendingPlanId(null); }}>Cancelar</Button>
+              <Button className="flex-1 h-12 rounded-full bg-[#A3E635] text-black font-bold hover:bg-[#bef264]" onClick={handleCpfSubmit}>Continuar</Button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

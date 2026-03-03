@@ -321,14 +321,6 @@ const Profile = () => {
                         </p>
                       </div>
                     </div>
-
-                    {subscription.cakto_order_id && (
-                      <div className="pt-2 border-t border-border">
-                        <p className="text-xs text-muted-foreground">
-                          {t('subscription.orderId')}: <span className="font-mono">{subscription.cakto_order_id.slice(0, 8)}...</span>
-                        </p>
-                      </div>
-                    )}
                   </div>
                 ) : (
                   <div className="text-center py-6 space-y-4">

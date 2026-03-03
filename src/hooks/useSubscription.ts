@@ -5,10 +5,6 @@ import type { RealtimeChannel } from "@supabase/supabase-js";
 
 export interface Subscription {
   id: string;
-  hubla_subscription_id?: string;
-  cakto_order_id?: string;
-  cakto_offer_id?: string;
-  cakto_customer_email?: string;
   status: string;
   credits: number;
   product_id: string | null;
@@ -56,7 +52,6 @@ export function useSubscription() {
   useEffect(() => {
     fetchSubscription();
 
-    // Subscribe to realtime changes on subscriptions table for this user
     if (!user) return;
 
     const channel = supabase
@@ -64,14 +59,12 @@ export function useSubscription() {
       .on(
         "postgres_changes",
         {
-          event: "*", // Listen to all events (INSERT, UPDATE, DELETE)
+          event: "*",
           schema: "public",
           table: "subscriptions",
           filter: `user_id=eq.${user.id}`,
         },
-        (payload) => {
-          console.log("Subscription changed:", payload);
-          // Refetch subscription when it changes
+        () => {
           fetchSubscription();
         }
       )
