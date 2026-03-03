@@ -150,7 +150,7 @@ const Auth = () => {
 
             <div className="text-center mb-8">
               <h1 className="text-[22px] font-semibold text-white tracking-wide">
-                {isLogin ? "Welcome back" : "Create an account"}
+                {isLogin ? "Bem-vindo de volta" : "Crie sua conta"}
               </h1>
             </div>
 
@@ -162,7 +162,7 @@ const Auth = () => {
                     <Input
                       id="fullName"
                       type="text"
-                      placeholder="Full Name"
+                      placeholder="Nome completo"
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
                       className="w-full h-[52px] bg-transparent border-[#333] rounded-full px-6 text-sm text-white placeholder:text-[#666] focus-visible:ring-[#A3E635] focus-visible:border-[#A3E635] transition-all"
@@ -175,7 +175,7 @@ const Auth = () => {
                     <Input
                       id="phone"
                       type="tel"
-                      placeholder="Phone Number"
+                      placeholder="Telefone"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value.replace(/[^\d\s\(\)\-\+]/g, ''))}
                       className="w-full h-[52px] bg-transparent border-[#333] rounded-full px-6 text-sm text-white placeholder:text-[#666] focus-visible:ring-[#A3E635] focus-visible:border-[#A3E635] transition-all"
@@ -190,7 +190,7 @@ const Auth = () => {
                 <Input
                   id="email"
                   type={isLogin ? "text" : "email"}
-                  placeholder={isLogin ? "Email address or Phone" : "Email address"}
+                  placeholder={isLogin ? "E-mail ou telefone" : "Endereço de e-mail"}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full h-[52px] bg-transparent border-[#333] rounded-full px-6 text-sm text-white placeholder:text-[#666] focus-visible:ring-[#A3E635] focus-visible:border-[#A3E635] transition-all"
@@ -202,7 +202,7 @@ const Auth = () => {
                 <Input
                   id="password"
                   type={showPassword ? "text" : "password"}
-                  placeholder="Password"
+                  placeholder="Senha"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full h-[52px] bg-transparent border-[#333] rounded-full px-6 pr-12 text-sm text-white placeholder:text-[#666] focus-visible:ring-[#A3E635] focus-visible:border-[#A3E635] transition-all"
@@ -226,14 +226,14 @@ const Auth = () => {
                 {isLoading ? (
                   <Loader2 className="w-5 h-5 animate-spin" />
                 ) : (
-                  "Continue"
+                  "Continuar"
                 )}
               </button>
 
               {/* Divider */}
               <div className="flex items-center gap-4 my-6">
                 <div className="h-px bg-[#333] flex-1" />
-                <span className="text-[11px] text-[#666] font-medium tracking-wide">or sign up with</span>
+                <span className="text-[11px] text-[#666] font-medium tracking-wide">ou entre com</span>
                 <div className="h-px bg-[#333] flex-1" />
               </div>
 
@@ -257,7 +257,7 @@ const Auth = () => {
               {/* Bottom Switch Link */}
               <div className="mt-8 text-center text-xs font-medium pb-2">
                 <span className="text-[#888]">
-                  {isLogin ? "Don't have an account? " : "Already have an account? "}
+                  {isLogin ? "Não tem uma conta? " : "Já tem uma conta? "}
                 </span>
                 <button
                   type="button"
@@ -267,7 +267,7 @@ const Auth = () => {
                   }}
                   className="text-[#A3E635] hover:underline"
                 >
-                  {isLogin ? "Sign Up" : "Login"}
+                  {isLogin ? "Cadastre-se" : "Entrar"}
                 </button>
               </div>
             </form>

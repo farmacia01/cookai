@@ -145,53 +145,63 @@ const ImageUpload = ({ onImageSelect, selectedImage, onClear }: ImageUploadProps
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
       className={cn(
-        "relative rounded-[24px] border-2 border-dashed transition-all duration-300 cursor-pointer group min-h-[260px] flex items-center justify-center overflow-hidden",
+        "relative rounded-[28px] border-2 border-dashed transition-all duration-500 cursor-pointer group min-h-[320px] flex items-center justify-center overflow-hidden",
         isDragging
           ? "border-[#A3E635] bg-[#A3E635]/6 scale-[1.01]"
-          : "border-[#2a2a2a] bg-[#111] hover:border-[#A3E635]/40 hover:bg-[#141414]"
+          : "border-[#222] bg-gradient-to-b from-[#141414] to-[#0e0e0e] hover:border-[#A3E635]/40"
       )}
     >
       <input type="file" accept="image/*" onChange={handleFileSelect} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
 
-      {/* BG glow */}
-      {isDragging && (
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="w-48 h-48 rounded-full bg-[#A3E635]/8 blur-3xl" />
-        </div>
-      )}
+      {/* Ambient glow behind icon */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[60%] pointer-events-none">
+        <div className="w-52 h-52 rounded-full bg-[#A3E635]/10 blur-[80px] group-hover:bg-[#A3E635]/15 transition-all duration-700" />
+      </div>
 
-      <div className="relative z-10 text-center flex flex-col items-center gap-5 px-8">
-        {/* Camera icon */}
-        <div className={cn(
-          "w-20 h-20 rounded-[22px] flex items-center justify-center transition-all duration-300",
-          isDragging
-            ? "bg-[#A3E635] shadow-lime scale-110"
-            : "bg-[#1a1a1a] border border-[#2a2a2a] group-hover:border-[#A3E635]/30 group-hover:bg-[#1e1e1e] group-hover:scale-105"
-        )}>
-          {isDragging
-            ? <Upload className="w-10 h-10 text-black animate-bounce" />
-            : <Camera className="w-10 h-10 text-[#444] group-hover:text-[#A3E635] transition-colors duration-300" />
-          }
+      {/* Concentric animated rings */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[55%] pointer-events-none">
+        <div className="w-36 h-36 rounded-full border border-[#A3E635]/[0.07] group-hover:border-[#A3E635]/15 transition-all duration-700 flex items-center justify-center animate-[pulse_4s_ease-in-out_infinite]">
+          <div className="w-28 h-28 rounded-full border border-[#A3E635]/[0.12] group-hover:border-[#A3E635]/20 transition-all duration-500 flex items-center justify-center animate-[pulse_3s_ease-in-out_infinite_0.5s]">
+          </div>
+        </div>
+      </div>
+
+      <div className="relative z-[5] text-center flex flex-col items-center gap-5 px-8 py-6">
+        {/* Camera icon container */}
+        <div className="relative">
+          <div className={cn(
+            "w-[72px] h-[72px] rounded-[20px] flex items-center justify-center transition-all duration-500 relative z-10",
+            isDragging
+              ? "bg-[#A3E635] shadow-[0_0_30px_rgba(163,230,53,0.5)] scale-110"
+              : "bg-[#1C1C1C] border border-[#2a2a2a] group-hover:border-[#A3E635]/40 group-hover:bg-[#1e1e1e] group-hover:scale-110 group-hover:shadow-[0_0_25px_rgba(163,230,53,0.15)]"
+          )}>
+            {isDragging
+              ? <Upload className="w-9 h-9 text-black animate-bounce" />
+              : <Camera className="w-9 h-9 text-[#555] group-hover:text-[#A3E635] transition-colors duration-500" />
+            }
+          </div>
+          {/* Subtle dot indicator */}
+          <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-[#A3E635] opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:shadow-[0_0_8px_rgba(163,230,53,0.6)]" />
         </div>
 
-        <div>
-          <h3 className="text-lg font-black text-white mb-1.5">
+        <div className="space-y-2">
+          <h3 className="text-xl font-black text-white tracking-tight">
             {isDragging ? t("imageUpload.dropHere") : t("imageUpload.uploadTitle")}
           </h3>
-          <p className="text-sm text-[#555] leading-relaxed max-w-[240px]">
+          <p className="text-[13px] text-[#555] leading-relaxed max-w-[260px] mx-auto">
             {t("imageUpload.dragOrClick")}
           </p>
         </div>
 
         <button
           type="button"
-          className="pointer-events-none flex items-center gap-2 bg-[#A3E635] text-black font-bold text-sm px-6 py-3 rounded-2xl transition-all duration-200 group-hover:shadow-lime-sm group-hover:scale-105"
+          className="relative z-0 flex items-center gap-2.5 bg-[#A3E635] text-black font-extrabold text-sm px-7 py-3.5 rounded-2xl transition-all duration-300 group-hover:shadow-[0_4px_20px_rgba(163,230,53,0.3)] group-hover:scale-105 active:scale-95"
         >
           <ImageIcon className="w-4 h-4" />
           {t("imageUpload.selectPhoto")}
         </button>
 
-        <p className="text-[11px] text-[#3a3a3a]">{t("imageUpload.formats")}</p>
+        <p className="text-[11px] text-[#333] tracking-wide font-medium">{t("imageUpload.formats")}</p>
       </div>
     </div>
   );

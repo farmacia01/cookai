@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Home, Dumbbell, UtensilsCrossed, User, Plus } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
@@ -11,9 +11,11 @@ const MobileBottomNav = () => {
   const prevPathRef = useRef(location.pathname);
   const [fading, setFading] = useState(false);
 
+  const navigate = useNavigate();
+
   const leftItems = [
     { icon: Home, label: t("mobileNav.home", "Início"), path: "/" },
-    { icon: UtensilsCrossed, label: t("mobileNav.generate", "Receitas"), path: "/gerar-receitas" },
+    { icon: UtensilsCrossed, label: "Receitas", path: "/minhas-receitas" },
   ];
   const rightItems = [
     { icon: Dumbbell, label: t("mobileNav.dashboard", "Nutrição"), path: "/dashboard" },
@@ -73,6 +75,7 @@ const MobileBottomNav = () => {
               className="fab-btn"
               onClick={() => {
                 if ("vibrate" in navigator) navigator.vibrate(15);
+                navigate("/gerar-receitas");
               }}
             >
               <Plus className="w-7 h-7 text-[#0D0D0D] stroke-[2.5px]" />
