@@ -150,7 +150,7 @@ const Pricing = () => {
       const amount = PLAN_PRICES[pendingPlanId];
       if (!amount) throw new Error("Plano não encontrado");
 
-      const { data, error } = await supabase.functions.invoke("s6x-create-payment", {
+      const response = await supabase.functions.invoke("s6x-create-payment", {
         body: {
           user_id: user.id,
           plan_id: pendingPlanId,
@@ -161,7 +161,21 @@ const Pricing = () => {
         },
       });
 
-      if (error) throw error;
+      // supabase.functions.invoke returns { data, error }
+      // When non-2xx, error is FunctionsHttpError but data may contain the body
+      if (response.error) {
+        // Try to get the actual error message from the response context
+        let errorMsg = "Erro ao gerar cobrança PIX";
+        try {
+          const ctx = await response.error.context?.json();
+          if (ctx?.error) errorMsg = ctx.error;
+        } catch {
+          errorMsg = response.error.message || errorMsg;
+        }
+        throw new Error(errorMsg);
+      }
+
+      const data = response.data;
       if (!data?.success) throw new Error(data?.error || "Erro ao gerar cobrança");
 
       setPixData({
