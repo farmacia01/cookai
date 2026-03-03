@@ -146,35 +146,35 @@
     }
   },
   "pricing": {
-    "badge": "Investimento que se paga sozinho",
-    "title": "Planos Que Transformam",
-    "titleHighlight": "Sua Vida e Seu Bolso",
-    "subtitle": "Economize R$ 300, R$ 500, até R$ 800 por mês em comida. Emagreça de verdade. Ganhe massa muscular. Tudo isso por menos de R$ 1 por dia. Comece grátis e veja os resultados.",
+    "badge": "Investimento que se paga no primeiro mês",
+    "title": "Escolha o plano",
+    "titleHighlight": "que muda sua vida",
+    "subtitle": "Pare de desperdiçar comida e dinheiro. Com o Cook, você economiza em média R$400/mês no supermercado, emagrece sem dieta maluca e come melhor todos os dias. Comece grátis.",
     "activeSubscription": "Você já está aproveitando:",
     "mostPopular": "Mais Escolhido",
     "currentPlan": "Seu Plano Atual",
     "hasQuestions": "Ainda com dúvidas?",
-    "checkFaq": "Dá uma olhada nas",
+    "checkFaq": "Veja as",
     "faqLink": "perguntas frequentes",
-    "orContact": "ou manda uma mensagem pra gente.",
-    "securePayment": "Pagamento 100% seguro",
+    "orContact": "ou fale conosco.",
+    "securePayment": "Pagamento 100% seguro via PIX",
     "cancelAnytime": "Cancele quando quiser",
-    "ptSupport": "Suporte em português do Brasil",
-    "processing": "Processando...",
+    "ptSupport": "Suporte em português",
+    "processing": "Gerando PIX...",
     "featuresTitle": "O Que Você Ganha Com o Cook",
-    "featuresSubtitle": "Funcionalidades que transformam sua vida e economizam seu dinheiro",
+    "featuresSubtitle": "Funcionalidades que transformam sua alimentação e economizam seu dinheiro",
     "plans": {
       "free": {
         "name": "Grátis",
-        "description": "Teste sem pagar nada - veja os resultados primeiro",
+        "description": "Teste sem compromisso — veja os resultados antes de investir",
         "price": "R$ 0",
-        "cta": "Começar Agora - É Grátis",
+        "cta": "Começar Grátis",
         "features": [
-          "3 receitas por mês - suficiente pra ver que funciona",
-          "Modo Economia - pare de jogar dinheiro fora",
+          "3 receitas por mês para experimentar",
+          "Modo Economia — reduza o desperdício",
           "Informações nutricionais completas",
-          "Salvar até 10 receitas favoritas",
-          "Veja resultados reais antes de investir"
+          "Salvar até 10 receitas",
+          "Sem cartão de crédito"
         ],
         "limitations": [
           "Modos Emagrecimento e Ganho de Massa são Pro",
@@ -183,97 +183,95 @@
       },
       "monthly": {
         "name": "Mensal",
-        "description": "Resultados em 30 dias ou seu dinheiro de volta",
+        "description": "Para quem quer começar a ver resultados agora",
         "price": "R$ 39,90",
         "period": "/mês",
-        "pricePerDay": "R$ 1,33",
-        "cta": "Quero Resultados Agora",
+        "pricePerDay": "R$ 1,33/dia",
+        "cta": "Assinar por R$ 39,90",
         "features": [
-          "200 receitas por mês - mais do que suficiente",
-          "Todos os 3 modos: Economia, Emagrecimento e Ganho de Massa",
-          "Metas nutricionais que você realmente atinge",
-          "Dashboard que mostra seu progresso real",
-          "Economize R$ 300+ por mês em comida",
-          "Lista de compras que economiza seu tempo e dinheiro",
-          "Salvar receitas ilimitadas",
-          "Suporte prioritário quando precisar"
+          "Receitas ilimitadas por mês",
+          "3 modos: Economia, Emagrecimento e Massa",
+          "Metas nutricionais personalizadas",
+          "Dashboard com seu progresso real",
+          "Lista de compras inteligente",
+          "Receitas salvas ilimitadas",
+          "Suporte prioritário"
         ]
       },
       "quarterly": {
         "name": "Trimestral",
-        "description": "3 meses = resultados que você vê na balança e no espelho",
+        "description": "O mais escolhido — 3 meses para transformar seu corpo",
         "price": "R$ 29,90",
         "period": "/mês",
         "totalPrice": "R$ 89,70",
-        "installments": "3x de",
+        "installments": "ou",
         "savings": "Economize R$ 30,00",
-        "pricePerDay": "R$ 0,99",
-        "cta": "Quero Transformação Agora",
+        "pricePerDay": "R$ 0,99/dia",
+        "cta": "Assinar por R$ 89,70",
         "popular": true,
         "features": [
-          "Tudo do plano Mensal - sem limites, sem restrições",
-          "3 meses de transformação garantida",
-          "Economize R$ 30,00 + R$ 900+ em comida = R$ 930+ no seu bolso",
-          "Tempo suficiente pra ver resultados reais na balança",
-          "Melhor investimento - menos de R$ 1 por dia",
-          "Suporte prioritário quando precisar"
+          "Tudo do plano Mensal",
+          "3 meses para ver resultados na balança",
+          "Economia de R$ 30 vs mensal",
+          "Menos de R$ 1 por dia",
+          "Tempo ideal para criar o hábito",
+          "Suporte prioritário"
         ]
       },
       "annual": {
         "name": "Anual",
-        "description": "Pague 6 meses, leve 12. Economize R$ 240 + R$ 3.600+ em comida",
+        "description": "Máxima economia — pague metade do preço mensal",
         "price": "R$ 19,90",
         "period": "/mês",
         "totalPrice": "R$ 238,80",
-        "installments": "12x de",
-        "savings": "50% de desconto + economia real",
-        "pricePerDay": "R$ 0,66",
+        "installments": "ou",
+        "savings": "50% de desconto",
+        "pricePerDay": "R$ 0,66/dia",
         "originalPrice": "R$ 478,80",
-        "cta": "Quero Máxima Economia",
+        "cta": "Assinar por R$ 238,80",
         "features": [
-          "Tudo do plano Trimestral - sem limites, sem restrições",
-          "50% de desconto real - pague menos, ganhe mais",
-          "Pague 6 meses e leve 12 - 2 meses grátis",
-          "Economize R$ 240 no plano + R$ 3.600+ em comida = R$ 3.840+ no seu bolso",
-          "Acesso antecipado a todas as novidades",
-          "Badge exclusivo de membro anual",
+          "Tudo do plano Trimestral",
+          "50% de desconto — metade do preço",
+          "R$ 0,66 por dia — menos que um café",
+          "Economize R$ 240 no plano",
+          "Acesso antecipado a novidades",
           "Prioridade máxima no suporte",
-          "Transformação garantida por 1 ano inteiro"
+          "1 ano de transformação garantida"
         ]
       }
     },
     "comparison": {
-      "title": "Compare: R$ 250 por consulta vs R$ 0,66 por dia",
-      "nutritionist": "Plano Alimentar Tradicional: R$ 250,00 por consulta",
-      "nutriai": "Cook: {{price}} por dia (no plano {{plan}})",
-      "subtitle": "Acesso ilimitado a receitas personalizadas 24/7 por menos de R$ 1 por dia. Economize R$ 250+ por mês e veja resultados reais."
+      "title": "Compare: R$ 250/consulta vs R$ 0,66/dia",
+      "nutritionist": "Nutricionista tradicional: R$ 250 por consulta",
+      "nutriai": "Cook: {{price}} por dia (plano {{plan}})",
+      "subtitle": "Receitas personalizadas 24/7 por menos que um café. Economize R$ 250+ por mês."
     },
     "guarantee": {
-      "text": "7 Dias de Garantia ou seu dinheiro de volta",
-      "description": "Teste sem risco. Se não gostar, devolvemos 100% do seu dinheiro."
+      "text": "Satisfação garantida ou seu dinheiro de volta",
+      "description": "Teste sem risco. Se não gostar em 7 dias, devolvemos 100%."
     },
     "features": {
-      "title": "Funcionalidades que você vai amar",
-      "subtitle": "Tudo que você precisa pra transformar sua cozinha",
+      "title": "Funcionalidades que fazem a diferença",
+      "subtitle": "Tudo que você precisa para transformar sua alimentação",
       "feature1": {
-        "title": "Análise Inteligente de Imagens",
-        "description": "Tire uma foto da sua geladeira e nossa IA identifica todos os ingredientes automaticamente. Sem precisar digitar nada!"
+        "title": "Análise por Foto",
+        "description": "Tire uma foto da geladeira e a IA identifica todos os ingredientes automaticamente. Sem digitar nada."
       },
       "feature2": {
         "title": "3 Modos de Receitas",
-        "description": "Faxina (use tudo), Monstro (alta proteína) ou Seca (baixa caloria). Escolha o que combina com seu objetivo."
+        "description": "Economia (use tudo), Monstro (alta proteína) ou Seca (baixa caloria). Escolha seu objetivo."
       },
       "feature3": {
-        "title": "Metas Nutricionais Personalizadas",
-        "description": "Configure suas metas de calorias, proteínas, carboidratos e gorduras. Acompanhe tudo no dashboard."
+        "title": "Metas Nutricionais",
+        "description": "Configure calorias, proteínas, carbs e gorduras. Acompanhe seu progresso no dashboard."
       },
       "feature4": {
         "title": "Lista de Compras Automática",
-        "description": "Gere listas de compras baseadas nas receitas que você escolheu. Organize suas compras sem esforço."
+        "description": "Lista organizada baseada nas receitas escolhidas. Compre só o necessário."
       },
       "feature5": {
-        "title": "Rastreamento de Refeições",
-        "description": "Registre refeições extras e veja quanto ainda pode consumir no dia. Controle total sobre sua alimentação."
+        "title": "Controle de Refeições",
+        "description": "Registre refeições extras e veja quanto ainda pode consumir no dia."
       }
     }
   },
