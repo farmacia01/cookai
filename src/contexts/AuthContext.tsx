@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const isSigningOutRef = useRef(false);
 
   // Function to check if profile exists with timeout and retries (for new signups)
-  const checkProfileExists = async (userId: string, retries = 3): Promise<boolean> => {
+  const checkProfileExists = async (userId: string, retries = 5): Promise<boolean> => {
     try {
       for (let i = 0; i < retries; i++) {
         // Add timeout to prevent infinite loading
@@ -60,7 +60,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
         // If not found, wait a bit before retrying (database trigger might be slow)
         if (i < retries - 1) {
-          await new Promise(resolve => setTimeout(resolve, 1500 * (i + 1))); // Exponential backoff: 1.5s, 3s
+          console.log(`Profile not found yet, retrying in 2s (Attempt ${i + 1}/${retries})...`);
+          await new Promise(resolve => setTimeout(resolve, 2000)); // Wait 2 seconds before retrying
         }
       }
       return false;
@@ -96,24 +97,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             setUser(session.user);
             setLoading(false);
 
-            // Check profile in background (don't block UI)
-            checkProfileExists(session.user.id).then((profileExists) => {
-              if (!mounted) return;
-
-              if (!profileExists) {
-                // User doesn't have profile, sign them out
-                if (!isSigningOutRef.current) {
-                  isSigningOutRef.current = true;
-                  console.log('User does not have profile, signing out...');
-                  setSession(null);
-                  setUser(null);
-                  // Don't await signOut to avoid blocking
-                  supabase.auth.signOut().catch(() => { }).finally(() => {
-                    isSigningOutRef.current = false;
-                  });
-                }
-              }
-            });
+            // On sign up, the database trigger creates the profile. 
+            // We should NOT sign the user out if it's missing during the auth state change
+            // because the trigger might be delayed.
+            if (event === 'SIGNED_IN' || event === 'INITIAL_SESSION') {
+              // We just let the user in. If there are DB issues, RLS will block them later.
+              // This fixes the "Conta não encontrada" issue on account creation.
+            }
           } else {
             setSession(null);
             setUser(null);
@@ -134,21 +124,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setSession(session);
         setUser(session.user);
         setLoading(false);
-
-        // Check profile in background (don't block UI)
-        const profileExists = await checkProfileExists(session.user.id);
-
-        if (!profileExists) {
-          // User doesn't have profile, sign them out
-          if (!isSigningOutRef.current) {
-            isSigningOutRef.current = true;
-            console.log('User does not have profile, signing out...');
-            setSession(null);
-            setUser(null);
-            await supabase.auth.signOut();
-            isSigningOutRef.current = false;
-          }
-        }
+        // We no longer strictly check profile existence on load to prevent false logouts
       } else {
         setSession(null);
         setUser(null);
