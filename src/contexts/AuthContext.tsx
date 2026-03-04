@@ -27,35 +27,45 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
   const isSigningOutRef = useRef(false);
 
-  // Function to check if profile exists with timeout
-  const checkProfileExists = async (userId: string): Promise<boolean> => {
+  // Function to check if profile exists with timeout and retries (for new signups)
+  const checkProfileExists = async (userId: string, retries = 3): Promise<boolean> => {
     try {
-      // Add timeout to prevent infinite loading
-      const timeoutPromise = new Promise<boolean>((resolve) => {
-        setTimeout(() => resolve(false), 5000); // 5 second timeout
-      });
+      for (let i = 0; i < retries; i++) {
+        // Add timeout to prevent infinite loading
+        const timeoutPromise = new Promise<boolean>((resolve) => {
+          setTimeout(() => resolve(false), 5000); // 5 second timeout
+        });
 
-      const checkPromise = supabase
-        .from('profiles')
-        .select('id')
-        .eq('user_id', userId)
-        .maybeSingle()
-        .then(({ data, error }) => {
-          if (error && error.code !== 'PGRST116') {
-            // PGRST116 is "not found" which is expected
-            console.error('Error checking profile:', error);
-            return false;
-          }
-          return !!data;
-        })
-        .catch((error) => {
+        const checkPromise = supabase
+          .from('profiles')
+          .select('id')
+          .eq('user_id', userId)
+          .maybeSingle()
+          .then(({ data, error }) => {
+            if (error && error.code !== 'PGRST116') {
+              console.error('Error checking profile:', error);
+              return false;
+            }
+            return !!data;
+          }) as Promise<boolean>;
+
+        const safeCheckPromise = checkPromise.catch((error) => {
           console.error('Error checking profile exists:', error);
           return false;
         });
 
-      return Promise.race([checkPromise, timeoutPromise]);
+        const exists = await Promise.race([safeCheckPromise, timeoutPromise]);
+
+        if (exists) return true;
+
+        // If not found, wait a bit before retrying (database trigger might be slow)
+        if (i < retries - 1) {
+          await new Promise(resolve => setTimeout(resolve, 1500 * (i + 1))); // Exponential backoff: 1.5s, 3s
+        }
+      }
+      return false;
     } catch (error) {
-      console.error('Error checking profile exists:', error);
+      console.error('Error in checkProfileExists:', error);
       return false;
     }
   };
