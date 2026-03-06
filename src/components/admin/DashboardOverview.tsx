@@ -12,13 +12,18 @@ import {
   TrendingUp,
   BarChart3,
   AlertCircle,
+  BellRing,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { Loader2 } from "lucide-react";
+import { useNotifications } from "@/hooks/useNotifications";
+import { toast } from "sonner";
 
 const DashboardOverview = () => {
+  const { testNotification } = useNotifications();
   const { data: stats, isLoading, error } = useQuery({
     queryKey: ["admin-stats"],
     queryFn: async () => {
@@ -64,8 +69,9 @@ const DashboardOverview = () => {
       ] = await Promise.all([
         supabase.from("generation_logs").select("tokens_used").gte("created_at", today.toISOString()).lt("created_at", tomorrow.toISOString()),
         supabase.from("generation_logs").select("tokens_used").gte("created_at", monthAgo.toISOString()),
-        supabase.from("profiles").select("last_recipe_generated_at, has_active_plan, plan_name").not("last_recipe_generated_at", "is", null),
-        supabase.from("subscriptions").select("product_id, product_name, status").eq("status", "active"),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (supabase as any).from("profiles").select("last_recipe_generated_at, has_active_plan, plan_name").then((res: any) => res.error ? { data: [] } : res),
+        supabase.from("subscriptions").select("product_id, product_name, status").eq("status", "active").then(res => res.error ? { data: [] } : res),
         supabase.from("generation_logs").select("mode").gte("created_at", monthAgo.toISOString()),
         supabase.from("generation_logs").select("created_at, status, mode, tokens_used").order("created_at", { ascending: false }).limit(10),
         // Top users by generations this month – get user_id + count from generation_logs
@@ -261,15 +267,32 @@ const DashboardOverview = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold">Dashboard</h1>
           <p className="text-muted-foreground text-sm mt-0.5">Visão geral do sistema em tempo real</p>
         </div>
-        <Badge variant="outline" className="gap-1 hidden sm:flex">
-          <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse inline-block" />
-          Ao vivo
-        </Badge>
+        <div className="flex items-center gap-3">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={async () => {
+              const success = await testNotification();
+              if (success) {
+                toast("Notificação de teste enviada!");
+              } else {
+                toast.error("Erro ao enviar notificação de teste.");
+              }
+            }}
+          >
+            <BellRing className="w-4 h-4 mr-2" />
+            Testar Notificação
+          </Button>
+          <Badge variant="outline" className="gap-1 hidden sm:flex">
+            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse inline-block" />
+            Ao vivo
+          </Badge>
+        </div>
       </div>
 
       {/* Main Stats Cards */}
@@ -430,12 +453,12 @@ const DashboardOverview = () => {
                     <div className="flex items-center gap-3">
                       <div
                         className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ${i === 0
-                            ? "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400"
-                            : i === 1
-                              ? "bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
-                              : i === 2
-                                ? "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400"
-                                : "bg-muted text-muted-foreground"
+                          ? "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400"
+                          : i === 1
+                            ? "bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
+                            : i === 2
+                              ? "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400"
+                              : "bg-muted text-muted-foreground"
                           }`}
                       >
                         {i + 1}

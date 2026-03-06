@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
-import { LayoutDashboard, Users, FileText, ChefHat, LogOut, Menu, UserPlus } from "lucide-react";
+import { LayoutDashboard, Users, FileText, ChefHat, LogOut, Menu, UserPlus, Bell } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
 
-type AdminView = "overview" | "users" | "logs" | "referrals";
+type AdminView = "overview" | "users" | "logs" | "referrals" | "broadcast";
 
 interface AdminSidebarProps {
   activeView: AdminView;
@@ -18,6 +18,7 @@ const menuItems = [
   { id: "users" as const, label: "Usuários", icon: Users },
   { id: "logs" as const, label: "Logs de Geração", icon: FileText },
   { id: "referrals" as const, label: "Indicações", icon: UserPlus },
+  { id: "broadcast" as const, label: "Notificações Push", icon: Bell },
 ];
 
 const SidebarContent = ({

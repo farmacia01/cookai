@@ -53,26 +53,32 @@ const UsersTable = () => {
     queryKey: ["admin-users", planFilter],
     queryFn: async () => {
       // Get all profiles (we'll filter and paginate client-side)
-      const { data: profiles, error, count } = await supabase
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data: profiles, error, count } = await (supabase as any)
         .from("profiles")
         .select("*, last_recipe_generated_at", { count: "exact" })
-        .order("created_at", { ascending: false });
+        .order("created_at", { ascending: false })
+        .then((res: any) => res.error ? { data: [], error: null, count: 0 } : res);
 
       if (error) throw error;
 
-      // Get all subscriptions
-      const userIds = profiles?.map(p => p.user_id) || [];
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const userIds = (profiles as any[])?.map((p: any) => p.user_id) || [];
       const { data: subscriptions } = await supabase
         .from("subscriptions")
         .select("user_id, status, product_id, product_name, billing_cycle_months, credits, current_period_end")
         .in("user_id", userIds.length > 0 ? userIds : [])
-        .order("created_at", { ascending: false });
+        .order("created_at", { ascending: false })
+        .then(res => res.error ? { data: [] } : res);
 
       // Merge data - get the most recent subscription for each user
-      let usersWithSubs: UserWithSubscription[] = (profiles || []).map(profile => {
-        const userSubs = subscriptions?.filter(s => s.user_id === profile.user_id) || [];
-        const activeSub = userSubs.find(s => s.status === "active") || userSubs[0];
-        
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      let usersWithSubs: UserWithSubscription[] = ((profiles as any[]) || []).map((profile: any) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const userSubs = subscriptions?.filter((s: any) => s.user_id === profile.user_id) || [];
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const activeSub = userSubs.find((s: any) => s.status === "active") || userSubs[0];
+
         return {
           ...profile,
           subscription_status: activeSub?.status || "free",
@@ -101,21 +107,21 @@ const UsersTable = () => {
             case "active_recent":
               if (!user.last_recipe_generated_at) return false;
               const daysSinceLastRecipe = Math.floor(
-                (new Date().getTime() - new Date(user.last_recipe_generated_at).getTime()) / 
+                (new Date().getTime() - new Date(user.last_recipe_generated_at).getTime()) /
                 (1000 * 60 * 60 * 24)
               );
               return daysSinceLastRecipe <= 7;
             case "inactive_recent":
               if (!user.last_recipe_generated_at) return false;
               const daysSinceRecipe = Math.floor(
-                (new Date().getTime() - new Date(user.last_recipe_generated_at).getTime()) / 
+                (new Date().getTime() - new Date(user.last_recipe_generated_at).getTime()) /
                 (1000 * 60 * 60 * 24)
               );
               return daysSinceRecipe > 7 && daysSinceRecipe <= 30;
             case "inactive_old":
               if (!user.last_recipe_generated_at) return false;
               const daysOld = Math.floor(
-                (new Date().getTime() - new Date(user.last_recipe_generated_at).getTime()) / 
+                (new Date().getTime() - new Date(user.last_recipe_generated_at).getTime()) /
                 (1000 * 60 * 60 * 24)
               );
               return daysOld > 30;
@@ -160,7 +166,7 @@ const UsersTable = () => {
 
   const filteredCount = data?.totalCount || 0;
   const totalPages = Math.ceil(filteredCount / ITEMS_PER_PAGE);
-  
+
   // Paginate filtered results
   const paginatedUsers = (data?.allUsers || []).slice(
     page * ITEMS_PER_PAGE,
@@ -174,19 +180,18 @@ const UsersTable = () => {
           <div>
             <h1 className="text-xl sm:text-2xl md:text-3xl font-bold">Usuários</h1>
             <p className="text-sm sm:text-base text-muted-foreground mt-1">
-              {planFilter === "all" 
+              {planFilter === "all"
                 ? `${data?.totalCount || 0} usuários cadastrados`
-                : `${filteredCount} usuário${filteredCount !== 1 ? 's' : ''} ${
-                    planFilter === "free" ? "sem plano" 
-                    : planFilter === "active" ? "com plano ativo"
+                : `${filteredCount} usuário${filteredCount !== 1 ? 's' : ''} ${planFilter === "free" ? "sem plano"
+                  : planFilter === "active" ? "com plano ativo"
                     : planFilter === "monthly" ? "com plano mensal"
-                    : planFilter === "quarterly" ? "com plano trimestral"
-                    : planFilter === "annual" ? "com plano anual"
-                    : planFilter === "active_recent" ? "ativos recentemente (últimos 7 dias)"
-                    : planFilter === "inactive_recent" ? "inativos recentemente (7-30 dias)"
-                    : planFilter === "inactive_old" ? "muito inativos (30+ dias)"
-                    : "que nunca geraram receitas"
-                  }`
+                      : planFilter === "quarterly" ? "com plano trimestral"
+                        : planFilter === "annual" ? "com plano anual"
+                          : planFilter === "active_recent" ? "ativos recentemente (últimos 7 dias)"
+                            : planFilter === "inactive_recent" ? "inativos recentemente (7-30 dias)"
+                              : planFilter === "inactive_old" ? "muito inativos (30+ dias)"
+                                : "que nunca geraram receitas"
+                }`
               }
             </p>
           </div>
@@ -230,142 +235,142 @@ const UsersTable = () => {
         {/* Mobile: scroll horizontal, Desktop: tabela normal */}
         <div className="overflow-x-auto">
           <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="min-w-[120px]">Nome</TableHead>
-              <TableHead className="min-w-[100px] hidden sm:table-cell">ID do Usuário</TableHead>
-              <TableHead className="min-w-[120px]">Plano</TableHead>
-              <TableHead className="min-w-[140px] hidden lg:table-cell">Última Receita</TableHead>
-              <TableHead className="min-w-[120px] hidden md:table-cell">Data de Cadastro</TableHead>
-              <TableHead className="text-right min-w-[200px]">Ações</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {isLoading ? (
+            <TableHeader>
               <TableRow>
-                <TableCell colSpan={6} className="text-center py-8 text-sm">
-                  Carregando...
-                </TableCell>
+                <TableHead className="min-w-[120px]">Nome</TableHead>
+                <TableHead className="min-w-[100px] hidden sm:table-cell">ID do Usuário</TableHead>
+                <TableHead className="min-w-[120px]">Plano</TableHead>
+                <TableHead className="min-w-[140px] hidden lg:table-cell">Última Receita</TableHead>
+                <TableHead className="min-w-[120px] hidden md:table-cell">Data de Cadastro</TableHead>
+                <TableHead className="text-right min-w-[200px]">Ações</TableHead>
               </TableRow>
-            ) : paginatedUsers.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={6} className="text-center py-8 text-sm text-muted-foreground">
-                  {planFilter !== "all" 
-                    ? `Nenhum usuário encontrado com o filtro selecionado`
-                    : "Nenhum usuário encontrado"
-                  }
-                </TableCell>
-              </TableRow>
-            ) : (
-              paginatedUsers.map((user) => (
-                <TableRow key={user.id}>
-                  <TableCell className="font-medium">
-                    {user.full_name || "Sem nome"}
-                  </TableCell>
-                  <TableCell className="text-muted-foreground text-sm hidden sm:table-cell">
-                    {user.user_id.slice(0, 8)}...
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex flex-col gap-1">
-                      <Badge
-                        variant={
-                          user.subscription_status === "active"
-                            ? "default"
-                            : "secondary"
-                        }
-                      >
-                        {user.subscription_status === "active" 
-                          ? user.subscription_product_name || "Pro" 
-                          : "Free"}
-                      </Badge>
-                      {user.subscription_status === "active" && user.subscription_billing_cycle && (
-                        <span className="text-xs text-muted-foreground">
-                          {user.subscription_billing_cycle === 1 && "Mensal"}
-                          {user.subscription_billing_cycle === 3 && "Trimestral"}
-                          {user.subscription_billing_cycle === 12 && "Anual"}
-                        </span>
-                      )}
-                      {user.subscription_status === "active" && user.subscription_period_end && (
-                        <span className="text-xs text-muted-foreground">
-                          Até {new Date(user.subscription_period_end).toLocaleDateString("pt-BR")}
-                        </span>
-                      )}
-                    </div>
-                  </TableCell>
-                  <TableCell className="text-sm hidden lg:table-cell">
-                    {user.last_recipe_generated_at ? (
-                      <div className="flex flex-col gap-1">
-                        <span className="text-muted-foreground">
-                          {new Date(user.last_recipe_generated_at).toLocaleDateString("pt-BR")}
-                        </span>
-                        <span className="text-xs text-muted-foreground">
-                          {(() => {
-                            const daysAgo = Math.floor(
-                              (new Date().getTime() - new Date(user.last_recipe_generated_at).getTime()) / 
-                              (1000 * 60 * 60 * 24)
-                            );
-                            if (daysAgo === 0) return "Hoje";
-                            if (daysAgo === 1) return "Ontem";
-                            if (daysAgo < 7) return `${daysAgo} dias atrás`;
-                            if (daysAgo < 30) return `${Math.floor(daysAgo / 7)} semana${Math.floor(daysAgo / 7) > 1 ? 's' : ''} atrás`;
-                            return `${Math.floor(daysAgo / 30)} mês${Math.floor(daysAgo / 30) > 1 ? 'es' : ''} atrás`;
-                          })()}
-                        </span>
-                      </div>
-                    ) : (
-                      <Badge variant="outline" className="text-xs">
-                        Nunca gerou
-                      </Badge>
-                    )}
-                  </TableCell>
-                  <TableCell className="text-muted-foreground text-sm hidden md:table-cell">
-                    {new Date(user.created_at).toLocaleDateString("pt-BR")}
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex flex-col sm:flex-row items-end sm:items-center justify-end gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="w-full sm:w-auto"
-                        onClick={() => handleManageSubscription(user.user_id, user.full_name)}
-                      >
-                        {user.subscription_status === "active" ? (
-                          <>
-                            <Settings className="w-4 h-4 sm:mr-1" />
-                            <span className="hidden sm:inline">Gerenciar</span>
-                            <span className="sm:hidden">Gerenciar</span>
-                          </>
-                        ) : (
-                          <>
-                            <UserPlus className="w-4 h-4 sm:mr-1" />
-                            <span className="hidden sm:inline">Adicionar Plano</span>
-                            <span className="sm:hidden">Adicionar</span>
-                          </>
-                        )}
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="w-full sm:w-auto text-destructive hover:text-destructive hover:bg-destructive/10"
-                        onClick={() => handleBan(user.user_id)}
-                      >
-                        <Ban className="w-4 h-4 sm:mr-1" />
-                        Banir
-                      </Button>
-                    </div>
+            </TableHeader>
+            <TableBody>
+              {isLoading ? (
+                <TableRow>
+                  <TableCell colSpan={6} className="text-center py-8 text-sm">
+                    Carregando...
                   </TableCell>
                 </TableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
+              ) : paginatedUsers.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={6} className="text-center py-8 text-sm text-muted-foreground">
+                    {planFilter !== "all"
+                      ? `Nenhum usuário encontrado com o filtro selecionado`
+                      : "Nenhum usuário encontrado"
+                    }
+                  </TableCell>
+                </TableRow>
+              ) : (
+                paginatedUsers.map((user) => (
+                  <TableRow key={user.id}>
+                    <TableCell className="font-medium">
+                      {user.full_name || "Sem nome"}
+                    </TableCell>
+                    <TableCell className="text-muted-foreground text-sm hidden sm:table-cell">
+                      {user.user_id.slice(0, 8)}...
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex flex-col gap-1">
+                        <Badge
+                          variant={
+                            user.subscription_status === "active"
+                              ? "default"
+                              : "secondary"
+                          }
+                        >
+                          {user.subscription_status === "active"
+                            ? user.subscription_product_name || "Pro"
+                            : "Free"}
+                        </Badge>
+                        {user.subscription_status === "active" && user.subscription_billing_cycle && (
+                          <span className="text-xs text-muted-foreground">
+                            {user.subscription_billing_cycle === 1 && "Mensal"}
+                            {user.subscription_billing_cycle === 3 && "Trimestral"}
+                            {user.subscription_billing_cycle === 12 && "Anual"}
+                          </span>
+                        )}
+                        {user.subscription_status === "active" && user.subscription_period_end && (
+                          <span className="text-xs text-muted-foreground">
+                            Até {new Date(user.subscription_period_end).toLocaleDateString("pt-BR")}
+                          </span>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-sm hidden lg:table-cell">
+                      {user.last_recipe_generated_at ? (
+                        <div className="flex flex-col gap-1">
+                          <span className="text-muted-foreground">
+                            {new Date(user.last_recipe_generated_at).toLocaleDateString("pt-BR")}
+                          </span>
+                          <span className="text-xs text-muted-foreground">
+                            {(() => {
+                              const daysAgo = Math.floor(
+                                (new Date().getTime() - new Date(user.last_recipe_generated_at).getTime()) /
+                                (1000 * 60 * 60 * 24)
+                              );
+                              if (daysAgo === 0) return "Hoje";
+                              if (daysAgo === 1) return "Ontem";
+                              if (daysAgo < 7) return `${daysAgo} dias atrás`;
+                              if (daysAgo < 30) return `${Math.floor(daysAgo / 7)} semana${Math.floor(daysAgo / 7) > 1 ? 's' : ''} atrás`;
+                              return `${Math.floor(daysAgo / 30)} mês${Math.floor(daysAgo / 30) > 1 ? 'es' : ''} atrás`;
+                            })()}
+                          </span>
+                        </div>
+                      ) : (
+                        <Badge variant="outline" className="text-xs">
+                          Nunca gerou
+                        </Badge>
+                      )}
+                    </TableCell>
+                    <TableCell className="text-muted-foreground text-sm hidden md:table-cell">
+                      {new Date(user.created_at).toLocaleDateString("pt-BR")}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex flex-col sm:flex-row items-end sm:items-center justify-end gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="w-full sm:w-auto"
+                          onClick={() => handleManageSubscription(user.user_id, user.full_name)}
+                        >
+                          {user.subscription_status === "active" ? (
+                            <>
+                              <Settings className="w-4 h-4 sm:mr-1" />
+                              <span className="hidden sm:inline">Gerenciar</span>
+                              <span className="sm:hidden">Gerenciar</span>
+                            </>
+                          ) : (
+                            <>
+                              <UserPlus className="w-4 h-4 sm:mr-1" />
+                              <span className="hidden sm:inline">Adicionar Plano</span>
+                              <span className="sm:hidden">Adicionar</span>
+                            </>
+                          )}
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="w-full sm:w-auto text-destructive hover:text-destructive hover:bg-destructive/10"
+                          onClick={() => handleBan(user.user_id)}
+                        >
+                          <Ban className="w-4 h-4 sm:mr-1" />
+                          Banir
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
         </div>
 
         {/* Pagination */}
         {totalPages > 1 && (
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 px-3 sm:px-4 py-3 border-t border-border">
             <p className="text-xs sm:text-sm text-muted-foreground">
-              Página {page + 1} de {totalPages} 
+              Página {page + 1} de {totalPages}
               {planFilter !== "all" && ` (${filteredCount} resultado${filteredCount !== 1 ? 's' : ''})`}
             </p>
             <div className="flex gap-2">

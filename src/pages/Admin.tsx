@@ -8,9 +8,10 @@ import DashboardOverview from "@/components/admin/DashboardOverview";
 import UsersTable from "@/components/admin/UsersTable";
 import GenerationLogs from "@/components/admin/GenerationLogs";
 import AdminReferrals from "@/components/admin/AdminReferrals";
+import AdminBroadcast from "@/components/admin/AdminBroadcast";
 import { useState } from "react";
 
-type AdminView = "overview" | "users" | "logs" | "referrals";
+type AdminView = "overview" | "users" | "logs" | "referrals" | "broadcast";
 
 const Admin = () => {
   const { isAdmin, loading, user } = useAdmin();
@@ -88,6 +89,7 @@ const Admin = () => {
             {activeView === "users" && <UsersTable />}
             {activeView === "logs" && <GenerationLogs />}
             {activeView === "referrals" && <AdminReferrals />}
+            {activeView === "broadcast" && <AdminBroadcast />}
           </div>
         </main>
       </div>

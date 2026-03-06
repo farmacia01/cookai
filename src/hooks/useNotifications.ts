@@ -223,6 +223,48 @@ export function useNotifications() {
         }
     }, [settings]);
 
+    // Function to test notifications manually
+    const testNotification = useCallback(async () => {
+        console.log("[useNotifications] Test notification triggered.");
+        if (!isSupported) {
+            console.error("[useNotifications] Notifications not supported in this browser.");
+            return false;
+        }
+
+        let currentPermission = permission;
+        if (currentPermission !== "granted") {
+            const granted = await requestPermission();
+            if (!granted) {
+                console.warn("[useNotifications] Permission denied for test notification.");
+                return false;
+            }
+            currentPermission = "granted";
+        }
+
+        const message = "🔔 Teste Cook AI: A notificação está funcionando corretamente!";
+
+        if (currentPermission === "granted") {
+            if ("serviceWorker" in navigator && navigator.serviceWorker.controller) {
+                console.log("[useNotifications] Dispatching test notification via Service Worker.");
+                navigator.serviceWorker.controller.postMessage({
+                    type: "SHOW_NOTIFICATION",
+                    title: "🔔 Teste Cook AI",
+                    body: message,
+                    tag: "test-notification",
+                });
+            } else {
+                console.log("[useNotifications] Dispatching test notification via direct API.");
+                new Notification("🔔 Teste Cook AI", {
+                    body: message,
+                    icon: "/icon.png",
+                    tag: "test-notification",
+                });
+            }
+            return true;
+        }
+        return false;
+    }, [isSupported, permission, requestPermission]);
+
     return {
         settings,
         permission,
@@ -231,5 +273,6 @@ export function useNotifications() {
         toggleMeal,
         updateMealTime,
         requestPermission,
+        testNotification,
     };
 }

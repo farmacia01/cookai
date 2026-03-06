@@ -45,9 +45,35 @@ self.addEventListener("message", (event) => {
     }
 });
 
+// Handle push events from the server (for broadcast notifications)
+self.addEventListener("push", (event) => {
+    let payload: { title?: string; body?: string; icon?: string; badge?: string; tag?: string; data?: Record<string, string> } = {};
+
+    if (event.data) {
+        try {
+            payload = event.data.json();
+        } catch {
+            payload = { body: event.data.text() };
+        }
+    }
+
+    const title = payload.title || "🍳 Cook AI";
+    const options: NotificationOptions = {
+        body: payload.body || "Você tem uma nova notificação!",
+        icon: payload.icon || "/icon.png",
+        badge: payload.badge || "/icon.png",
+        tag: payload.tag || `push-${Date.now()}`,
+        data: payload.data || { url: "/" },
+    };
+
+    event.waitUntil(self.registration.showNotification(title, options));
+});
+
 // Handle notification click: open the app
 self.addEventListener("notificationclick", (event) => {
     event.notification.close();
+
+    const targetUrl = (event.notification.data as { url?: string })?.url || "/gerar-receitas";
 
     event.waitUntil(
         self.clients
@@ -60,7 +86,8 @@ self.addEventListener("notificationclick", (event) => {
                     }
                 }
                 // Otherwise open a new tab
-                return self.clients.openWindow("/gerar-receitas");
+                return self.clients.openWindow(targetUrl);
             })
     );
 });
+
