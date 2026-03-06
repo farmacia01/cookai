@@ -583,5 +583,19 @@
       "Trimestral": "Plano Trimestral",
       "Anual": "Plano Anual"
     }
+  },
+  "notifications": {
+    "title": "Lembretes de Refeição",
+    "description": "Receba lembretes diários para não esquecer suas refeições",
+    "toggle": "Ativar notificações",
+    "notSupported": "Seu navegador não suporta notificações.",
+    "permissionDenied": "As notificações estão bloqueadas. Ative nas configurações do navegador.",
+    "statusActive": "✓ Notificações ativas — você receberá lembretes nos horários configurados",
+    "statusInactive": "Ative as notificações para receber lembretes",
+    "meals": {
+      "breakfast": "Café da Manhã",
+      "lunch": "Almoço",
+      "dinner": "Jantar"
+    }
   }
 }

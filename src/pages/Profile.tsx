@@ -12,6 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
 import { User, Target, Save, Loader2, ShieldAlert, Sparkles, TrendingUp, CheckCircle2, Crown, RefreshCw, Calendar, CreditCard, AlertCircle, Gift, ChevronRight } from "lucide-react";
+import NotificationSettings from "@/components/NotificationSettings";
 import { useAuth } from "@/contexts/AuthContext";
 import { useSubscription } from "@/hooks/useSubscription";
 import { supabase } from "@/integrations/supabase/client";
@@ -446,6 +447,9 @@ const Profile = () => {
                 </div>
               </CardContent>
             </Card>
+
+            {/* Notification Settings */}
+            <NotificationSettings />
 
             {/* Nutritional Goals */}
             <Card className="border-primary/20 shadow-lg hover:shadow-xl transition-shadow">

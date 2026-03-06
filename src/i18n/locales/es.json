@@ -446,5 +446,19 @@
     "feature5Desc": "Tus fotos se procesan y eliminan inmediatamente. Nada se almacena.",
     "feature6Title": "Resultados Instantáneos",
     "feature6Desc": "Análisis y generación de recetas en menos de 10 segundos."
+  },
+  "notifications": {
+    "title": "Recordatorios de Comida",
+    "description": "Recibe recordatorios diarios para no olvidar tus comidas",
+    "toggle": "Activar notificaciones",
+    "notSupported": "Tu navegador no soporta notificaciones.",
+    "permissionDenied": "Las notificaciones están bloqueadas. Actívalas en la configuración del navegador.",
+    "statusActive": "✓ Notificaciones activas — recibirás recordatorios en los horarios configurados",
+    "statusInactive": "Activa las notificaciones para recibir recordatorios",
+    "meals": {
+      "breakfast": "Desayuno",
+      "lunch": "Almuerzo",
+      "dinner": "Cena"
+    }
   }
 }

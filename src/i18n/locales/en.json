@@ -446,5 +446,19 @@
     "feature5Desc": "Your photos are processed and deleted immediately. Nothing is stored.",
     "feature6Title": "Instant Results",
     "feature6Desc": "Analysis and recipe generation in less than 10 seconds."
+  },
+  "notifications": {
+    "title": "Meal Reminders",
+    "description": "Get daily reminders so you never miss a meal",
+    "toggle": "Enable notifications",
+    "notSupported": "Your browser does not support notifications.",
+    "permissionDenied": "Notifications are blocked. Enable them in your browser settings.",
+    "statusActive": "✓ Notifications active — you'll receive reminders at the scheduled times",
+    "statusInactive": "Enable notifications to receive reminders",
+    "meals": {
+      "breakfast": "Breakfast",
+      "lunch": "Lunch",
+      "dinner": "Dinner"
+    }
   }
 }
