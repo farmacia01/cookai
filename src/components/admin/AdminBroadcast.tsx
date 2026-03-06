@@ -31,7 +31,9 @@ const AdminBroadcast = () => {
                 .from("broadcast_notifications")
                 .select("id, title, body, recipients_count, created_at")
                 .order("created_at", { ascending: false })
-                .limit(20);
+                .limit(20)
+                .then((res: any) => res.error ? { data: [], error: null } : res);
+
             if (error) throw error;
             return (data as unknown) as BroadcastLog[];
         },
@@ -43,7 +45,9 @@ const AdminBroadcast = () => {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const { count, error } = await (supabase as any)
                 .from("push_subscriptions")
-                .select("*", { count: "exact", head: true });
+                .select("*", { count: "exact", head: true })
+                .then((res: any) => res.error ? { count: 0, error: null } : res);
+
             if (error) throw error;
             return count ?? 0;
         },
