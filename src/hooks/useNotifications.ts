@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 export interface MealReminder {
     id: string;
@@ -20,24 +21,6 @@ const DEFAULT_SETTINGS: NotificationSettings = {
         { id: "lunch", enabled: true, time: "12:00" },
         { id: "dinner", enabled: true, time: "19:00" },
     ],
-};
-
-const MEAL_NOTIFICATIONS: Record<string, { pt: string; en: string; es: string }> = {
-    breakfast: {
-        pt: "☀️ Hora do café da manhã! Que tal gerar uma receita saudável?",
-        en: "☀️ Breakfast time! How about generating a healthy recipe?",
-        es: "☀️ ¡Hora del desayuno! ¿Qué tal generar una receta saludable?",
-    },
-    lunch: {
-        pt: "🍽️ Hora do almoço! Gere uma receita com o que tem na geladeira.",
-        en: "🍽️ Lunch time! Generate a recipe with what's in your fridge.",
-        es: "🍽️ ¡Hora del almuerzo! Genera una receta con lo que tienes en el refrigerador.",
-    },
-    dinner: {
-        pt: "🌙 Hora do jantar! Não esqueça de preparar algo nutritivo.",
-        en: "🌙 Dinner time! Don't forget to prepare something nutritious.",
-        es: "🌙 ¡Hora de cenar! No olvides preparar algo nutritivo.",
-    },
 };
 
 function getStoredSettings(): NotificationSettings {
@@ -68,19 +51,6 @@ function getLanguage(): "pt" | "en" | "es" {
     }
 }
 
-function getDelayUntil(timeStr: string): number {
-    const [hours, minutes] = timeStr.split(":").map(Number);
-    const now = new Date();
-    const target = new Date();
-    target.setHours(hours, minutes, 0, 0);
-
-    // If the time has already passed today, schedule for tomorrow
-    if (target.getTime() <= now.getTime()) {
-        target.setDate(target.getDate() + 1);
-    }
-
-    return target.getTime() - now.getTime();
-}
 
 export function useNotifications() {
     const [settings, setSettings] = useState<NotificationSettings>(getStoredSettings);
@@ -88,57 +58,91 @@ export function useNotifications() {
         typeof Notification !== "undefined" ? Notification.permission : "denied"
     );
     const [isSupported] = useState(() => typeof Notification !== "undefined");
-    const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
 
-    // Clear all scheduled timers
-    const clearTimers = useCallback(() => {
-        timersRef.current.forEach(clearTimeout);
-        timersRef.current = [];
-    }, []);
+    const syncSettingsToDB = useCallback(async (currentSettings: NotificationSettings) => {
+        try {
+            if ("serviceWorker" in navigator && "PushManager" in window) {
+                const registration = await navigator.serviceWorker.ready;
+                const subscription = await registration.pushManager.getSubscription();
+                if (!subscription) return;
 
-    // Show a notification
-    const showNotification = useCallback((mealId: string) => {
-        const lang = getLanguage();
-        const message = MEAL_NOTIFICATIONS[mealId]?.[lang] || MEAL_NOTIFICATIONS[mealId]?.pt || "";
+                const { data: { user } } = await supabase.auth.getUser();
+                if (!user) return;
 
-        if (Notification.permission === "granted") {
-            // Try service worker first (works in background)
-            if ("serviceWorker" in navigator && navigator.serviceWorker.controller) {
-                navigator.serviceWorker.controller.postMessage({
-                    type: "SHOW_NOTIFICATION",
-                    title: "🍳 Cook AI",
-                    body: message,
-                    tag: `meal-${mealId}`,
-                });
-            } else {
-                // Fallback: direct notification (only when app is open)
-                new Notification("🍳 Cook AI", {
-                    body: message,
-                    icon: "/icon.png",
-                    tag: `meal-${mealId}`,
-                });
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const { error } = await (supabase as any).from("push_subscriptions")
+                    .update({ meal_settings: currentSettings.enabled ? currentSettings.meals : [] })
+                    .eq("endpoint", subscription.endpoint);
+
+                if (error) console.error("Failed to sync meal settings", error);
             }
+        } catch (e) {
+            console.error(e);
+        }
+    }, []);
+    const subscribeToPushNotifications = useCallback(async () => {
+        try {
+            if ("serviceWorker" in navigator && "PushManager" in window) {
+                const registration = await navigator.serviceWorker.ready;
+
+                // Get VAPID public key from env
+                const vapidPublicKey = import.meta.env.VITE_VAPID_PUBLIC_KEY;
+                if (!vapidPublicKey) {
+                    console.error("Vapid public key not found in env variables");
+                    return;
+                }
+
+                // Subscribe to push manager
+                const subscription = await registration.pushManager.subscribe({
+                    userVisibleOnly: true,
+                    applicationServerKey: urlBase64ToUint8Array(vapidPublicKey)
+                });
+
+                // Get current user
+                const { data: { user } } = await supabase.auth.getUser();
+                if (!user) return; // Need to be logged in
+
+                // Extract keys
+                const p256dh = btoa(String.fromCharCode.apply(null, Array.from(new Uint8Array(subscription.getKey("p256dh")!))));
+                const auth = btoa(String.fromCharCode.apply(null, Array.from(new Uint8Array(subscription.getKey("auth")!))));
+
+                // Save to Supabase
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const { error } = await (supabase as any).from("push_subscriptions").upsert({
+                    user_id: user.id,
+                    endpoint: subscription.endpoint,
+                    p256dh: p256dh,
+                    auth: auth,
+                    // Use the current standard settings initially
+                    meal_settings: settings.enabled ? settings.meals : []
+                }, { onConflict: "endpoint" });
+
+                if (error) {
+                    console.error("Failed to save push subscription to DB:", error);
+                } else {
+                    console.log("Push subscription saved successfully.");
+                }
+            }
+        } catch (error) {
+            console.error("Error subscribing to web push:", error);
         }
     }, []);
 
-    // Schedule notifications based on current settings
-    const scheduleNotifications = useCallback(() => {
-        clearTimers();
+    // Helper to convert VAPID key
+    const urlBase64ToUint8Array = (base64String: string) => {
+        const padding = '='.repeat((4 - base64String.length % 4) % 4);
+        const base64 = (base64String + padding)
+            .replace(/\-/g, '+')
+            .replace(/_/g, '/');
 
-        if (!settings.enabled || Notification.permission !== "granted") return;
+        const rawData = window.atob(base64);
+        const outputArray = new Uint8Array(rawData.length);
 
-        settings.meals
-            .filter((meal) => meal.enabled)
-            .forEach((meal) => {
-                const delay = getDelayUntil(meal.time);
-                const timer = setTimeout(() => {
-                    showNotification(meal.id);
-                    // Re-schedule for the next day
-                    scheduleNotifications();
-                }, delay);
-                timersRef.current.push(timer);
-            });
-    }, [settings, clearTimers, showNotification]);
+        for (let i = 0; i < rawData.length; ++i) {
+            outputArray[i] = rawData.charCodeAt(i);
+        }
+        return outputArray;
+    };
 
     // Request permission
     const requestPermission = useCallback(async (): Promise<boolean> => {
@@ -157,15 +161,22 @@ export function useNotifications() {
     const toggleEnabled = useCallback(async (enabled: boolean) => {
         if (enabled) {
             const granted = await requestPermission();
-            if (!granted) return;
+            if (!granted) {
+                alert("O seu navegador está bloqueando as notificações. Clique no cadeado na barra de endereços (lá em cima, ao lado de localhost) e mude Notificações para 'Permitir'.");
+                return;
+            }
+
+            // Try to subscribe to push globally if granted
+            await subscribeToPushNotifications();
         }
 
         setSettings((prev) => {
             const updated = { ...prev, enabled };
             saveSettings(updated);
+            syncSettingsToDB(updated);
             return updated;
         });
-    }, [requestPermission]);
+    }, [requestPermission, subscribeToPushNotifications, syncSettingsToDB]);
 
     // Toggle individual meal
     const toggleMeal = useCallback((mealId: string, enabled: boolean) => {
@@ -175,9 +186,10 @@ export function useNotifications() {
                 meals: prev.meals.map((m) => (m.id === mealId ? { ...m, enabled } : m)),
             };
             saveSettings(updated);
+            syncSettingsToDB(updated);
             return updated;
         });
-    }, []);
+    }, [syncSettingsToDB]);
 
     // Update meal time
     const updateMealTime = useCallback((mealId: string, time: string) => {
@@ -187,25 +199,24 @@ export function useNotifications() {
                 meals: prev.meals.map((m) => (m.id === mealId ? { ...m, time } : m)),
             };
             saveSettings(updated);
+            syncSettingsToDB(updated);
             return updated;
         });
-    }, []);
+    }, [syncSettingsToDB]);
 
     // Auto-request permission on first load if enabled
     useEffect(() => {
         if (settings.enabled && isSupported && permission === "default") {
             requestPermission();
+        } else if (settings.enabled && permission === "granted") {
+            // Already granted, make sure we have the push subscription registered
+            subscribeToPushNotifications();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    // Schedule notifications whenever settings change
-    useEffect(() => {
-        scheduleNotifications();
-        return clearTimers;
-    }, [scheduleNotifications, clearTimers]);
+    }, [permission]);
 
     // Also communicate with service worker to schedule there
+    // This isn't needed anymore with the Cron job, but keeping for compatibility
     useEffect(() => {
         if (
             settings.enabled &&
