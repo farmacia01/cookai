@@ -1,5 +1,25 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useTranslation } from "react-i18next";
+
+// Define messages locally since they match SW-custom
+const MEAL_NOTIFICATIONS: Record<string, Record<string, string>> = {
+    breakfast: {
+        pt: "☀️ Hora do café da manhã! Que tal gerar uma receita saudável?",
+        en: "☀️ Breakfast time! How about generating a healthy recipe?",
+        es: "☀️ ¡Hora del desayuno! ¿Qué tal gerar uma receita saludable?",
+    },
+    lunch: {
+        pt: "🍽️ Hora do almoço! Gere uma receita com o que tem na geladeira.",
+        en: "🍽️ Lunch time! Generate a recipe with what's in your fridge.",
+        es: "🍽️ ¡Hora del almuerzo! Genera uma receta com lo que tienes en el refrigerador.",
+    },
+    dinner: {
+        pt: "🌙 Hora do jantar! Não esqueça de preparar algo nutritivo.",
+        en: "🌙 Dinner time! Don't forget to prepare something nutritious.",
+        es: "🌙 ¡Hora de cenar! No olvides preparar algo nutritivo.",
+    },
+};
 
 export interface MealReminder {
     id: string;
@@ -53,6 +73,7 @@ function getLanguage(): "pt" | "en" | "es" {
 
 
 export function useNotifications() {
+    const { t } = useTranslation();
     const [settings, setSettings] = useState<NotificationSettings>(getStoredSettings);
     const [permission, setPermission] = useState<NotificationPermission>(
         typeof Notification !== "undefined" ? Notification.permission : "denied"
@@ -253,6 +274,61 @@ export function useNotifications() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [permission]);
 
+    // Local Scheduler Logic
+    const lastNotifiedRef = useRef<Record<string, string>>({});
+
+    useEffect(() => {
+        if (!settings.enabled || !isSupported || permission !== "granted") return;
+
+        console.log("[useNotifications] Local scheduler started.");
+
+        const checkMeals = () => {
+            const now = new Date();
+            const currentTime = now.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+            const todayKey = now.toDateString();
+
+            settings.meals.forEach(meal => {
+                if (meal.enabled && meal.time === currentTime) {
+                    const notifyKey = `${meal.id}-${todayKey}`;
+                    
+                    if (lastNotifiedRef.current[meal.id] !== todayKey) {
+                        console.log(`[useNotifications] Local trigger: ${meal.id} at ${meal.time}`);
+                        
+                        // Use the existing testNotification logic style (direct or SW)
+                        const message = MEAL_NOTIFICATIONS[meal.id]?.[getLanguage()] || "Hora de cozinhar!";
+                        const title = `🍳 Cook AI: ${getLanguage() === 'pt' ? 'Hora do ' : ''}${t(`notifications.meals.${meal.id}`)}`;
+
+                        if ("serviceWorker" in navigator && navigator.serviceWorker.controller) {
+                            navigator.serviceWorker.controller.postMessage({
+                                type: "SHOW_NOTIFICATION",
+                                title: title,
+                                body: message,
+                                tag: `meal-${meal.id}`,
+                                data: { url: "/gerar-recipes" }
+                            });
+                        } else {
+                            new Notification(title, {
+                                body: message,
+                                icon: "/icon.png",
+                                tag: `meal-${meal.id}`,
+                            });
+                        }
+
+                        lastNotifiedRef.current[meal.id] = todayKey;
+                    }
+                }
+            });
+        };
+
+        // Check immediately
+        checkMeals();
+
+        // Check every minute
+        const intervalId = setInterval(checkMeals, 60000);
+
+        return () => clearInterval(intervalId);
+    }, [settings, isSupported, permission]);
+
     // Also communicate with service worker to schedule there
     // This isn't needed anymore with the Cron job, but keeping for compatibility
     useEffect(() => {
@@ -314,32 +390,6 @@ export function useNotifications() {
         return false;
     }, [isSupported, permission, requestPermission]);
 
-    // Function to test push via server
-    const testPush = useCallback(async () => {
-        console.log("[useNotifications] Test push triggered.");
-        try {
-            const { data: { user } } = await supabase.auth.getUser();
-            if (!user) return false;
-
-            const { data: sessionData } = await supabase.auth.getSession();
-            const token = sessionData.session?.access_token;
-
-            const res = await supabase.functions.invoke("send-broadcast", {
-                body: {
-                    title: "🚀 Teste de Servidor Cook AI",
-                    body: "Se você recebeu isso, as notificações push estão configuradas corretamente!",
-                    isTest: true
-                },
-                headers: token ? { Authorization: `Bearer ${token}` } : undefined,
-            });
-
-            return !res.error;
-        } catch (err) {
-            console.error("[useNotifications] Push test failed:", err);
-            return false;
-        }
-    }, []);
-
     return {
         settings,
         permission,
@@ -349,7 +399,6 @@ export function useNotifications() {
         updateMealTime,
         requestPermission,
         testNotification,
-        testPush,
         subscribeToPushNotifications,
         unsubscribeFromPushNotifications
     };

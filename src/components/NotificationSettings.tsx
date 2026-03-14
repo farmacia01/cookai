@@ -23,7 +23,6 @@ const NotificationSettings = () => {
         updateMealTime,
         requestPermission,
         testNotification,
-        testPush,
         subscribeToPushNotifications, // Added
         unsubscribeFromPushNotifications // Added
     } = useNotifications();
@@ -141,20 +140,7 @@ const NotificationSettings = () => {
                             </div>
 
                             <div className="grid grid-cols-1 gap-3">
-                                <button
-                                    onClick={async () => {
-                                        const success = await testPush();
-                                        if (success) {
-                                            toast.success(t("notifications.testSuccess"));
-                                        } else {
-                                            toast.error(t("notifications.testError"));
-                                        }
-                                    }}
-                                    className="w-full py-4 px-6 bg-background border-2 border-primary/20 text-primary font-black rounded-2xl hover:bg-primary/5 transition-all flex items-center justify-center gap-3 shadow-sm"
-                                >
-                                    <Sun className="w-5 h-5 animate-pulse" />
-                                    {t("notifications.testPush")}
-                                </button>
+
 
                                 <button
                                     onClick={async () => {
