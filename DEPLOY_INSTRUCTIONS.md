@@ -57,7 +57,7 @@ supabase functions deploy estimate-meal-macros
 
 No Supabase Dashboard → Edge Functions → Settings → Secrets:
 
-- **N8N_WEBHOOK_URL**: `https://n8n-production-3ec1d.up.railway.app/webhook/55454557-102f-4852-9f51-063499ad2221`
+- **N8N_WEBHOOK_URL**: `https://n8n-production-a73f.up.railway.app/webhook/55454557-102f-4852-9f51-063499ad2221`
 - **SUPABASE_URL**: `https://enfkbhqiryqwqlcsjwnl.supabase.co`
 - **SUPABASE_SERVICE_ROLE_KEY**: [Sua Service Role Key]
 
@@ -74,7 +74,7 @@ Para debugar o erro 500:
 Teste se o webhook do n8n está respondendo:
 
 ```bash
-curl -X POST https://n8n-production-3ec1d.up.railway.app/webhook/55454557-102f-4852-9f51-063499ad2221 \
+curl -X POST https://n8n-production-a73f.up.railway.app/webhook/55454557-102f-4852-9f51-063499ad2221 \
   -H "Content-Type: application/json" \
   -d '{
     "imageBase64": "data:image/jpeg;base64,...",

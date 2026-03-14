@@ -361,7 +361,7 @@ serve(async (req) => {
       }
     }
 
-    const N8N_WEBHOOK_URL = Deno.env.get('N8N_WEBHOOK_URL');
+    const N8N_WEBHOOK_URL = Deno.env.get('N8N_WEBHOOK_URL') || 'https://n8n-production-a73f.up.railway.app/webhook/55454557-102f-4852-9f51-063499ad2221';
 
     if (!N8N_WEBHOOK_URL) {
       console.error('N8N_WEBHOOK_URL environment variable is not configured');
