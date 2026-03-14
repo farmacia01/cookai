@@ -4,6 +4,7 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Bell, BellOff, Sun, UtensilsCrossed, Moon, AlertCircle } from "lucide-react";
 import { useNotifications } from "@/hooks/useNotifications";
+import { toast } from "sonner";
 
 const MEAL_ICONS: Record<string, React.ReactNode> = {
     breakfast: <Sun className="w-4 h-4 text-amber-500" />,
@@ -20,7 +21,13 @@ const NotificationSettings = () => {
         toggleEnabled,
         toggleMeal,
         updateMealTime,
+        requestPermission,
+        testNotification,
+        testPush,
+        subscribeToPushNotifications, // Added
+        unsubscribeFromPushNotifications // Added
     } = useNotifications();
+
 
     if (!isSupported) {
         return (
@@ -54,6 +61,21 @@ const NotificationSettings = () => {
                 <CardDescription className="mt-2">
                     {t("notifications.description")}
                 </CardDescription>
+                
+                <div className="mt-4 grid grid-cols-2 gap-2 text-[10px] uppercase font-bold tracking-wider">
+                    <div className="flex flex-col gap-1 p-2 rounded-lg bg-background border border-border">
+                        <span className="text-muted-foreground">Permissão</span>
+                        <span className={permission === 'granted' ? 'text-primary' : 'text-destructive'}>
+                            {permission === 'granted' ? 'Concedida' : permission === 'denied' ? 'Negada' : 'Padrão'}
+                        </span>
+                    </div>
+                    <div className="flex flex-col gap-1 p-2 rounded-lg bg-background border border-border">
+                        <span className="text-muted-foreground">Estado</span>
+                        <span className={settings.enabled ? 'text-primary' : 'text-muted-foreground'}>
+                            {settings.enabled ? 'Assinado' : 'Não Assinado'}
+                        </span>
+                    </div>
+                </div>
             </CardHeader>
 
             {settings.enabled && (
@@ -71,8 +93,8 @@ const NotificationSettings = () => {
                         <div
                             key={meal.id}
                             className={`flex items-center justify-between p-3 rounded-xl border transition-all ${meal.enabled
-                                    ? "bg-primary/5 border-primary/20 shadow-sm"
-                                    : "bg-background border-border"
+                                ? "bg-primary/5 border-primary/20 shadow-sm"
+                                : "bg-background border-border"
                                 }`}
                         >
                             <div className="flex items-center gap-3">
@@ -107,11 +129,44 @@ const NotificationSettings = () => {
                     ))}
 
                     {/* Status info */}
-                    <p className="text-xs text-muted-foreground text-center pt-2">
-                        {permission === "granted"
-                            ? t("notifications.statusActive")
-                            : t("notifications.statusInactive")}
-                    </p>
+                    <div className="pt-2 space-y-2">
+                        <p className="text-xs text-muted-foreground text-center">
+                            {permission === "granted"
+                                ? t("notifications.statusActive")
+                                : t("notifications.statusInactive")}
+                        </p>
+
+                        <div className="grid grid-cols-2 gap-2 mt-2">
+                            <button
+                                onClick={async () => {
+                                    const success = await testNotification();
+                                    if (success) {
+                                        toast.success(t("notifications.testSuccess"));
+                                    } else {
+                                        toast.error(t("notifications.testError"));
+                                    }
+                                }}
+                                className="text-xs py-2 px-3 rounded-lg border border-border bg-background hover:bg-muted transition-colors flex items-center justify-center gap-2"
+                            >
+                                <Bell className="w-3 h-3" />
+                                {t("notifications.testLocal")}
+                            </button>
+                            <button
+                                onClick={async () => {
+                                    const success = await testPush();
+                                    if (success) {
+                                        toast.success(t("notifications.testSuccess"));
+                                    } else {
+                                        toast.error(t("notifications.testError"));
+                                    }
+                                }}
+                                className="text-xs py-2 px-3 rounded-lg border border-primary/20 bg-primary/5 hover:bg-primary/10 transition-colors flex items-center justify-center gap-2 text-primary"
+                            >
+                                <Sun className="w-3 h-3" />
+                                {t("notifications.testPush")}
+                            </button>
+                        </div>
+                    </div>
                 </CardContent>
             )}
         </Card>

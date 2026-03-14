@@ -69,10 +69,15 @@ export function useNotifications() {
                 const { data: { user } } = await supabase.auth.getUser();
                 if (!user) return;
 
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                const { error } = await (supabase as any).from("push_subscriptions")
-                    .update({ meal_settings: currentSettings.enabled ? currentSettings.meals : [] })
-                    .eq("endpoint", subscription.endpoint);
+                // We use the same edge function for syncing or just updating settings if needed
+                // For now, let's keep it simple as requested by the user's flow
+                const { error } = await supabase.functions.invoke("push-subscriptions", {
+                    body: {
+                        endpoint: subscription.endpoint,
+                        action: "register",
+                        meal_settings: currentSettings.enabled ? currentSettings.meals : []
+                    }
+                });
 
                 if (error) console.error("Failed to sync meal settings", error);
             }
@@ -106,25 +111,50 @@ export function useNotifications() {
                 const p256dh = btoa(String.fromCharCode.apply(null, Array.from(new Uint8Array(subscription.getKey("p256dh")!))));
                 const auth = btoa(String.fromCharCode.apply(null, Array.from(new Uint8Array(subscription.getKey("auth")!))));
 
-                // Save to Supabase
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                const { error } = await (supabase as any).from("push_subscriptions").upsert({
-                    user_id: user.id,
-                    endpoint: subscription.endpoint,
-                    p256dh: p256dh,
-                    auth: auth,
-                    // Use the current standard settings initially
-                    meal_settings: settings.enabled ? settings.meals : []
-                }, { onConflict: "endpoint" });
+                // Save to Supabase via Edge Function
+                const { data, error } = await supabase.functions.invoke("push-subscriptions", {
+                    body: {
+                        endpoint: subscription.endpoint,
+                        p256dh: p256dh,
+                        auth: auth,
+                        userAgent: navigator.userAgent,
+                        action: "register"
+                    }
+                });
 
                 if (error) {
                     console.error("Failed to save push subscription to DB:", error);
                 } else {
-                    console.log("Push subscription saved successfully.");
+                    console.log("Push subscription saved successfully:", data);
                 }
             }
         } catch (error) {
             console.error("Error subscribing to web push:", error);
+        }
+    }, []);
+
+    const unsubscribeFromPushNotifications = useCallback(async () => {
+        try {
+            if ("serviceWorker" in navigator && "PushManager" in window) {
+                const registration = await navigator.serviceWorker.ready;
+                const subscription = await registration.pushManager.getSubscription();
+                
+                if (subscription) {
+                    // Call backend to unregister
+                    await supabase.functions.invoke("push-subscriptions", {
+                        body: {
+                            endpoint: subscription.endpoint,
+                            action: "unregister"
+                        }
+                    });
+                    
+                    // Local unsubscribe
+                    await subscription.unsubscribe();
+                    console.log("Unsubscribed from push notifications locally and on backend.");
+                }
+            }
+        } catch (error) {
+            console.error("Error unsubscribing from web push:", error);
         }
     }, []);
 
@@ -168,15 +198,18 @@ export function useNotifications() {
 
             // Try to subscribe to push globally if granted
             await subscribeToPushNotifications();
+        } else {
+            // Unsubscribe if disabled
+            await unsubscribeFromPushNotifications();
         }
 
         setSettings((prev) => {
             const updated = { ...prev, enabled };
             saveSettings(updated);
-            syncSettingsToDB(updated);
+            // syncSettingsToDB(updated); // Disabled for maintenance flow as it's handled by push-subscriptions
             return updated;
         });
-    }, [requestPermission, subscribeToPushNotifications, syncSettingsToDB]);
+    }, [requestPermission, subscribeToPushNotifications, unsubscribeFromPushNotifications]);
 
     // Toggle individual meal
     const toggleMeal = useCallback((mealId: string, enabled: boolean) => {
@@ -276,6 +309,32 @@ export function useNotifications() {
         return false;
     }, [isSupported, permission, requestPermission]);
 
+    // Function to test push via server
+    const testPush = useCallback(async () => {
+        console.log("[useNotifications] Test push triggered.");
+        try {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) return false;
+
+            const { data: sessionData } = await supabase.auth.getSession();
+            const token = sessionData.session?.access_token;
+
+            const res = await supabase.functions.invoke("send-broadcast", {
+                body: {
+                    title: "🚀 Teste de Servidor Cook AI",
+                    body: "Se você recebeu isso, as notificações push estão configuradas corretamente!",
+                    isTest: true
+                },
+                headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+            });
+
+            return !res.error;
+        } catch (err) {
+            console.error("[useNotifications] Push test failed:", err);
+            return false;
+        }
+    }, []);
+
     return {
         settings,
         permission,
@@ -285,5 +344,8 @@ export function useNotifications() {
         updateMealTime,
         requestPermission,
         testNotification,
+        testPush,
+        subscribeToPushNotifications,
+        unsubscribeFromPushNotifications
     };
 }

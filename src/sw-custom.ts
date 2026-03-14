@@ -73,7 +73,7 @@ self.addEventListener("push", (event) => {
 self.addEventListener("notificationclick", (event) => {
     event.notification.close();
 
-    const targetUrl = (event.notification.data as { url?: string })?.url || "/gerar-receitas";
+    const targetUrl = (event.notification.data as { url?: string })?.url || "/";
 
     event.waitUntil(
         self.clients

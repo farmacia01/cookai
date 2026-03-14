@@ -459,6 +459,11 @@
       "breakfast": "Breakfast",
       "lunch": "Lunch",
       "dinner": "Dinner"
-    }
+    },
+    "testLocal": "Test Local",
+    "testPush": "Test Push (Server)",
+    "testing": "Testing...",
+    "testSuccess": "Test notification sent!",
+    "testError": "Error testing. Check permissions."
   }
 }

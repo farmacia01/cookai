@@ -459,6 +459,11 @@
       "breakfast": "Desayuno",
       "lunch": "Almuerzo",
       "dinner": "Cena"
-    }
+    },
+    "testLocal": "Probar Local",
+    "testPush": "Probar Push (Servidor)",
+    "testing": "Probando...",
+    "testSuccess": "¡Notificación de prueba enviada!",
+    "testError": "Error al probar. Verifique los permisos."
   }
 }
