@@ -598,9 +598,11 @@
       "dinner": "Jantar"
     },
     "testLocal": "Testar Local",
-    "testPush": "Testar Push (Servidor)",
+    "testPush": "Testar Servidor (Push)",
     "testing": "Testando...",
     "testSuccess": "Notificação teste enviada!",
-    "testError": "Erro ao testar. Verifique as permissões."
+    "testError": "Erro ao testar. Verifique as permissões.",
+    "enableNow": "Ativar Agora",
+    "activeStatus": "Status das Notificações"
   }
 }
