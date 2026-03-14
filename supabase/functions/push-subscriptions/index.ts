@@ -37,7 +37,7 @@ serve(async (req) => {
             });
         }
 
-        const { endpoint, p256dh, auth, userAgent, action = "register" } = await req.json();
+        const { endpoint, p256dh, auth, userAgent, meal_settings, action = "register" } = await req.json();
 
         if (!endpoint || (action === "register" && (!p256dh || !auth))) {
             return new Response(JSON.stringify({ error: "Missing required fields" }), {
@@ -53,7 +53,8 @@ serve(async (req) => {
             p_p256dh: p256dh || "",
             p_auth: auth || "",
             p_user_agent: userAgent || req.headers.get("user-agent") || null,
-            p_action: action
+            p_action: action,
+            p_meal_settings: meal_settings || []
         });
 
         if (error) throw error;

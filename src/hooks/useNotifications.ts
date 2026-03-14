@@ -69,11 +69,16 @@ export function useNotifications() {
                 const { data: { user } } = await supabase.auth.getUser();
                 if (!user) return;
 
+                // Extract keys
+                const p256dh = btoa(String.fromCharCode.apply(null, Array.from(new Uint8Array(subscription.getKey("p256dh")!))));
+                const auth = btoa(String.fromCharCode.apply(null, Array.from(new Uint8Array(subscription.getKey("auth")!))));
+
                 // We use the same edge function for syncing or just updating settings if needed
-                // For now, let's keep it simple as requested by the user's flow
                 const { error } = await supabase.functions.invoke("push-subscriptions", {
                     body: {
                         endpoint: subscription.endpoint,
+                        p256dh: p256dh,
+                        auth: auth,
                         action: "register",
                         meal_settings: currentSettings.enabled ? currentSettings.meals : []
                     }

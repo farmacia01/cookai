@@ -23,7 +23,7 @@ import { useNotifications } from "@/hooks/useNotifications";
 import { toast } from "sonner";
 
 const DashboardOverview = () => {
-  const { testNotification } = useNotifications();
+  const { testNotification, testPush } = useNotifications();
   const { data: stats, isLoading, error } = useQuery({
     queryKey: ["admin-stats"],
     queryFn: async () => {
@@ -273,6 +273,21 @@ const DashboardOverview = () => {
           <p className="text-muted-foreground text-sm mt-0.5">Visão geral do sistema em tempo real</p>
         </div>
         <div className="flex items-center gap-3">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={async () => {
+              const success = await testPush();
+              if (success) {
+                toast("🚀 Push de Nuvem enviado!");
+              } else {
+                toast.error("Erro ao enviar push de nuvem.");
+              }
+            }}
+          >
+            <Sparkles className="w-4 h-4 mr-2" />
+            Testar Push Cloud
+          </Button>
           <Button
             variant="outline"
             size="sm"
