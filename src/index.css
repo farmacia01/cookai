@@ -217,15 +217,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 0 4px hsl(0 0% 8%), 0 0 24px hsl(82 100% 58% / 0.5);
-    transition: all 0.2s ease;
+    box-shadow: 0 0 0 4px hsl(0 0% 8%), 0 8px 22px hsl(82 100% 58% / 0.22);
+    transition: transform 0.22s ease, box-shadow 0.25s ease, background-color 0.2s ease;
     margin-bottom: 16px;
   }
 
   .fab-btn:hover,
   .fab-btn:active {
-    transform: scale(1.08);
-    box-shadow: 0 0 0 4px hsl(0 0% 8%), 0 0 40px hsl(82 100% 58% / 0.7);
+    transform: translateY(-1px) scale(1.03);
+    box-shadow: 0 0 0 4px hsl(0 0% 8%), 0 12px 30px hsl(82 100% 58% / 0.28);
   }
 
   /* ── Circular progress ring ── */

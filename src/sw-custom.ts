@@ -79,15 +79,13 @@ self.addEventListener("notificationclick", (event) => {
         self.clients
             .matchAll({ type: "window", includeUncontrolled: true })
             .then((clientList) => {
-                // Focus existing tab if present
                 for (const client of clientList) {
-                    if ("focus" in client) {
-                        return client.focus();
+                    if ("focus" in client && "navigate" in client) {
+                        const windowClient = client as WindowClient;
+                        return windowClient.navigate(targetUrl).then(() => windowClient.focus());
                     }
                 }
-                // Otherwise open a new tab
                 return self.clients.openWindow(targetUrl);
             })
     );
 });
-

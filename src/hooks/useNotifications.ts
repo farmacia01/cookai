@@ -1,25 +1,6 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useTranslation } from "react-i18next";
-
-// Define messages locally since they match SW-custom
-const MEAL_NOTIFICATIONS: Record<string, Record<string, string>> = {
-    breakfast: {
-        pt: "☀️ Hora do café da manhã! Que tal gerar uma receita saudável?",
-        en: "☀️ Breakfast time! How about generating a healthy recipe?",
-        es: "☀️ ¡Hora del desayuno! ¿Qué tal gerar uma receita saludable?",
-    },
-    lunch: {
-        pt: "🍽️ Hora do almoço! Gere uma receita com o que tem na geladeira.",
-        en: "🍽️ Lunch time! Generate a recipe with what's in your fridge.",
-        es: "🍽️ ¡Hora del almuerzo! Genera uma receta com lo que tienes en el refrigerador.",
-    },
-    dinner: {
-        pt: "🌙 Hora do jantar! Não esqueça de preparar algo nutritivo.",
-        en: "🌙 Dinner time! Don't forget to prepare something nutritious.",
-        es: "🌙 ¡Hora de cenar! No olvides preparar algo nutritivo.",
-    },
-};
 
 export interface MealReminder {
     id: string;
@@ -57,7 +38,11 @@ function getStoredSettings(): NotificationSettings {
 }
 
 function saveSettings(settings: NotificationSettings) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
+    } catch {
+        // ignore storage errors (private mode / quota)
+    }
 }
 
 function getLanguage(): "pt" | "en" | "es" {
@@ -69,6 +54,14 @@ function getLanguage(): "pt" | "en" | "es" {
     } catch {
         return "pt";
     }
+}
+
+function subscriptionKeyToBase64(key: ArrayBuffer | null): string {
+    if (!key) return "";
+    const bytes = new Uint8Array(key);
+    let binary = "";
+    for (const b of bytes) binary += String.fromCharCode(b);
+    return btoa(binary);
 }
 
 
@@ -91,8 +84,8 @@ export function useNotifications() {
                 if (!user) return;
 
                 // Extract keys
-                const p256dh = btoa(String.fromCharCode.apply(null, Array.from(new Uint8Array(subscription.getKey("p256dh")!))));
-                const auth = btoa(String.fromCharCode.apply(null, Array.from(new Uint8Array(subscription.getKey("auth")!))));
+                const p256dh = subscriptionKeyToBase64(subscription.getKey("p256dh"));
+                const auth = subscriptionKeyToBase64(subscription.getKey("auth"));
 
                 // We use the same edge function for syncing or just updating settings if needed
                 const { error } = await supabase.functions.invoke("push-subscriptions", {
@@ -105,10 +98,13 @@ export function useNotifications() {
                     }
                 });
 
-                if (error) console.error("Failed to sync meal settings", error);
+                if (error) {
+                    // non-blocking sync failure
+                    console.warn("Failed to sync meal settings");
+                }
             }
         } catch (e) {
-            console.error(e);
+            console.warn("Notification settings sync skipped");
         }
     }, []);
     const subscribeToPushNotifications = useCallback(async () => {
@@ -124,18 +120,21 @@ export function useNotifications() {
                 }
 
                 // Subscribe to push manager
-                const subscription = await registration.pushManager.subscribe({
-                    userVisibleOnly: true,
-                    applicationServerKey: urlBase64ToUint8Array(vapidPublicKey)
-                });
+                let subscription = await registration.pushManager.getSubscription();
+                if (!subscription) {
+                    subscription = await registration.pushManager.subscribe({
+                        userVisibleOnly: true,
+                        applicationServerKey: urlBase64ToUint8Array(vapidPublicKey)
+                    });
+                }
 
                 // Get current user
                 const { data: { user } } = await supabase.auth.getUser();
                 if (!user) return; // Need to be logged in
 
                 // Extract keys
-                const p256dh = btoa(String.fromCharCode.apply(null, Array.from(new Uint8Array(subscription.getKey("p256dh")!))));
-                const auth = btoa(String.fromCharCode.apply(null, Array.from(new Uint8Array(subscription.getKey("auth")!))));
+                const p256dh = subscriptionKeyToBase64(subscription.getKey("p256dh"));
+                const auth = subscriptionKeyToBase64(subscription.getKey("auth"));
 
                 // Save to Supabase via Edge Function
                 const { data, error } = await supabase.functions.invoke("push-subscriptions", {
@@ -149,13 +148,13 @@ export function useNotifications() {
                 });
 
                 if (error) {
-                    console.error("Failed to save push subscription to DB:", error);
+                    console.warn("Failed to save push subscription");
                 } else {
                     console.log("Push subscription saved successfully:", data);
                 }
             }
         } catch (error) {
-            console.error("Error subscribing to web push:", error);
+            console.warn("Web push subscription unavailable");
         }
     }, []);
 
@@ -180,7 +179,7 @@ export function useNotifications() {
                 }
             }
         } catch (error) {
-            console.error("Error unsubscribing from web push:", error);
+            console.warn("Web push unsubscription unavailable");
         }
     }, []);
 
@@ -188,7 +187,7 @@ export function useNotifications() {
     const urlBase64ToUint8Array = (base64String: string) => {
         const padding = '='.repeat((4 - base64String.length % 4) % 4);
         const base64 = (base64String + padding)
-            .replace(/\-/g, '+')
+            .replace(/-/g, '+')
             .replace(/_/g, '/');
 
         const rawData = window.atob(base64);
@@ -218,7 +217,7 @@ export function useNotifications() {
         if (enabled) {
             const granted = await requestPermission();
             if (!granted) {
-                alert("O seu navegador está bloqueando as notificações. Clique no cadeado na barra de endereços (lá em cima, ao lado de localhost) e mude Notificações para 'Permitir'.");
+                console.warn("Notification permission denied");
                 return;
             }
 
@@ -274,63 +273,7 @@ export function useNotifications() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [permission]);
 
-    // Local Scheduler Logic
-    const lastNotifiedRef = useRef<Record<string, string>>({});
-
-    useEffect(() => {
-        if (!settings.enabled || !isSupported || permission !== "granted") return;
-
-        console.log("[useNotifications] Local scheduler started.");
-
-        const checkMeals = () => {
-            const now = new Date();
-            const currentTime = now.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
-            const todayKey = now.toDateString();
-
-            settings.meals.forEach(meal => {
-                if (meal.enabled && meal.time === currentTime) {
-                    const notifyKey = `${meal.id}-${todayKey}`;
-                    
-                    if (lastNotifiedRef.current[meal.id] !== todayKey) {
-                        console.log(`[useNotifications] Local trigger: ${meal.id} at ${meal.time}`);
-                        
-                        // Use the existing testNotification logic style (direct or SW)
-                        const message = MEAL_NOTIFICATIONS[meal.id]?.[getLanguage()] || "Hora de cozinhar!";
-                        const title = `🍳 Cook AI: ${getLanguage() === 'pt' ? 'Hora do ' : ''}${t(`notifications.meals.${meal.id}`)}`;
-
-                        if ("serviceWorker" in navigator && navigator.serviceWorker.controller) {
-                            navigator.serviceWorker.controller.postMessage({
-                                type: "SHOW_NOTIFICATION",
-                                title: title,
-                                body: message,
-                                tag: `meal-${meal.id}`,
-                                data: { url: "/gerar-recipes" }
-                            });
-                        } else {
-                            new Notification(title, {
-                                body: message,
-                                icon: "/icon.png",
-                                tag: `meal-${meal.id}`,
-                            });
-                        }
-
-                        lastNotifiedRef.current[meal.id] = todayKey;
-                    }
-                }
-            });
-        };
-
-        // Check immediately
-        checkMeals();
-
-        // Check every minute
-        const intervalId = setInterval(checkMeals, 60000);
-
-        return () => clearInterval(intervalId);
-    }, [settings, isSupported, permission]);
-
-    // Also communicate with service worker to schedule there
-    // This isn't needed anymore with the Cron job, but keeping for compatibility
+    // Sync only meal preferences to service worker (no local schedule)
     useEffect(() => {
         if (
             settings.enabled &&

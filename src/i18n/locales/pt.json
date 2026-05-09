@@ -37,12 +37,16 @@
       "subtitle": "Use tudo!"
     },
     "monstro": {
-      "title": "Modo Monstro",
+      "title": "Hipertrofia",
       "subtitle": "Alta proteína"
     },
     "seca": {
-      "title": "Seca Barriga",
+      "title": "Lean",
       "subtitle": "Baixa caloria"
+    },
+    "glp1": {
+      "title": "GLP-1",
+      "subtitle": "Leve e saciante"
     }
   },
   "footer": {
@@ -184,10 +188,10 @@
       "monthly": {
         "name": "Mensal",
         "description": "Para quem quer começar a ver resultados agora",
-        "price": "R$ 39,90",
+        "price": "R$ 14,90",
         "period": "/mês",
-        "pricePerDay": "R$ 1,33/dia",
-        "cta": "Assinar por R$ 39,90",
+        "pricePerDay": "R$ 0,50/dia",
+        "cta": "Assinar por R$ 14,90",
         "features": [
           "Receitas ilimitadas por mês",
           "3 modos: Economia, Emagrecimento e Massa",
@@ -220,20 +224,20 @@
       },
       "annual": {
         "name": "Anual",
-        "description": "Máxima economia — pague metade do preço mensal",
-        "price": "R$ 19,90",
+        "description": "Máxima economia para uso contínuo do Cook AI Plus",
+        "price": "R$ 9,99",
         "period": "/mês",
-        "totalPrice": "R$ 238,80",
+        "totalPrice": "R$ 119,90",
         "installments": "ou",
-        "savings": "50% de desconto",
-        "pricePerDay": "R$ 0,66/dia",
-        "originalPrice": "R$ 478,80",
-        "cta": "Assinar por R$ 238,80",
+        "savings": "Economize R$ 58,90/ano",
+        "pricePerDay": "R$ 0,33/dia",
+        "originalPrice": "R$ 178,80",
+        "cta": "Assinar por R$ 119,90",
         "features": [
-          "Tudo do plano Trimestral",
-          "50% de desconto — metade do preço",
-          "R$ 0,66 por dia — menos que um café",
-          "Economize R$ 240 no plano",
+          "Tudo do plano Mensal",
+          "Melhor custo-benefício no ano",
+          "R$ 0,33 por dia — menos que um café",
+          "Economize R$ 58,90 no plano",
           "Acesso antecipado a novidades",
           "Prioridade máxima no suporte",
           "1 ano de transformação garantida"
@@ -241,7 +245,7 @@
       }
     },
     "comparison": {
-      "title": "Compare: R$ 250/consulta vs R$ 0,66/dia",
+      "title": "Compare: R$ 250/consulta vs R$ 0,33/dia",
       "nutritionist": "Nutricionista tradicional: R$ 250 por consulta",
       "nutriai": "Cook: {{price}} por dia (plano {{plan}})",
       "subtitle": "Receitas personalizadas 24/7 por menos que um café. Economize R$ 250+ por mês."
@@ -436,12 +440,16 @@
       "description": "Use todos os ingredientes disponíveis"
     },
     "monstro": {
-      "title": "Modo Monstro",
+      "title": "Hipertrofia",
       "description": "Foco em proteína e ganho muscular"
     },
     "seca": {
-      "title": "Seca Barriga",
+      "title": "Lean",
       "description": "Baixa caloria e carboidrato"
+    },
+    "glp1": {
+      "title": "GLP-1",
+      "description": "Refeições leves, econômicas e ricas em proteína."
     }
   },
   "recipeCard": {

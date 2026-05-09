@@ -1,9 +1,9 @@
 import { cn } from "@/lib/utils";
-import { Lock, Crown, Check } from "lucide-react";
+import { Lock, Crown, Check, Sparkles, Dumbbell, Flame, Pill } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-export type RecipeMode = "faxina" | "monstro" | "seca";
+export type RecipeMode = "faxina" | "monstro" | "seca" | "glp1";
 
 interface ModeSelectorProps {
   selectedMode: RecipeMode;
@@ -15,7 +15,7 @@ interface ModeSelectorProps {
 const modes = [
   {
     id: "faxina" as RecipeMode,
-    emoji: "🧹",
+    icon: Sparkles,
     accentColor: "#A3E635",
     bgColor: "hsl(82 100% 58% / 0.1)",
     borderColor: "#A3E635",
@@ -23,7 +23,7 @@ const modes = [
   },
   {
     id: "monstro" as RecipeMode,
-    emoji: "💪",
+    icon: Dumbbell,
     accentColor: "#fb923c",
     bgColor: "hsl(25 95% 53% / 0.1)",
     borderColor: "#fb923c",
@@ -31,10 +31,18 @@ const modes = [
   },
   {
     id: "seca" as RecipeMode,
-    emoji: "🔥",
+    icon: Flame,
     accentColor: "#38bdf8",
     bgColor: "hsl(200 80% 50% / 0.1)",
     borderColor: "#38bdf8",
+    proOnly: true,
+  },
+  {
+    id: "glp1" as RecipeMode,
+    icon: Pill,
+    accentColor: "#22c55e",
+    bgColor: "hsl(142 71% 45% / 0.1)",
+    borderColor: "#22c55e",
     proOnly: true,
   },
 ];
@@ -93,7 +101,7 @@ const ModeSelector = ({ selectedMode, onModeSelect, disabledModes = [], isPro = 
                   : {}
               }
             >
-              {/* Emoji container */}
+              {/* Mode icon container */}
               <div
                 className={cn(
                   "w-11 h-11 rounded-2xl flex items-center justify-center text-xl flex-shrink-0 transition-all duration-250",
@@ -104,7 +112,7 @@ const ModeSelector = ({ selectedMode, onModeSelect, disabledModes = [], isPro = 
                 {isLocked ? (
                   <Lock className="w-4.5 h-4.5" style={{ color: "#444" }} />
                 ) : (
-                  <span className={cn(isSelected ? "text-2xl" : "text-lg opacity-70")}>{mode.emoji}</span>
+                  <mode.icon className={cn("transition-all", isSelected ? "w-5 h-5 text-white" : "w-4.5 h-4.5 text-[#9ca3af]")} />
                 )}
               </div>
 

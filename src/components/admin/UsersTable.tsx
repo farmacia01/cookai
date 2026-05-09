@@ -39,7 +39,7 @@ interface UserWithSubscription {
   last_recipe_generated_at?: string | null;
 }
 
-type PlanFilter = "all" | "free" | "active" | "monthly" | "quarterly" | "annual" | "active_recent" | "inactive_recent" | "inactive_old" | "never";
+type PlanFilter = "all" | "free" | "active" | "monthly" | "annual" | "active_recent" | "inactive_recent" | "inactive_old" | "never";
 
 const UsersTable = () => {
   const [page, setPage] = useState(0);
@@ -100,8 +100,6 @@ const UsersTable = () => {
               return user.subscription_status === "active";
             case "monthly":
               return user.subscription_status === "active" && user.subscription_billing_cycle === 1;
-            case "quarterly":
-              return user.subscription_status === "active" && user.subscription_billing_cycle === 3;
             case "annual":
               return user.subscription_status === "active" && user.subscription_billing_cycle === 12;
             case "active_recent":
@@ -185,8 +183,7 @@ const UsersTable = () => {
                 : `${filteredCount} usuário${filteredCount !== 1 ? 's' : ''} ${planFilter === "free" ? "sem plano"
                   : planFilter === "active" ? "com plano ativo"
                     : planFilter === "monthly" ? "com plano mensal"
-                      : planFilter === "quarterly" ? "com plano trimestral"
-                        : planFilter === "annual" ? "com plano anual"
+                      : planFilter === "annual" ? "com plano anual"
                           : planFilter === "active_recent" ? "ativos recentemente (últimos 7 dias)"
                             : planFilter === "inactive_recent" ? "inativos recentemente (7-30 dias)"
                               : planFilter === "inactive_old" ? "muito inativos (30+ dias)"
@@ -207,7 +204,6 @@ const UsersTable = () => {
                   <SelectItem value="free">Sem plano (Free)</SelectItem>
                   <SelectItem value="active">Todos os ativos</SelectItem>
                   <SelectItem value="monthly">Mensal</SelectItem>
-                  <SelectItem value="quarterly">Trimestral</SelectItem>
                   <SelectItem value="annual">Anual</SelectItem>
                   <SelectItem value="active_recent">Ativos (últimos 7 dias)</SelectItem>
                   <SelectItem value="inactive_recent">Inativos (7-30 dias)</SelectItem>
@@ -286,7 +282,6 @@ const UsersTable = () => {
                         {user.subscription_status === "active" && user.subscription_billing_cycle && (
                           <span className="text-xs text-muted-foreground">
                             {user.subscription_billing_cycle === 1 && "Mensal"}
-                            {user.subscription_billing_cycle === 3 && "Trimestral"}
                             {user.subscription_billing_cycle === 12 && "Anual"}
                           </span>
                         )}

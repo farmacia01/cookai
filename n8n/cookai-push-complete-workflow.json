@@ -1,0 +1,449 @@
+{
+  "name": "Cook AI - Push Notifications Complete",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "manual_trigger",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1200,
+        180
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 11,18,21 * * *"
+            }
+          ]
+        }
+      },
+      "id": "cron_trigger",
+      "name": "Cron Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1200,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const templates = [\n  {\n    title: 'Receita econômica para hoje',\n    body: 'Monte uma refeição barata com o que você já tem em casa.',\n    tag: 'economica-dia',\n    audience: 'all'\n  },\n  {\n    title: 'Receita GLP-1 rica em proteína',\n    body: 'Uma sugestão leve, barata e proteica para sua rotina.',\n    tag: 'glp1-proteina',\n    audience: 'all'\n  },\n  {\n    title: 'Sem ideia do que cozinhar?',\n    body: 'Tire uma foto da geladeira e deixe a IA criar sua receita.',\n    tag: 'lembrete-cozinhar',\n    audience: 'all'\n  },\n  {\n    title: 'Seu limite grátis está acabando',\n    body: 'Faça upgrade para Premium e continue gerando receitas ilimitadas.',\n    tag: 'limite-gratis',\n    audience: 'all'\n  },\n  {\n    title: 'Premium com desconto hoje',\n    body: 'Desbloqueie receitas avançadas e planos personalizados.',\n    tag: 'premium-promo',\n    audience: 'all'\n  },\n  {\n    title: 'Receita rápida com ingredientes comuns',\n    body: 'Em minutos você transforma o que já tem em uma refeição completa.',\n    tag: 'receita-rapida',\n    audience: 'all'\n  }\n];\n\nconst index = Math.floor(Math.random() * templates.length);\nconst picked = templates[index];\n\nreturn [{\n  json: {\n    ...picked,\n    url: '/',\n    icon: '/icons/icon-192.png',\n    badge: '/icons/badge-72.png'\n  }\n}];"
+      },
+      "id": "dynamic_message",
+      "name": "Code: Dynamic Message",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -940,
+        270
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "title",
+              "name": "title",
+              "value": "={{$json.title}}",
+              "type": "string"
+            },
+            {
+              "id": "body",
+              "name": "body",
+              "value": "={{$json.body}}",
+              "type": "string"
+            },
+            {
+              "id": "url",
+              "name": "url",
+              "value": "={{$json.url || '/'}}",
+              "type": "string"
+            },
+            {
+              "id": "icon",
+              "name": "icon",
+              "value": "={{$json.icon || '/icons/icon-192.png'}}",
+              "type": "string"
+            },
+            {
+              "id": "badge",
+              "name": "badge",
+              "value": "={{$json.badge || '/icons/badge-72.png'}}",
+              "type": "string"
+            },
+            {
+              "id": "tag",
+              "name": "tag",
+              "value": "={{$json.tag || 'cook-ai-daily'}}",
+              "type": "string"
+            },
+            {
+              "id": "audience",
+              "name": "audience",
+              "value": "={{$json.audience || 'all'}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set_notification_payload",
+      "name": "Set Notification Payload",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -700,
+        270
+      ]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{$env.APP_URL}}/api/push/subscriptions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{$env.PUSH_ADMIN_SECRET}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "http_get_subscriptions",
+      "name": "HTTP: Get Subscriptions",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -460,
+        270
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const payload = $('Set Notification Payload').first().json;\nconst input = items[0]?.json;\nconst rows = Array.isArray(input) ? input : (Array.isArray(input?.data) ? input.data : items.map(i => i.json));\n\nreturn rows.map((sub) => ({\n  json: {\n    subscription_id: sub.id,\n    endpoint: sub.endpoint,\n    keys: {\n      p256dh: sub.keys?.p256dh ?? sub.p256dh,\n      auth: sub.keys?.auth ?? sub.auth,\n    },\n    payload\n  }\n}));"
+      },
+      "id": "normalize_subscriptions",
+      "name": "Code: Normalize Subscriptions",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -220,
+        270
+      ]
+    },
+    {
+      "parameters": {
+        "batchSize": 50,
+        "options": {}
+      },
+      "id": "split_in_batches",
+      "name": "Split In Batches (50)",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        20,
+        270
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const webpush = require('web-push');\n\nwebpush.setVapidDetails(\n  $env.VAPID_SUBJECT,\n  $env.VAPID_PUBLIC_KEY,\n  $env.VAPID_PRIVATE_KEY\n);\n\nconst subscriptionId = $json.subscription_id;\nconst subscription = {\n  endpoint: $json.endpoint,\n  keys: {\n    p256dh: $json.keys?.p256dh,\n    auth: $json.keys?.auth,\n  },\n};\n\nconst payload = {\n  title: $json.payload.title,\n  body: $json.payload.body,\n  url: $json.payload.url,\n  icon: $json.payload.icon,\n  badge: $json.payload.badge,\n  tag: $json.payload.tag,\n};\n\ntry {\n  const response = await webpush.sendNotification(subscription, JSON.stringify(payload));\n  return [{\n    json: {\n      subscription_id: subscriptionId,\n      title: payload.title,\n      body: payload.body,\n      url: payload.url,\n      status: 'sent',\n      error: null,\n      statusCode: response.statusCode || 201\n    }\n  }];\n} catch (err) {\n  const statusCode = err?.statusCode || err?.status || 500;\n  const expired = statusCode === 404 || statusCode === 410;\n\n  return [{\n    json: {\n      subscription_id: subscriptionId,\n      title: payload.title,\n      body: payload.body,\n      url: payload.url,\n      status: expired ? 'expired' : 'error',\n      error: err?.body || err?.message || 'Unknown push error',\n      statusCode\n    }\n  }];\n}"
+      },
+      "id": "send_web_push",
+      "name": "Code: Send Web Push",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        260,
+        270
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.APP_URL}}/api/push/log",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{$env.PUSH_ADMIN_SECRET}}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ {\n  subscription_id: $json.subscription_id,\n  title: $json.title,\n  body: $json.body,\n  url: $json.url,\n  status: $json.status,\n  error: $json.error\n} }}",
+        "options": {}
+      },
+      "id": "http_log",
+      "name": "HTTP: Register Log",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        500,
+        270
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "is_expired",
+              "leftValue": "={{$json.status}}",
+              "rightValue": "expired",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "if_expired",
+      "name": "IF Expired (404/410)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        740,
+        270
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.APP_URL}}/api/push/subscriptions/deactivate",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{$env.PUSH_ADMIN_SECRET}}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { subscription_id: $json.subscription_id } }}",
+        "options": {
+          "ignoreResponseCode": true
+        }
+      },
+      "id": "http_deactivate",
+      "name": "HTTP: Deactivate Expired",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        980,
+        170
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "summary",
+              "name": "summary",
+              "value": "Push batch processed",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "final_response",
+      "name": "Final Response",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1220,
+        270
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Code: Dynamic Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cron Trigger": {
+      "main": [
+        [
+          {
+            "node": "Code: Dynamic Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code: Dynamic Message": {
+      "main": [
+        [
+          {
+            "node": "Set Notification Payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Notification Payload": {
+      "main": [
+        [
+          {
+            "node": "HTTP: Get Subscriptions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP: Get Subscriptions": {
+      "main": [
+        [
+          {
+            "node": "Code: Normalize Subscriptions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code: Normalize Subscriptions": {
+      "main": [
+        [
+          {
+            "node": "Split In Batches (50)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split In Batches (50)": {
+      "main": [
+        [
+          {
+            "node": "Code: Send Web Push",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Final Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code: Send Web Push": {
+      "main": [
+        [
+          {
+            "node": "HTTP: Register Log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP: Register Log": {
+      "main": [
+        [
+          {
+            "node": "IF Expired (404/410)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF Expired (404/410)": {
+      "main": [
+        [
+          {
+            "node": "HTTP: Deactivate Expired",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Split In Batches (50)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP: Deactivate Expired": {
+      "main": [
+        [
+          {
+            "node": "Split In Batches (50)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1",
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "id": "cookai_push_complete",
+  "tags": [
+    "cookai",
+    "push",
+    "pwa",
+    "n8n",
+    "supabase"
+  ]
+}

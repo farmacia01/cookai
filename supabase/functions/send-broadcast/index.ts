@@ -18,8 +18,15 @@ serve(async (req) => {
         const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
         const vapidPrivateKeyStr = Deno.env.get("VAPID_PRIVATE_KEY")!;
         const vapidSubject = Deno.env.get("VAPID_SUBJECT") || "mailto:admin@cookai.app";
+        const pushAdminSecret = Deno.env.get("PUSH_ADMIN_SECRET");
 
-        const { title, body, icon, badge, url, tag, target_user_id } = await req.json();
+        const { title, body, icon, badge, url, tag, target_user_id, audience = "all", custom } = await req.json();
+        if (!title || !body) {
+            return new Response(JSON.stringify({ error: "Missing title/body" }), {
+                status: 400,
+                headers: { ...corsHeaders, "Content-Type": "application/json" },
+            });
+        }
 
         // Parse JWK if it's a string
         let vapidPrivateKey;
@@ -31,24 +38,52 @@ serve(async (req) => {
 
         const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
 
-        // check if user is admin
+        // allow either PUSH_ADMIN_SECRET, admin JWT or cron secret (for n8n scheduled sends)
+        const cronSecret = Deno.env.get("N8N_CRON_SECRET");
+        const receivedCronSecret = req.headers.get("x-cron-secret");
+        const isCronAuthorized = !!cronSecret && !!receivedCronSecret && cronSecret === receivedCronSecret;
         const authHeader = req.headers.get("Authorization");
-        if (!authHeader) throw new Error("Missing auth header");
-        const supabaseUser = createClient(supabaseUrl, Deno.env.get("SUPABASE_ANON_KEY")!, {
-            global: { headers: { Authorization: authHeader } },
-        });
-        const { data: { user }, error: userError } = await supabaseUser.auth.getUser();
-        if (userError || !user) throw new Error("Invalid user");
+        const isPushSecretAuthorized =
+            !!pushAdminSecret &&
+            !!authHeader &&
+            authHeader.replace(/^Bearer\s+/i, "") === pushAdminSecret;
 
-        const { data: roleData } = await supabaseAdmin
-            .from("user_roles")
-            .select("role")
-            .eq("user_id", user.id)
-            .single();
+        // check if user is admin (when not using secrets)
+        if (!isCronAuthorized && !isPushSecretAuthorized) {
+            if (!authHeader) throw new Error("Missing auth header");
+            const supabaseUser = createClient(supabaseUrl, Deno.env.get("SUPABASE_ANON_KEY")!, {
+                global: { headers: { Authorization: authHeader } },
+            });
+            const { data: { user }, error: userError } = await supabaseUser.auth.getUser();
+            if (userError || !user) throw new Error("Invalid user");
 
-        if (roleData?.role !== "admin") throw new Error("Unauthorized");
+            const { data: roleData } = await supabaseAdmin
+                .from("user_roles")
+                .select("role")
+                .eq("user_id", user.id)
+                .single();
 
-        let query = supabaseAdmin.from("push_subscriptions").select("*").eq("active", true);
+            if (roleData?.role !== "admin") throw new Error("Unauthorized");
+        }
+
+        let query = supabaseAdmin
+            .from("push_subscriptions")
+            .select("*")
+            .or("is_active.eq.true,active.eq.true");
+
+        if (audience === "custom") {
+            const sessionIds = Array.isArray(custom?.sessionIds) ? custom.sessionIds.filter(Boolean) : [];
+            const userIds = Array.isArray(custom?.userIds) ? custom.userIds.filter(Boolean) : [];
+            if (sessionIds.length === 0 && userIds.length === 0) {
+                return new Response(JSON.stringify({ error: "custom audience requires sessionIds or userIds" }), {
+                    status: 400,
+                    headers: { ...corsHeaders, "Content-Type": "application/json" },
+                });
+            }
+            if (sessionIds.length > 0) query = query.in("session_id", sessionIds);
+            if (userIds.length > 0) query = query.in("user_id", userIds);
+        }
+
         if (target_user_id) {
             query = query.eq("user_id", target_user_id);
         }
@@ -96,10 +131,29 @@ serve(async (req) => {
                 });
 
                 if (!res.ok && (res.status === 410 || res.status === 404)) {
-                    await supabaseAdmin.from("push_subscriptions").update({ active: false }).eq("id", sub.id);
+                    await supabaseAdmin
+                        .from("push_subscriptions")
+                        .update({ active: false, is_active: false, updated_at: new Date().toISOString() })
+                        .eq("id", sub.id);
                 }
+                await supabaseAdmin.from("push_logs").insert({
+                    subscription_id: sub.id,
+                    title: payload.title,
+                    body: payload.body,
+                    url: payload.data.url,
+                    status: res.ok ? "sent" : `error_${res.status}`,
+                    error: res.ok ? null : `HTTP ${res.status}`,
+                });
                 results.push({ id: sub.id, success: res.ok, status: res.status });
             } catch (err) {
+                await supabaseAdmin.from("push_logs").insert({
+                    subscription_id: sub.id,
+                    title: payload.title,
+                    body: payload.body,
+                    url: payload.data.url,
+                    status: "error_exception",
+                    error: err.message,
+                });
                 results.push({ id: sub.id, success: false, error: err.message });
             }
         }

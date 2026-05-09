@@ -103,6 +103,12 @@ export const useRecipes = () => {
         errorMessage = error;
       }
       
+      // Let caller handle invalid image UX in a specific way
+      if (errorMessage.includes('invalid_image')) {
+        const invalidImageError = new Error('invalid_image');
+        throw invalidImageError;
+      }
+
       // Provide user-friendly error messages
       if (errorMessage.includes('não está respondendo') || errorMessage.includes('n8n')) {
         errorMessage = 'O serviço de geração de receitas está temporariamente indisponível. Tente novamente em alguns instantes.';
@@ -117,7 +123,7 @@ export const useRecipes = () => {
         description: errorMessage,
         variant: 'destructive',
       });
-      return [];
+      throw new Error(errorMessage);
     } finally {
       setIsAnalyzing(false);
     }

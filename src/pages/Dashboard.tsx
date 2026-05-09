@@ -153,8 +153,8 @@ const Dashboard = () => {
         const rated = recipes.filter(r => r.rating);
         const avgRating = rated.length > 0 ? rated.reduce((s, r) => s + (r.rating || 0), 0) / rated.length : 0;
         const modeCounts = recipes.reduce((acc, r) => { acc[r.mode] = (acc[r.mode] || 0) + 1; return acc; }, {} as Record<string, number>);
-        const modeColors: Record<string, string> = { faxina: "#A3E635", monstro: "hsl(25 95% 53%)", seca: "hsl(200 80% 50%)" };
-        const modeLabels: Record<string, string> = { faxina: t("modes.faxina.title"), monstro: t("modes.monstro.title"), seca: t("modes.seca.title") };
+        const modeColors: Record<string, string> = { faxina: "#A3E635", monstro: "hsl(25 95% 53%)", seca: "hsl(200 80% 50%)", glp1: "hsl(142 71% 45%)" };
+        const modeLabels: Record<string, string> = { faxina: t("modes.faxina.title"), monstro: t("modes.monstro.title"), seca: t("modes.seca.title"), glp1: t("modes.glp1.title") };
         const recipesByMode = Object.entries(modeCounts).map(([m, c]) => ({ name: modeLabels[m] || m, value: c, color: modeColors[m] || "#A3E635" }));
         const now = new Date(), sod = new Date(now); sod.setHours(0, 0, 0, 0);
         const today = recipes.filter(r => new Date(r.created_at) >= sod);

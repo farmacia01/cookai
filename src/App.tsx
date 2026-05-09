@@ -18,6 +18,7 @@ import Pricing from "./pages/Pricing";
 import Admin from "./pages/Admin";
 import Affiliates from "./pages/Affiliates";
 import NotFound from "./pages/NotFound";
+import PushAdminPage from "./pages/admin/PushAdminPage";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +42,7 @@ const App = () => (
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/precos" element={<Pricing />} />
               <Route path="/admin" element={<Admin />} />
+              <Route path="/admin/push" element={<PushAdminPage />} />
               <Route path="/afiliado" element={<Affiliates />} />
               <Route path="*" element={<NotFound />} />
             </Routes>

@@ -24,6 +24,9 @@ import { useRecipes } from "@/hooks/useRecipes";
 import { useUserLimits } from "@/hooks/useUserLimits";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { Skeleton } from "@/components/ui/skeleton";
+import PushPermissionCard from "@/components/push/PushPermissionCard";
+import { isPushSupported, wasPushDeniedRecently } from "@/lib/push";
 
 const GenerateRecipes = () => {
   const { t, i18n } = useTranslation();
@@ -35,6 +38,7 @@ const GenerateRecipes = () => {
   const [economyMode, setEconomyMode] = useState(false);
   const [dietaryRestrictions, setDietaryRestrictions] = useState<string[]>([]);
   const [invalidImageError, setInvalidImageError] = useState<string | null>(null);
+  const [showPushCard, setShowPushCard] = useState(false);
   const [userName, setUserName] = useState<string | null>(null);
   const [userGoals, setUserGoals] = useState({
     calories: 2000,
@@ -58,8 +62,20 @@ const GenerateRecipes = () => {
     loading: limitsLoading
   } = useUserLimits();
   const { toast } = useToast();
+  const trendingRecipes = [
+    { name: "Bowl Proteico", time: "18 min", protein: "38g", cost: "R$ 13" },
+    { name: "Omelete Lean", time: "9 min", protein: "28g", cost: "R$ 8" },
+    { name: "Jantar até R$15", time: "22 min", protein: "32g", cost: "R$ 15" },
+    { name: "Receita GLP-1", time: "14 min", protein: "30g", cost: "R$ 11" },
+  ];
 
   // Fetch user's dietary restrictions and goals
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const shouldShow = isPushSupported() && Notification.permission === "default" && !wasPushDeniedRecently();
+    setShowPushCard(shouldShow);
+  }, []);
+
   useEffect(() => {
     const fetchUserProfile = async () => {
       if (!user) return;
@@ -202,7 +218,7 @@ const GenerateRecipes = () => {
     }
   };
 
-  const disabledModes = isPro ? [] : ["monstro", "seca"];
+  const disabledModes = isPro ? [] : ["monstro", "seca", "glp1"];
   const remainingRecipes = getRemainingRecipes();
   // Show progress for any plan with a finite limit (free or monthly)
   const hasFiniteLimit = limits.recipesPerMonth !== Infinity;
@@ -258,7 +274,18 @@ const GenerateRecipes = () => {
             <p className="text-base md:text-lg text-[#555]">
               {t('generate.subtitle')}
             </p>
+            <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-[#2d2d2d] bg-[#121212]/80 px-4 py-2 text-xs text-[#9ca3af]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#A3E635] animate-pulse" />
+              +12 mil receitas geradas hoje
+            </div>
           </div>
+
+          {showPushCard && (
+            <div className="max-w-2xl mx-auto mb-6">
+              <p className="text-zinc-400 text-xs mb-2">Quer receber receitas inteligentes todos os dias?</p>
+              <PushPermissionCard />
+            </div>
+          )}
 
           {/* Usage Limit Banner */}
           {user && hasFiniteLimit && !limitsLoading && (
@@ -279,7 +306,9 @@ const GenerateRecipes = () => {
                       {remainingRecipes === 0 ? (
                         <span className="text-red-400 font-bold">{t('generate.limitReached')}</span>
                       ) : (
-                        t('generate.remaining', { remaining: remainingRecipes, total: limits.recipesPerMonth })
+                        isPro
+                          ? t('generate.remaining', { remaining: remainingRecipes, total: limits.recipesPerMonth })
+                          : `${remainingRecipes} gerações restantes hoje`
                       )}
                     </span>
                   </div>
@@ -397,9 +426,9 @@ const GenerateRecipes = () => {
                       </Link>
                     ) : (
                       <button
-                        className={`w-full flex items-center justify-center gap-2.5 font-black text-base py-3.5 rounded-2xl transition-all duration-200 ${!selectedImage || isAnalyzing || !canGenerateRecipe()
+                        className={`w-full flex items-center justify-center gap-2.5 font-black text-base py-3.5 rounded-2xl transition-all duration-300 ${!selectedImage || isAnalyzing || !canGenerateRecipe()
                           ? 'bg-[#1e1e1e] text-[#444] cursor-not-allowed'
-                          : 'bg-[#A3E635] hover:bg-[#bef264] text-black hover:shadow-lime-sm hover:scale-[1.01]'
+                          : 'bg-[#A3E635] hover:bg-[#b8f34f] text-black hover:shadow-[0_8px_24px_rgba(163,230,53,0.22)] hover:translate-y-[-1px] active:translate-y-[0px]'
                           }`}
                         disabled={!selectedImage || isAnalyzing || !canGenerateRecipe()}
                         onClick={handleGenerateRecipes}
@@ -470,6 +499,44 @@ const GenerateRecipes = () => {
               )}
             </div>
           </div>
+
+          <section className="mb-10 md:mb-14 animate-fade-up">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-lg md:text-xl font-extrabold text-white">Receitas em Alta</h3>
+              <span className="text-xs text-[#6b7280]">estilo reels</span>
+            </div>
+            <div className="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory">
+              {trendingRecipes.map((item) => (
+                <article
+                  key={item.name}
+                  className="min-w-[220px] max-w-[220px] rounded-2xl border border-[#2a2a2a] bg-gradient-to-b from-[#171717] to-[#101010] p-3.5 snap-start"
+                >
+                  <div className="h-32 rounded-xl bg-[radial-gradient(circle_at_30%_20%,rgba(163,230,53,0.22),rgba(0,0,0,0)_55%),linear-gradient(160deg,#202020,#121212)] border border-[#2d2d2d]" />
+                  <h4 className="mt-3 text-sm font-bold text-white">{item.name}</h4>
+                  <div className="mt-2 grid grid-cols-2 gap-2 text-[11px] text-[#9ca3af]">
+                    <span>{item.time}</span>
+                    <span>{item.protein} prot</span>
+                    <span className="col-span-2">Custo estimado: {item.cost}</span>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          {isAnalyzing && generatedRecipes.length === 0 && (
+            <section className="grid md:grid-cols-2 gap-4 mb-10">
+              <div className="card-dark p-4 space-y-3">
+                <Skeleton className="h-5 w-32 bg-[#242424]" />
+                <Skeleton className="h-24 w-full bg-[#1d1d1d]" />
+                <Skeleton className="h-4 w-3/4 bg-[#242424]" />
+              </div>
+              <div className="card-dark p-4 space-y-3">
+                <Skeleton className="h-5 w-36 bg-[#242424]" />
+                <Skeleton className="h-24 w-full bg-[#1d1d1d]" />
+                <Skeleton className="h-4 w-2/3 bg-[#242424]" />
+              </div>
+            </section>
+          )}
 
           {/* Ingredients Found */}
           {ingredientsFound.length > 0 && (

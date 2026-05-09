@@ -55,7 +55,6 @@ interface UserSubscriptionDialogProps {
 
 const PLAN_OPTIONS = [
   { id: "monthly", name: "Mensal", billingCycleMonths: 1 },
-  { id: "quarterly", name: "Trimestral", billingCycleMonths: 3 },
   { id: "annual", name: "Anual", billingCycleMonths: 12 },
 ];
 
@@ -491,4 +490,3 @@ export function UserSubscriptionDialog({
     </>
   );
 }
-

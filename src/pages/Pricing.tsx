@@ -6,30 +6,11 @@ import MobileBottomNav from "@/components/layout/MobileBottomNav";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Check, Sparkles, Zap, Crown, Loader2 } from "lucide-react";
+import { Check, Sparkles, Zap, Crown } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useSubscription } from "@/hooks/useSubscription";
 import { useTranslation } from "react-i18next";
 import { useToast } from "@/hooks/use-toast";
-import { useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { PixQrCodeModal } from "@/components/PixQrCodeModal";
-
-// Preços dos planos em reais
-// NOTA: S6X limita a R$150 por transação. Anual (R$238,80) excede o limite,
-// por isso usamos R$149,90 até resolver com split ou parcelamento.
-const PLAN_PRICES: Record<string, number> = {
-  monthly: 39.90,
-  quarterly: 89.70,
-  annual: 149.90,
-};
-
-const PLAN_LABELS: Record<string, string> = {
-  monthly: "CookAI Pro - Mensal",
-  quarterly: "CookAI Pro - Trimestral",
-  annual: "CookAI Pro - Anual",
-};
 
 const Pricing = () => {
   const { t } = useTranslation();
@@ -37,23 +18,6 @@ const Pricing = () => {
   const { isActive, subscription } = useSubscription();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [loadingPlanId, setLoadingPlanId] = useState<string | null>(null);
-
-  // S6X PIX state
-  const [pixModalOpen, setPixModalOpen] = useState(false);
-  const [pixData, setPixData] = useState<{
-    qr_code_base64: string;
-    copy_paste: string;
-    transaction_id: string;
-    amount: number;
-    expires_at: string;
-  } | null>(null);
-  const [pixPlanName, setPixPlanName] = useState("");
-
-  // CPF dialog state
-  const [showCpfDialog, setShowCpfDialog] = useState(false);
-  const [cpfInput, setCpfInput] = useState("");
-  const [pendingPlanId, setPendingPlanId] = useState<string | null>(null);
 
   const plans = [
     {
@@ -84,23 +48,6 @@ const Pricing = () => {
       href: "/auth",
     },
     {
-      id: "quarterly",
-      name: t('pricing.plans.quarterly.name'),
-      description: t('pricing.plans.quarterly.description'),
-      price: t('pricing.plans.quarterly.price'),
-      period: t('pricing.plans.quarterly.period'),
-      totalPrice: t('pricing.plans.quarterly.totalPrice'),
-      installments: t('pricing.plans.quarterly.installments'),
-      savings: t('pricing.plans.quarterly.savings'),
-      pricePerDay: t('pricing.plans.quarterly.pricePerDay'),
-      icon: Crown,
-      popular: true,
-      features: t('pricing.plans.quarterly.features', { returnObjects: true }) as string[],
-      limitations: [],
-      cta: t('pricing.plans.quarterly.cta'),
-      href: "/auth",
-    },
-    {
       id: "annual",
       name: t('pricing.plans.annual.name'),
       description: t('pricing.plans.annual.description'),
@@ -112,7 +59,7 @@ const Pricing = () => {
       pricePerDay: t('pricing.plans.annual.pricePerDay'),
       originalPrice: t('pricing.plans.annual.originalPrice'),
       icon: Crown,
-      popular: false,
+      popular: true,
       features: t('pricing.plans.annual.features', { returnObjects: true }) as string[],
       limitations: [],
       cta: t('pricing.plans.annual.cta'),
@@ -120,7 +67,7 @@ const Pricing = () => {
     },
   ];
 
-  const handleSubscribe = async (planId: string) => {
+  const handleSubscribe = (planId: string) => {
     if (!user) {
       navigate('/auth');
       return;
@@ -131,76 +78,11 @@ const Pricing = () => {
       return;
     }
 
-    // Ask for CPF before proceeding
-    setPendingPlanId(planId);
-    setShowCpfDialog(true);
-  };
-
-  const handleCpfSubmit = async () => {
-    if (!pendingPlanId || !user) return;
-
-    const cleanCpf = cpfInput.replace(/\D/g, "");
-    if (cleanCpf.length < 11) {
-      toast({ title: "CPF inválido", description: "Informe um CPF válido com 11 dígitos.", variant: "destructive" });
-      return;
-    }
-
-    setShowCpfDialog(false);
-    setLoadingPlanId(pendingPlanId);
-
-    try {
-      const amount = PLAN_PRICES[pendingPlanId];
-      if (!amount) throw new Error("Plano não encontrado");
-
-      const response = await supabase.functions.invoke("s6x-create-payment", {
-        body: {
-          user_id: user.id,
-          plan_id: pendingPlanId,
-          customer_name: user.user_metadata?.full_name || user.email?.split("@")[0] || "Cliente",
-          customer_document: cleanCpf,
-          customer_email: user.email,
-          amount,
-        },
-      });
-
-      // supabase.functions.invoke returns { data, error }
-      // When non-2xx, error is FunctionsHttpError but data may contain the body
-      if (response.error) {
-        // Try to get the actual error message from the response context
-        let errorMsg = "Erro ao gerar cobrança PIX";
-        try {
-          const ctx = await response.error.context?.json();
-          if (ctx?.error) errorMsg = ctx.error;
-        } catch {
-          errorMsg = response.error.message || errorMsg;
-        }
-        throw new Error(errorMsg);
-      }
-
-      const data = response.data;
-      if (!data?.success) throw new Error(data?.error || "Erro ao gerar cobrança");
-
-      setPixData({
-        qr_code_base64: data.pix.qr_code_base64,
-        copy_paste: data.pix.copy_paste,
-        transaction_id: data.transaction_id,
-        amount: data.amount,
-        expires_at: data.expires_at,
-      });
-      setPixPlanName(PLAN_LABELS[pendingPlanId] || "CookAI Pro");
-      setPixModalOpen(true);
-    } catch (error) {
-      console.error("Erro ao criar pagamento S6X:", error);
-      toast({
-        title: "Erro ao gerar PIX",
-        description: error instanceof Error ? error.message : "Tente novamente mais tarde.",
-        variant: "destructive",
-      });
-    } finally {
-      setLoadingPlanId(null);
-      setPendingPlanId(null);
-      setCpfInput("");
-    }
+    toast({
+      title: "Pagamento indisponível",
+      description: "A API de pagamento foi removida deste app.",
+      variant: "destructive",
+    });
   };
 
   return (
@@ -259,7 +141,7 @@ const Pricing = () => {
             </Card>
 
             {/* Pricing Cards */}
-            <div className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {plans.map((plan) => {
                 const Icon = plan.icon;
                 // Verificar se este plano específico é o plano ativo do usuário
@@ -375,16 +257,8 @@ const Pricing = () => {
                           size="lg"
                           className="w-full font-semibold"
                           onClick={() => handleSubscribe(plan.id)}
-                          disabled={loadingPlanId === plan.id}
                         >
-                          {loadingPlanId === plan.id ? (
-                            <>
-                              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                              {t('pricing.processing') || 'Processando...'}
-                            </>
-                          ) : (
-                            plan.cta
-                          )}
+                          {plan.cta}
                         </Button>
                       )}
 
@@ -434,40 +308,6 @@ const Pricing = () => {
         <Footer />
         <MobileBottomNav />
       </div>
-
-      {/* PIX QR Code Modal */}
-      <PixQrCodeModal
-        isOpen={pixModalOpen}
-        onClose={() => setPixModalOpen(false)}
-        pixData={pixData}
-        planName={pixPlanName}
-      />
-
-      {/* CPF Dialog */}
-      {showCpfDialog && (
-        <div className="fixed inset-0 z-[90] flex items-end md:items-center justify-center">
-          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => { setShowCpfDialog(false); setPendingPlanId(null); }} />
-          <div className="relative w-full max-w-[400px] bg-[#131514] md:rounded-[28px] rounded-t-[28px] border-t border-x border-[#2a2a2a] md:border p-6 pb-10 md:pb-6 animate-fade-up z-10">
-            <div className="w-12 h-1 bg-[#333] rounded-full mx-auto mb-6 md:hidden" />
-            <h3 className="text-lg font-bold text-white text-center mb-2">Informe seu CPF</h3>
-            <p className="text-sm text-[#888] text-center mb-5">Necessário para gerar o pagamento PIX</p>
-            <Input
-              placeholder="000.000.000-00"
-              value={cpfInput}
-              onChange={(e) => {
-                const v = e.target.value.replace(/\D/g, "").slice(0, 11);
-                const formatted = v.replace(/(\d{3})(\d{3})(\d{3})(\d{0,2})/, (_, a, b, c, d) => d ? `${a}.${b}.${c}-${d}` : c ? `${a}.${b}.${c}` : b ? `${a}.${b}` : a);
-                setCpfInput(formatted);
-              }}
-              className="w-full h-[52px] bg-transparent border-[#333] rounded-full px-6 text-center text-lg font-mono text-white placeholder:text-[#555] focus-visible:ring-[#A3E635] focus-visible:border-[#A3E635] mb-4"
-            />
-            <div className="flex gap-3">
-              <Button variant="outline" className="flex-1 h-12 rounded-full border-[#333]" onClick={() => { setShowCpfDialog(false); setPendingPlanId(null); }}>Cancelar</Button>
-              <Button className="flex-1 h-12 rounded-full bg-[#A3E635] text-black font-bold hover:bg-[#bef264]" onClick={handleCpfSubmit}>Continuar</Button>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 };

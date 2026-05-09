@@ -145,10 +145,10 @@ const ImageUpload = ({ onImageSelect, selectedImage, onClear }: ImageUploadProps
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
       className={cn(
-        "relative rounded-[28px] border-2 border-dashed transition-all duration-500 cursor-pointer group min-h-[320px] flex items-center justify-center overflow-hidden",
+        "relative rounded-[28px] border-2 border-dashed transition-all duration-500 cursor-pointer group min-h-[320px] flex items-center justify-center overflow-hidden backdrop-blur-md",
         isDragging
-          ? "border-[#A3E635] bg-[#A3E635]/6 scale-[1.01]"
-          : "border-[#222] bg-gradient-to-b from-[#141414] to-[#0e0e0e] hover:border-[#A3E635]/40"
+          ? "border-[#A3E635] bg-[#A3E635]/8 scale-[1.01] shadow-[0_0_24px_rgba(163,230,53,0.22)]"
+          : "border-[#222] bg-gradient-to-b from-[#151515]/95 to-[#0d0d0d]/95 hover:border-[#A3E635]/40 hover:shadow-[0_0_18px_rgba(163,230,53,0.10)]"
       )}
     >
       <input type="file" accept="image/*" onChange={handleFileSelect} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />

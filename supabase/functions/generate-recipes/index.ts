@@ -289,10 +289,10 @@ serve(async (req) => {
     } = requestBody;
 
     // Validate mode
-    const validModes = ['faxina', 'monstro', 'seca'];
+    const validModes = ['faxina', 'monstro', 'seca', 'glp1'];
     if (typeof mode !== 'string' || !validModes.includes(mode)) {
       return new Response(
-        JSON.stringify({ error: 'Invalid mode. Must be faxina, monstro, or seca.' }),
+        JSON.stringify({ error: 'Invalid mode. Must be faxina, monstro, seca, or glp1.' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
@@ -427,7 +427,8 @@ serve(async (req) => {
         modeInstructions: {
           faxina: "Foque em usar TODOS os ingredientes identificados para evitar desperdício. Priorize ingredientes que parecem estar próximos do vencimento.",
           monstro: "Foque em receitas RICAS EM PROTEÍNA para ganho muscular. Priorize carnes, ovos, laticínios e leguminosas. Mínimo de 30g de proteína por porção.",
-          seca: "Foque em receitas de BAIXA CALORIA e BAIXO CARBOIDRATO para queima de gordura. Máximo de 400 calorias e 20g de carboidratos por porção."
+          seca: "Foque em receitas de BAIXA CALORIA e BAIXO CARBOIDRATO para queima de gordura. Máximo de 400 calorias e 20g de carboidratos por porção.",
+          glp1: "Foque em receitas LEVES, ECONÔMICAS e RICAS EM PROTEÍNA, com digestão fácil e alta saciedade. Priorize ovos, frango, iogurte, legumes e grãos simples. Evite excesso de gordura e porções muito grandes."
         },
         dietaryIntro: "RESTRIÇÕES ALIMENTARES OBRIGATÓRIAS (RESPEITE RIGOROSAMENTE):",
         pantryAvailable: "ITENS BÁSICOS DE DESPENSA DISPONÍVEIS:\nVocê pode assumir que o usuário tem acesso a itens básicos como: sal, pimenta, azeite/óleo, alho, cebola, vinagre, açúcar, farinha de trigo, ervas secas básicas (orégano, manjericão, etc.). Use-os livremente nas receitas.",
@@ -442,7 +443,8 @@ serve(async (req) => {
         modeInstructions: {
           faxina: "Focus on using ALL identified ingredients to avoid waste. Prioritize ingredients that appear to be close to expiration.",
           monstro: "Focus on HIGH PROTEIN recipes for muscle building. Prioritize meats, eggs, dairy and legumes. Minimum 30g of protein per serving.",
-          seca: "Focus on LOW CALORIE and LOW CARB recipes for fat burning. Maximum 400 calories and 20g of carbs per serving."
+          seca: "Focus on LOW CALORIE and LOW CARB recipes for fat burning. Maximum 400 calories and 20g of carbs per serving.",
+          glp1: "Focus on LIGHT, LOW-COST and HIGH-PROTEIN meals, with easy digestion and higher satiety. Prioritize eggs, chicken, yogurt, vegetables and simple grains. Avoid very fatty meals and oversized portions."
         },
         dietaryIntro: "MANDATORY DIETARY RESTRICTIONS (STRICTLY FOLLOW):",
         pantryAvailable: "BASIC PANTRY ITEMS AVAILABLE:\nYou can assume the user has access to basic items like: salt, pepper, olive oil/oil, garlic, onion, vinegar, sugar, wheat flour, basic dried herbs (oregano, basil, etc.). Use them freely in recipes.",
@@ -457,7 +459,8 @@ serve(async (req) => {
         modeInstructions: {
           faxina: "Concéntrate en usar TODOS los ingredientes identificados para evitar el desperdicio. Prioriza los ingredientes que parecen estar cerca de su fecha de vencimiento.",
           monstro: "Concéntrate en recetas RICAS EN PROTEÍNA para el desarrollo muscular. Prioriza carnes, huevos, lácteos y legumbres. Mínimo 30g de proteína por porción.",
-          seca: "Concéntrate en recetas BAJAS EN CALORÍAS y BAJAS EN CARBOHIDRATOS para quemar grasa. Máximo 400 calorías y 20g de carbohidratos por porción."
+          seca: "Concéntrate en recetas BAJAS EN CALORÍAS y BAJAS EN CARBOHIDRATOS para quemar grasa. Máximo 400 calorías y 20g de carbohidratos por porción.",
+          glp1: "Concéntrate en comidas LIGERAS, ECONÓMICAS y RICAS EN PROTEÍNA, con digestión fácil y mayor saciedad. Prioriza huevos, pollo, yogur, verduras y granos simples. Evita comidas muy grasosas y porciones excesivas."
         },
         dietaryIntro: "RESTRICCIONES DIETÉTICAS OBLIGATORIAS (RESPETAR ESTRICTAMENTE):",
         pantryAvailable: "ARTÍCULOS BÁSICOS DE DESPENSA DISPONIBLES:\nPuedes asumir que el usuario tiene acceso a artículos básicos como: sal, pimienta, aceite de oliva/aceite, ajo, cebolla, vinagre, azúcar, harina de trigo, hierbas secas básicas (orégano, albahaca, etc.). Úsalos libremente en las recetas.",

@@ -15,7 +15,7 @@ const FREE_LIMITS = {
 const MONTHLY_LIMITS = {
   recipesPerMonth: 200,
   maxSavedRecipes: Infinity,
-  allowedModes: ["faxina", "monstro", "seca"],
+  allowedModes: ["faxina", "monstro", "seca", "glp1"],
   canGenerateImages: true,
   canSetGoals: true,
 };
@@ -23,7 +23,7 @@ const MONTHLY_LIMITS = {
 const PRO_LIMITS = {
   recipesPerMonth: Infinity,
   maxSavedRecipes: Infinity,
-  allowedModes: ["faxina", "monstro", "seca"],
+  allowedModes: ["faxina", "monstro", "seca", "glp1"],
   canGenerateImages: true,
   canSetGoals: true,
 };

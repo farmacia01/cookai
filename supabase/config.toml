@@ -9,8 +9,5 @@ verify_jwt = true
 [functions.estimate-meal-macros]
 verify_jwt = true
 
-[functions.create-cakto-order]
-verify_jwt = true
-
-[functions.cakto-webhook]
+[functions.send-broadcast]
 verify_jwt = false

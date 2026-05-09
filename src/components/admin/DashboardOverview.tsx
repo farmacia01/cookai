@@ -159,8 +159,9 @@ const DashboardOverview = () => {
   const getModeLabel = (mode: string) => {
     const modes: Record<string, string> = {
       faxina: "Economia",
-      monstro: "Ganho de Massa",
-      seca: "Emagrecimento",
+      monstro: "Hipertrofia",
+      seca: "Lean",
+      glp1: "GLP-1",
     };
     return modes[mode] || mode;
   };
