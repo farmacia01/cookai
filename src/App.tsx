@@ -41,8 +41,8 @@ const App = () => (
               <Route path="/perfil" element={<Profile />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/precos" element={<Pricing />} />
-              <Route path="/admin" element={<Admin />} />
-              <Route path="/admin/push" element={<PushAdminPage />} />
+              <Route path="/admin-secreto-x8f4k" element={<Admin />} />
+              <Route path="/admin-secreto-x8f4k/push" element={<PushAdminPage />} />
               <Route path="/afiliado" element={<Affiliates />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
