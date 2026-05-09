@@ -1,0 +1,83 @@
+{
+  "name": "Cook AI - Push Cron + HTTP (Mínimo)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 11,18,21 * * *"
+            }
+          ]
+        }
+      },
+      "id": "cron_trigger",
+      "name": "Cron Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        260,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://enfkbhqiryqwqlcsjwnl.supabase.co/functions/v1/send-broadcast",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer di0YQ/khQFhvcoVHp8fvUu4je0mwXXw9EQ84z2xOeXzZU525P9DWILxXDW0N88AF"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"title\": \"Receita rápida para hoje\",\n  \"body\": \"Você tem ingredientes para uma receita rica em proteína.\",\n  \"url\": \"/\",\n  \"icon\": \"/icons/icon-192.png\",\n  \"badge\": \"/icons/badge-72.png\",\n  \"tag\": \"cook-ai-daily\",\n  \"audience\": \"all\"\n}",
+        "options": {}
+      },
+      "id": "http_send_push",
+      "name": "HTTP Request - Send Push",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        540,
+        260
+      ]
+    }
+  ],
+  "connections": {
+    "Cron Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request - Send Push",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1",
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "id": "cookai_push_minimo_cron_http",
+  "tags": [
+    "cookai",
+    "push",
+    "n8n"
+  ]
+}

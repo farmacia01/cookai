@@ -46,7 +46,6 @@ serve(async (req) => {
                 .from("push_subscriptions")
                 .update({
                     is_active: false,
-                    active: false,
                     updated_at: new Date().toISOString(),
                 })
                 .eq("endpoint", endpoint);
@@ -70,7 +69,6 @@ serve(async (req) => {
                 auth,
                 user_agent: userAgent || req.headers.get("user-agent") || null,
                 is_active: true,
-                active: true,
                 updated_at: new Date().toISOString(),
                 meal_settings: meal_settings || null,
             },

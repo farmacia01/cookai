@@ -69,7 +69,7 @@ serve(async (req) => {
         let query = supabaseAdmin
             .from("push_subscriptions")
             .select("*")
-            .or("is_active.eq.true,active.eq.true");
+            .eq("is_active", true);
 
         if (audience === "custom") {
             const sessionIds = Array.isArray(custom?.sessionIds) ? custom.sessionIds.filter(Boolean) : [];
@@ -133,7 +133,7 @@ serve(async (req) => {
                 if (!res.ok && (res.status === 410 || res.status === 404)) {
                     await supabaseAdmin
                         .from("push_subscriptions")
-                        .update({ active: false, is_active: false, updated_at: new Date().toISOString() })
+                        .update({ is_active: false, updated_at: new Date().toISOString() })
                         .eq("id", sub.id);
                 }
                 await supabaseAdmin.from("push_logs").insert({
