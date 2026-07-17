@@ -1,100 +1,73 @@
-# Welcome to your Lovable project
+# CookAI
 
-## Project info
+App web (com build mobile via Capacitor) que gera receitas a partir de uma foto da geladeira ou da despensa, usando IA para reconhecer ingredientes e montar refeições de acordo com o objetivo do usuário.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## O que é
 
-## How can I edit this code?
+O CookAI é um SaaS completo de geração de receitas por IA: o usuário tira uma foto dos ingredientes que tem em casa, escolhe um "modo" (ex.: aproveitar o que tem na geladeira, hipertrofia, secar, GLP-1) e uma categoria de refeição, e a aplicação retorna receitas com informações nutricionais (calorias, proteína, carboidratos, gordura), lista de compras e opção de registrar refeições extras no diário alimentar.
 
-There are several ways of editing your application.
+Além do fluxo principal de geração de receitas, o projeto inclui um conjunto real de funcionalidades de produto:
 
-**Use Lovable**
+- autenticação e perfil de usuário (metas nutricionais, restrições alimentares);
+- planos pagos com limites de uso (receitas geradas por mês, receitas salvas) e integração de assinatura/pagamento;
+- painel administrativo (usuários, assinaturas, logs de geração, broadcast de notificações);
+- sistema de indicação/afiliados (referrals);
+- notificações push (Web Push) com automações via n8n para lembretes diários de refeição;
+- internacionalização (pt-BR, en, es);
+- build mobile via Capacitor (Android).
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+Não é um projeto de brinquedo: há migrations reais de banco de dados, Edge Functions, tratamento de erros, controle de acesso e regras de negócio (limites por plano, RLS no Supabase) construídos ao longo do tempo.
 
-Changes made via Lovable will be committed automatically to this repo.
+## Stack
 
-**Use your preferred IDE**
+- **Frontend**: React 18 + TypeScript + Vite, React Router, TanStack Query
+- **UI**: Tailwind CSS + shadcn/ui (Radix UI), i18next para internacionalização
+- **Backend**: Supabase (Postgres + Auth + Edge Functions em Deno) para geração de receitas, estimativa de macros, geração de imagem de receita e envio de notificações
+- **Mobile**: Capacitor (Android)
+- **Automação**: workflows n8n para push notifications agendadas
+- **Deploy**: Vercel (frontend + rotas de API para push)
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## Estrutura do projeto
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```
+src/
+  pages/        # Rotas: geração de receitas, dashboard, preços, admin, afiliados...
+  components/    # Componentes de UI, receita, admin, push, layout
+  hooks/         # useRecipes, useSubscription, useUserLimits, useNotifications...
+  contexts/       # AuthContext
+  i18n/           # Traduções pt/en/es
+supabase/
+  functions/      # Edge Functions: generate-recipes, generate-recipe-image,
+                  # estimate-meal-macros, push-subscriptions, send-broadcast
+  migrations/     # Histórico de migrations do banco (Postgres)
+n8n/              # Workflows de automação para notificações push
+api/              # Rotas serverless (Vercel) para push notifications
 ```
 
-**Edit a file directly in GitHub**
+## Como rodar localmente
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Pré-requisitos: Node.js e uma conta/projeto Supabase (para as variáveis de ambiente abaixo).
 
-**Use GitHub Codespaces**
+```bash
+# instalar dependências
+npm i
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+# variáveis de ambiente necessárias (crie um .env local)
+# VITE_SUPABASE_URL=...
+# VITE_SUPABASE_PUBLISHABLE_KEY=...
 
-## What technologies are used for this project?
+# ambiente de desenvolvimento
+npm run dev
 
-This project is built with:
+# build de produção
+npm run build
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+# lint
+npm run lint
+```
 
-## How can I deploy this project?
+As Edge Functions (geração de receitas, macros, notificações) rodam no Supabase e exigem chaves próprias configuradas no painel do projeto Supabase, não incluídas neste repositório.
 
-### Deploy no Vercel
+## Observação
 
-1. **Instale a CLI do Vercel** (opcional):
-   ```sh
-   npm i -g vercel
-   ```
-
-2. **Configure as variáveis de ambiente no Vercel**:
-   - Acesse o painel do Vercel
-   - Vá em Settings > Environment Variables
-   - Adicione as seguintes variáveis:
-     - `VITE_SUPABASE_URL`: URL do seu projeto Supabase
-     - `VITE_SUPABASE_PUBLISHABLE_KEY`: Chave pública (anon key) do Supabase
-
-3. **Deploy via CLI**:
-   ```sh
-   vercel
-   ```
-
-4. **Deploy via GitHub**:
-   - Conecte seu repositório GitHub ao Vercel
-   - O Vercel detectará automaticamente a configuração do projeto
-   - Configure as variáveis de ambiente no painel do Vercel
-   - O deploy será feito automaticamente a cada push
-
-### Deploy via Lovable
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Este repositório foi criado a partir do Lovable (a interface tinha o texto de boilerplate original) e evoluiu para um produto com regras de negócio, banco de dados e integrações reais — não é apenas o esqueleto inicial gerado pela plataforma.
